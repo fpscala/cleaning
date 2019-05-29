@@ -20,8 +20,7 @@ val akkaLibs = Seq(
 )
 
 val akkaHttp = Seq(
-  "com.typesafe.akka" %% "akka-http" % "10.0.10",
-  "com.typesafe.akka" %% "akka-http-spray-json" % "10.0.10"
+  "com.typesafe.akka" %% "akka-http" % "10.0.10"
 )
 
 val pgSqlDriver = "org.postgresql" % "postgresql" % "42.0.0"
@@ -50,6 +49,7 @@ libraryDependencies ++= akkaLibs ++ akkaHttp ++ commonDependencies ++ dbLibs ++ 
   //web jars
   "org.webjars" %% "webjars-play" % "2.6.1",
   "org.webjars" % "jquery" % "1.11.3",
+  "org.webjars" % "jquery-file-upload" % "9.10.1",
   "org.webjars" % "knockout" % "3.3.0",
   "org.webjars" % "requirejs" % "2.2.0",
   "org.webjars" % "bootstrap" % "3.3.4",
