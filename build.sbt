@@ -20,8 +20,7 @@ val akkaLibs = Seq(
 )
 
 val akkaHttp = Seq(
-  "com.typesafe.akka" %% "akka-http" % "10.0.10",
-  "com.typesafe.akka" %% "akka-http-spray-json" % "10.0.10"
+  "com.typesafe.akka" %% "akka-http" % "10.0.10"
 )
 
 val pgSqlDriver = "org.postgresql" % "postgresql" % "42.0.0"
