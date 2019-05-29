@@ -1,5 +1,14 @@
-@(message: String)
+@this(webJarsUtil: org.webjars.play.WebJarsUtil)
+@import views.html.main
+@()
 
-@main("Welcome to Play") {
-    <h1 style="text-align: center;font-size: 3em">@message</h1>
+@main("Play", webJarsUtil) {
+    <form action="/upload" method="post" enctype="multipart/form-data" >
+        <input type="text"name="name" placeholder="Name">
+        <h3>Select image</h3>
+        <input type="file" name="attachedFile">
+        <br>
+        <br>
+        <input type="submit" value="Upload image" name="submit">
+    </form>
 }

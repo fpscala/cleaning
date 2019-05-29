@@ -24,4 +24,8 @@ object WorkerProtocol {
                       education: Int)
 
   implicit val workerFormat = Json.format[Worker]
+
+  case class AddImage(originalFileName: String, content: Array[Byte])
+  case class GetImage(fileId: String)
+  case object GetImages
 }
