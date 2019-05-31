@@ -1,15 +1,18 @@
 name := "cleaning"
- 
-version := "1.0" 
-      
+
+includeFilter in (Assets, LessKeys.less) := "*.less"
+excludeFilter in (Assets, LessKeys.less) := "_*.less"
+
+version := "1.0"
+val akkaV = "2.5.22"
+
 lazy val `cleaning` = (project in file(".")).enablePlugins(PlayScala)
 
 resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
-      
+
 resolvers += "Akka Snapshot Repository" at "http://repo.akka.io/snapshots/"
-      
+
 scalaVersion := "2.12.8"
-val akkaV = "2.5.22"
 
 val akkaLibs = Seq(
   "com.typesafe.akka" %% "akka-contrib" % akkaV,
@@ -20,7 +23,8 @@ val akkaLibs = Seq(
 )
 
 val akkaHttp = Seq(
-  "com.typesafe.akka" %% "akka-http" % "10.0.10"
+  "com.typesafe.akka" %% "akka-http" % "10.0.10",
+  "com.typesafe.akka" %% "akka-http-spray-json" % "10.0.10"
 )
 
 val pgSqlDriver = "org.postgresql" % "postgresql" % "42.0.0"
@@ -47,7 +51,7 @@ libraryDependencies ++= akkaLibs ++ akkaHttp ++ commonDependencies ++ dbLibs ++ 
   "org.slf4j" % "log4j-over-slf4j" % "1.7.21",
   "org.codehaus.janino" % "janino" % "3.0.7",
   //web jars
-  "org.webjars" %% "webjars-play" % "2.6.1",
+  "org.webjars" %% "webjars-play" % "2.7.0-1",
   "org.webjars" % "jquery" % "1.11.3",
   "org.webjars" % "jquery-file-upload" % "9.10.1",
   "org.webjars" % "knockout" % "3.3.0",
@@ -57,4 +61,4 @@ libraryDependencies ++= akkaLibs ++ akkaHttp ++ commonDependencies ++ dbLibs ++ 
 
 )
 
-unmanagedResourceDirectories in Test +=  baseDirectory.value / "target/web/public/test"  
+unmanagedResourceDirectories in Test  += baseDirectory.value / "target/web/public/test"
