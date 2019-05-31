@@ -1,0 +1,355 @@
+@()
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/slick.min.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/notify.min.js"></script>
+<script src="assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript">
+		$(document).ready(function(){
+			var $reviewFile = $('#review-file'),
+					imagePreview = document.getElementById('review-thumb-preview');
+
+			$('#review-file-trigger').click((e) => {
+				$reviewFile.trigger('click');
+			});
+
+			$reviewFile.change(function(e){
+				var input = this;
+				var reader = new FileReader();
+				reader.onload = function(){
+					var dataURL = reader.result;
+					imagePreview.src = dataURL;
+					imagePreview.style.display = 'inline';
+				};
+				reader.readAsDataURL(input.files[0]);
+
+			});
+
+			$("#order-form").validate({
+				rules:
+						{
+							name:
+									{
+										required: true,
+										minlength: 2
+									},
+							email:
+									{
+										required: true,
+										email: true
+									},
+							phone:
+									{
+										required: true,
+										minlength: 2
+									}
+						},
+				messages:
+						{
+							name:
+									{
+										required: " Поле Ваше имя обязательна для заполнения",
+										minlength: " Поле Ваше имя обязательна для заполнения"
+									},
+							email:
+									{
+										required:"Поле Ваш email обязательна для заполнения",
+										email:"Поле Ваш email обязательна для заполнения",
+									},
+							phone:
+									{
+										required:"Поле Номер телефона обязательна для заполнения",
+										minlength:"Поле Номер телефона обязательна для заполнения",
+									}
+
+						},
+				submitHandler: function(form) {
+					form.submit();
+				}
+			});
+
+			$("#comment-form").validate({
+				rules:
+						{
+							name:
+									{
+										required: true,
+										minlength: 2
+									},
+							text:
+									{
+										required: true,
+										minlength: 5
+									}
+
+						},
+				messages:
+						{
+							name:
+									{
+										required: " Поле Ваше имя обязательна для заполнения",
+										minlength: " Поле Ваше имя обязательна для заполнения"
+									},
+							text:
+									{
+										required:"Поле Комментарий к заявке обязательна для заполнения",
+										minlength:"Поле Комментарий к заявке обязательна для заполнения",
+									}
+
+						},
+				submitHandler: function(form) {
+					form.submit();
+				}
+			});
+		});
+</script>
+
+
+<script type="text/javascript">
+		var stages = {
+			one 	: "Выводяться пятна",
+			two 	: "Сухая чистка",
+			three 	: "Отпаривание и глажка",
+			four 	: "Упаковка",
+			five 	: "Доставка"
+		}
+</script>
+
+<script src="assets/js/animation.js"></script>
+<script type="text/javascript">
+
+
+
+		function initMap() {
+			var map = new google.maps.Map(document.querySelector('.map'), {
+				center: {lat: 41.3595, lng: 69.2761},
+				scrollwheel: false,
+				zoom: 16
+			});
+
+			var marker = new google.maps.Marker();
+			marker.setPosition(new google.maps.LatLng(41.3595, 69.2761));
+			marker.setMap(map);
+		}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNn9TClVKHBdoAKaX4d1GVdp4_x2A8H1g&amp;callback=initMap"
+async defer></script>
+
+<script type="text/javascript">
+
+		var $animate = $('[data-animate]');
+
+		$animate.addClass('invisible');
+
+		$(window).scroll(function(){
+
+			window.setTimeout(function(){
+
+				$animate.each(function(){
+					var $this = $(this);
+
+					if(visible($this)){
+						if ($this.attr('data-animate') == 'right')
+							$this.addClass('animated bounceInRight');
+						else
+							$this.addClass('animated bounceInLeft');
+					}
+				});
+
+			}, 150);
+
+		});
+
+		// Bubbles
+
+		function bubbles() {
+
+			// Settings
+			var min_bubble_count = 10, // Minimum number of bubbles
+					max_bubble_count = 20, // Maximum number of bubbles
+					min_bubble_size = 3, // Smallest possible bubble diameter (px)
+					max_bubble_size = 6; // Maximum bubble blur amount (px)
+
+			// Calculate a random number of bubbles based on our min/max
+			var bubbleCount = min_bubble_count + Math.floor(Math.random() * (max_bubble_count + 1));
+
+			// Create the bubbles
+			for (var i = 0; i < bubbleCount; i++) {
+				$bubbles.append('<div class="bubble-container"><div class="bubble"></div></div>');
+			}
+
+			// Now randomise the various bubble elements
+			$bubbles.find('.bubble-container').each(function(){
+
+				// Randomise the bubble positions (0 - 100%)
+				var pos_rand = Math.floor(Math.random() * 101);
+
+				// Randomise their size
+				var size_rand = min_bubble_size + Math.floor(Math.random() * (max_bubble_size + 2));
+
+				// Randomise the time they start rising (0-15s)
+				var delay_rand = 0;
+
+				// Randomise their speed (3-8s)
+				var speed_rand = 4 + Math.floor(Math.random() * 20);
+
+				// Cache the this selector
+				var $this = $(this);
+
+				// Apply the new styles
+				$this.css({
+					'left' : pos_rand + '%',
+
+					'-webkit-animation-duration' : speed_rand + 's',
+					'-moz-animation-duration' : speed_rand + 's',
+					'-ms-animation-duration' : speed_rand + 's',
+					'animation-duration' : speed_rand + 's',
+
+					'-webkit-animation-delay' : delay_rand + 's',
+					'-moz-animation-delay' : delay_rand + 's',
+					'-ms-animation-delay' : delay_rand + 's',
+					'animation-delay' : delay_rand + 's',
+				});
+
+				$this.children('.bubble').css({
+					'width' : size_rand + 'px',
+					'height' : size_rand + 'px'
+				});
+
+			});
+		}
+
+		var $bubbles = $('.bubbles');
+
+		bubbles();
+
+		var ReviewMd = new Modal(
+				{
+					backdrop: $('#review-modal-backdrop'),
+					toggle: $('#toggle-review-modal'),
+					dismissers: $('.review-modal-dismiss')
+				}
+		)
+
+		$('#file-trigger').click(function(){
+			$('#file').trigger('click');
+		});
+
+		// Go Up Button
+
+		var $goUp = $('#js-go-top').hide();
+
+		$(window).scroll(() => {
+			if ($(this).scrollTop() >= $(this).height()) {
+				$goUp.slideDown(100);
+			}else{
+				$goUp.slideUp(100);
+			}
+		});
+
+		$goUp.click(function(e){
+			$('html, body').animate({scrollTop: 0});
+		});
+
+</script>
+
+<script src="assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript">
+		$(document).ready(function(){
+			var $reviewFile = $('#review-file'),
+					imagePreview = document.getElementById('review-thumb-preview');
+
+			$('#review-file-trigger').click((e) => {
+				$reviewFile.trigger('click');
+			});
+
+			$reviewFile.change(function(e){
+				var input = this;
+				var reader = new FileReader();
+				reader.onload = function(){
+					var dataURL = reader.result;
+					imagePreview.src = dataURL;
+					imagePreview.style.display = 'inline';
+				};
+				reader.readAsDataURL(input.files[0]);
+
+			});
+
+			$("#order-form").validate({
+				rules:
+						{
+							name:
+									{
+										required: true,
+										minlength: 2
+									},
+							email:
+									{
+										required: true,
+										email: true
+									},
+							phone:
+									{
+										required: true,
+										minlength: 2
+									}
+						},
+				messages:
+						{
+							name:
+									{
+										required: " Поле Ваше имя обязательна для заполнения",
+										minlength: " Поле Ваше имя обязательна для заполнения"
+									},
+							email:
+									{
+										required:"Поле Ваш email обязательна для заполнения",
+										email:"Поле Ваш email обязательна для заполнения",
+									},
+							phone:
+									{
+										required:"Поле Номер телефона обязательна для заполнения",
+										minlength:"Поле Номер телефона обязательна для заполнения",
+									}
+
+						},
+				submitHandler: function(form) {
+					form.submit();
+				}
+			});
+
+			$("#comment-form").validate({
+				rules:
+						{
+							name:
+									{
+										required: true,
+										minlength: 2
+									},
+							text:
+									{
+										required: true,
+										minlength: 5
+									}
+
+						},
+				messages:
+						{
+							name:
+									{
+										required: " Поле Ваше имя обязательна для заполнения",
+										minlength: " Поле Ваше имя обязательна для заполнения"
+									},
+							text:
+									{
+										required:"Поле Комментарий к заявке обязательна для заполнения",
+										minlength:"Поле Комментарий к заявке обязательна для заполнения",
+									}
+
+						},
+				submitHandler: function(form) {
+					form.submit();
+				}
+			});
+		});
+</script>
