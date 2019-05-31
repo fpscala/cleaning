@@ -8,7 +8,8 @@ CREATE TABLE "Price_list" (
   "id" SERIAL NOT NULL PRIMARY KEY,
   "name" VARCHAR NOT NULL,
   "count" INTEGER CONSTRAINT  "Price_listFkCountId" REFERENCES  "Counts" ("id") ON UPDATE CASCADE ON DELETE CASCADE,
-  "price" VARCHAR NOT NULL
+  "price" VARCHAR NOT NULL,
+  UNIQUE("name")
 );
 
 
@@ -21,8 +22,7 @@ CREATE TABLE "Orders" (
   "orderDay" TIMESTAMP NOT NULL,
   "email" VARCHAR NOT NULL,
   "comment" TEXT NULL,
-  "type" INTEGER CONSTRAINT "OrdersFkPrice_listId" REFERENCES "Price_list" ("id") ON update CASCADE ON DELETE CASCADE,
-  "price" INTEGER CONSTRAINT  "pricesFkPrice_listId" REFERENCES  "Price_list"("id") ON UPDATE CASCADE ON DELETE CASCADE
+  "type" VARCHAR CONSTRAINT "OrdersFkPrice_listName" REFERENCES "Price_list"("name") ON update CASCADE ON DELETE CASCADE
 );
 
 INSERT INTO "Counts" ("name") VALUES ('1 sht');
