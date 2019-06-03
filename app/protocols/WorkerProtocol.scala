@@ -2,11 +2,13 @@ package protocols
 
 import java.util.Date
 
-import play.api.libs.json.{JsValue, Json}
+import play.api.libs.json.{JsValue, Json, OFormat}
 
 object WorkerProtocol {
+
     case class AddWorker(workers: Worker)
-    case class Worker(surname: String,
+    case class Worker(id: Option[Int] = None,
+                      surname: String,
                       firstName: String,
                       lastName: Option[String] = None,
                       address: String,
@@ -23,7 +25,10 @@ object WorkerProtocol {
                       birthPlace: String,
                       education: Int)
 
-  implicit val workerFormat = Json.format[Worker]
+  implicit val workerFormat: OFormat[Worker] = Json.format[Worker]
+
+  case class Gender(id: Option[Int] = None, name: String, code: String)
+  case class Education(id: Option[Int] = None, name: String, code: String)
 
   case class AddImage(originalFileName: String, content: Array[Byte])
   case class GetImage(fileId: String)

@@ -1,21 +1,25 @@
 package dao
 
-import java.sql.Date
+import java.util.Date
 
 import com.google.inject.ImplementedBy
 import com.typesafe.scalalogging.LazyLogging
 import javax.inject.{Inject, Singleton}
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import play.api.libs.json.JsValue
-import protocols.WorkerProtocol.Worker
+import protocols.WorkerProtocol._
 import slick.jdbc.JdbcProfile
+import utils.Date2SqlDate
 
 import scala.concurrent.Future
 
-trait WorkerComponent { self: HasDatabaseConfigProvider[JdbcProfile] =>
+trait WorkerComponent extends GenderComponent with EducationComponent { self: HasDatabaseConfigProvider[JdbcProfile] =>
   import utils.PostgresDriver.api._
 
-  class WorkerTable(tag: Tag) extends Table[Worker](tag, "Workers") {
+  val genderTable = TableQuery[GenderTable]
+  val educationTable = TableQuery[EducationTable]
+
+  class WorkerTable(tag: Tag) extends Table[Worker](tag, "Workers") with Date2SqlDate {
     def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
     def surname = column[String]("surname")
     def firstName = column[String]("firstName")
@@ -29,19 +33,22 @@ trait WorkerComponent { self: HasDatabaseConfigProvider[JdbcProfile] =>
     def warnings = column[JsValue]("warnings")
     def pensionNumber = column[Int]("pensionNumber")
     def itn = column[Int]("itn")
-    def gender = column[Int]("gender")
+    def genderId = column[Int]("gender")
     def birthDay = column[Date]("birthDay")
     def birthPlace = column[String]("birthPlace")
-    def education = column[Int]("education")
+    def educationId = column[Int]("education")
 
-    def * = (surname, firstName, lastName.?, address, phone, passportSeriesAndNumber,
-      dayGettingPassport, photoName, photoHash, warnings.?, pensionNumber, itn, gender, birthDay, birthPlace,
-      education) <> (Worker.tupled, Worker.unapply _)
+    def * = (id.?, surname, firstName, lastName.?, address, phone, passportSeriesAndNumber,
+      dayGettingPassport, photoName, photoHash, warnings.?, pensionNumber, itn, genderId, birthDay, birthPlace,
+      educationId) <> (Worker.tupled, Worker.unapply _)
+
+    def gender = foreignKey("workersFkGenderCode", genderId, genderTable)(_.id)
+    def education = foreignKey("workersFkEducationCode", educationId, educationTable)(_.id)
   }
 }
 
 @ImplementedBy(classOf[WorkerDaoImpl])
-trait WorkerDao {
+trait WorkersDao {
   def addWorker(workerData: Worker): Future[Int]
   def updateWorker(workerData: Worker): Future[Int]
   def deleteWorker(students: String): Future[Int]
@@ -50,7 +57,7 @@ trait WorkerDao {
 
 @Singleton
 class WorkerDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
-  extends WorkerDao
+  extends WorkersDao
     with WorkerComponent
     with HasDatabaseConfigProvider[JdbcProfile]
     with LazyLogging {
