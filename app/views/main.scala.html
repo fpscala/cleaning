@@ -25,6 +25,10 @@
         <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon-180x180.png" />
         <link href="assets/css/styles.css" rel="stylesheet">
         <link href="assets/css/bubbles.css" rel="stylesheet">
+        @webJarsUtil.locate("css/bootstrap.min.css").css()
+        @webJarsUtil.locate("knockout.js").script()
+        <script src="@routes.Assets.versioned("lib/knockout.mapping-latest.js")"></script>
+        @webJarsUtil.locate("js/bootstrap.min.js").script()
     </head>
     <body>
         <button class="btn btn--skyblue btn--arrow pin-bottom-right" id="js-go-top"></button>
