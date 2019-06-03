@@ -1,6 +1,6 @@
 # --- !Ups
-CREATE TABLE "GenderCodes" ("id" SERIAL NOT NULL PRIMARY KEY,"gender" VARCHAR NOT NULL);
-CREATE TABLE "EducationCodes" ("id" SERIAL NOT NULL PRIMARY KEY,"education" VARCHAR NOT NULL);
+CREATE TABLE "GenderCodes" ("id" SERIAL NOT NULL PRIMARY KEY,"name" VARCHAR NOT NULL, "code" VARCHAR NOT NULL, UNIQUE(code));
+CREATE TABLE "EducationCodes" ("id" SERIAL NOT NULL PRIMARY KEY,"name" VARCHAR NOT NULL, "code" VARCHAR NOT NULL, UNIQUE(code));
 
 CREATE TABLE "Workers" (
   "id" SERIAL NOT NULL PRIMARY KEY,
@@ -16,19 +16,19 @@ CREATE TABLE "Workers" (
   "warnings" jsonb NULL,
   "pensionNumber" INTEGER NULL,
   "itn" INTEGER NOT NULL,
-  "gender" INTEGER CONSTRAINT "workersFkGenderCodeId" REFERENCES "GenderCodes" ON update CASCADE ON DELETE CASCADE,
+  "genderId" INTEGER CONSTRAINT "workersFkGenderCodeId" REFERENCES "GenderCodes" ON update CASCADE ON DELETE CASCADE,
   "birthDay" TIMESTAMP NOT NULL,
   "birthPlace" VARCHAR NOT NULL,
   "education" INTEGER CONSTRAINT  "educationFkEducationCodeId" REFERENCES  "EducationCodes" ON UPDATE CASCADE ON DELETE CASCADE,
   UNIQUE ("passportSeriesAndNumber", "pensionNumber", "itn")
 );
 
-INSERT INTO "GenderCodes" ("gender") VALUES ('erkak');
-INSERT INTO "GenderCodes" ("gender") VALUES ('ayol');
+INSERT INTO "GenderCodes" ("name", "code") VALUES ('erkak', 'male');
+INSERT INTO "GenderCodes" ("name", "code") VALUES ('ayol', 'female');
 
-INSERT INTO "EducationCodes" ("education") VALUES ('yoq');
-INSERT INTO "EducationCodes" ("education") VALUES ('orta');
-INSERT INTO "EducationCodes" ("education") VALUES ('oliy');
+INSERT INTO "EducationCodes" ("name", "code") VALUES ('yoq', 'absent');
+INSERT INTO "EducationCodes" ("name", "code") VALUES ('orta', 'secondary');
+INSERT INTO "EducationCodes" ("name", "code") VALUES ('oliy', 'high');
 
 # --- !Downs
 DROP TABLE "Workers";
