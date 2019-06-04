@@ -1,6 +1,7 @@
 package controllers
 
 import java.nio.file.{Files, Path}
+import java.text.SimpleDateFormat
 import java.util.Date
 
 import akka.actor.ActorRef
@@ -50,37 +51,35 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
 
   def addWorker() = Action.async(parse.multipartFormData) { implicit request: Request[MultipartFormData[TemporaryFile]] => {
     val body = request.body.asFormUrlEncoded
-    val surname = body.get("surname").map(_.head).getOrElse("none")
+    val surname = body("surname").head
     logger.info(s"surname: $surname")
-    val firstName = body.get("first_name").map(_.head).getOrElse("none")
+    val firstName = body("first_name").head
     logger.info(s"firstname: $firstName")
-    val lastName = body.get("last_name").map(_.head)
-    val address = body.get("address").map(_.head).getOrElse("none")
+    val lastName = body("last_name").headOption
+    val address = body("address").head
     logger.info(s"address: $address")
-    val phone = body.get("phone").map(_.head).getOrElse("none")
+    val phone = body("phone").head
     logger.info(s"phone: $phone")
-    val passportSeriesAndNumber = body.get("passport_series_and_number").map(_.head).getOrElse("none")
+    val passportSeriesAndNumber = body("passport_series_and_number").head
     logger.info(s"passportSeriesAndNumber: $passportSeriesAndNumber")
-    //    val dayGettingPassport = body.get("day_getting_passport").flatMap(_.headOption)
-    val dayGettingPassport = new Date
-    //    val photoName = body.get("photo_name").map(_.head).getOrElse("none")
-//    val warnings = body.get("warnings").map(_.head)
-    val pensionNumber = body.get("pension_number").map(_.head.toInt).getOrElse(0)
+    val dayGettingPassport = parseDate(body("day_getting_passport").head)
+    val warnings = body("warnings").headOption.flatMap( w => Option(Json.toJson(w)))
+    val pensionNumber = body("pension_number").head.toInt
     logger.info(s"pensionNumber: $pensionNumber")
-    val itn = body.get("itn").map(_.head.toInt).getOrElse(0)
+    val itn = body("itn").head.toInt
     logger.info(s"itn: $itn")
-    val genderId = 1
-    //    val birthDay = body.get("birthday").flatMap(_.headOption)
-    val birthDay = new Date
-    val birthPlace = body.get("birth_place").map(_.head).getOrElse("none")
+    val genderId = body("genderId").head.toInt
+    val birthDay = parseDate(body("birthday").head)
+    logger.info(s"birthDay: $birthDay")
+    val birthPlace = body("birth_place").head
     logger.info(s"birthPlace: $birthPlace")
-    val education = 1
+    val education = body("educationId").head.toInt
 
     request.body.file("attachedFile").map { tempFile =>
       val fileName = tempFile.filename
       val imgData = getBytesFromPath(tempFile.ref.path)
       (workerManager ? AddWorker(Worker(None, surname, firstName, lastName, address, phone, passportSeriesAndNumber,
-        dayGettingPassport, fileName, imgData, None, pensionNumber, itn, genderId, birthDay,
+        dayGettingPassport, fileName, imgData, warnings, pensionNumber, itn, genderId, birthDay,
         birthPlace, education))).mapTo[Int].map { _ =>
         Ok(Json.toJson("Successfully uploaded"))
       }
@@ -89,6 +88,18 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
 
   private def getBytesFromPath(filePath: Path): Array[Byte] = {
     Files.readAllBytes(filePath)
+  }
+
+  private def convertToStrDate(date: Date) = {
+    new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date)
+  }
+
+  private def parseDateTime(dateStr: String) = {
+    new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateStr)
+  }
+
+  private def parseDate(dateStr: String) = {
+    new SimpleDateFormat("yyyy-MM-dd").parse(dateStr)
   }
 
 }
