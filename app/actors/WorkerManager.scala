@@ -8,6 +8,7 @@ import akka.actor.Actor
 import akka.pattern.pipe
 import akka.util.Timeout
 import com.typesafe.scalalogging.LazyLogging
+import dao.WorkersDao
 import javax.inject.Inject
 import play.api.{Configuration, Environment}
 import protocols.WorkerProtocol.{AddImage, AddWorker, Worker}
@@ -17,7 +18,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class WorkerManager @Inject()(val environment: Environment,
                               val configuration: Configuration,
-//                              workersDao: WorkersDao
+                              workersDao: WorkersDao
                              )
                              (implicit val ec: ExecutionContext)
   extends Actor with LazyLogging {
@@ -38,7 +39,7 @@ class WorkerManager @Inject()(val environment: Environment,
   }
 
   private def addWorker(worker: Worker): Future[Int] = {
-    Future.successful(1)
+    workersDao.addWorker(worker)
   }
 
   def addImage(fileName:String, imgData: Array[Byte]): Future[Unit]  = {

@@ -1,49 +1,52 @@
+@this(webJarsUtil: org.webjars.play.WebJarsUtil)
+@import views.html.main
 @()
+@main("Add Worker", webJarsUtil) {
 <h1 class="text-center text-dark">Cleaning worker</h1>
 <br>
 <div class="row">
     <div class="col-md-offset-2 col-md-8">
-        <form class="form-horizontal" data-bind="submit: ">
+        <form class="form-horizontal" action="/upload" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label class="control-label col-sm-3" for="familiya">Familiyasi:</label>
                 <div class="offset-6 col-sm-6">
-                    <input type="text" class="form-control" id="familiya" placeholder="Familiyasi" name="familiya" data-bind="" >
+                    <input type="text" class="form-control" id="familiya" placeholder="Familiyasi" name="surname">
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-3" for="ismi">Ismi:</label>
                 <div class="offset-6 col-sm-6">
-                    <input type="text" class="form-control" id="ismi" placeholder="Ismi" name="ismi" data-bind="" >
+                    <input type="text" class="form-control" id="ismi" placeholder="Ismi" name="first_name">
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-3" for="otasi_ismi">Otasi ismi</label>
                 <div class="offset-6 col-sm-6">
-                    <input type="text" class="form-control" id="otasi_ismi" placeholder="otasi_ismi" name="otasi_ismi" data-bind="" >
+                    <input type="text" class="form-control" id="otasi_ismi" placeholder="otasi_ismi" name="last_name">
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-3" for="manzil">Manzili:</label>
                 <div class="offset-6 col-sm-6">
-                    <input type="text" class="form-control" id="manzili" placeholder="manzili" name="manzili" data-bind="" >
+                    <input type="text" class="form-control" id="manzili" placeholder="manzili" name="address">
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-3" for="tel">Tel:</label>
                 <div class="offset-6 col-sm-6">
-                    <input type="text" class="form-control" id="tel" placeholder="+998 00 123 45 67" name="tel" data-bind="" >
+                    <input type="text" class="form-control" id="tel" placeholder="+998 00 123 45 67" name="phone">
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-3" for="tel">Passport:</label>
                 <div class="offset-6 col-sm-6">
-                    <input type="text" class="form-control" id="pasport" placeholder="Passport" name="pasport" data-bind="" >
+                    <input type="text" class="form-control" id="pasport" placeholder="Passport" name="passport_series_and_number">
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-3" for="tel">Olingan sana:</label>
                 <div class="offset-6 col-sm-6">
-                    <input type="date" class="form-control" id="" placeholder="Olingan sana" name="" data-bind="" >
+                    <input type="date" class="form-control" id="" placeholder="Olingan sana" name="day_getting_passport">
                 </div>
             </div>
             <div class="form-group">
@@ -55,45 +58,47 @@
             <div class="form-group">
                 <label class="control-label col-sm-3" for="tel">Ogohlantirish:</label>
                 <div class="offset-6 col-sm-6">
-                    <input type="text" class="form-control" id="" placeholder="Ogohlatirish" name="" data-bind="" >
+                    <input type="text" class="form-control" id="" placeholder="Ogohlatirish" name="warnings">
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-3" for="tel">Pensionniy nomer:</label>
                 <div class="offset-6 col-sm-6">
-                    <input type="text" class="form-control" id="" placeholder="Pensionniy nomer" name="" data-bind="" >
+                    <input type="text" class="form-control" id="" placeholder="Pensionniy nomer" name="pension_number">
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-3" for="tel">Inn:</label>
+                <label class="control-label col-sm-3" for="itn">Inn:</label>
                 <div class="offset-6 col-sm-6">
-                    <input type="text" class="form-control" id="" placeholder="Inn" name="" data-bind="" >
+                    <input type="text" class="form-control" id="itn" placeholder="Inn" name="itn">
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-3" for="tel">Jinsi:</label>
+                <label class="control-label col-sm-3" for="gender">Jinsi:</label>
                 <div class="offset-6 col-sm-6">
-                    <input type="text" class="form-control" id="" placeholder="jinsi" name="" data-bind="" >
+                    <input type="text" class="form-control" id="gender" placeholder="jinsi" name="gender">
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-3" for="tel">Tug`ilgan sana:</label>
                 <div class="offset-6 col-sm-6">
-                    <input type="date" class="form-control" id="" placeholder="tug`ilgan sana" name="" data-bind="" >
+                    <input type="date" class="form-control" id="" placeholder="tug`ilgan sana" name="birthday">
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-3" for="tel">Turar joyi:</label>
                 <div class="offset-6 col-sm-6">
-                    <input type="text" class="form-control" id="" placeholder="turar joyi" name="" data-bind="" >
+                    <input type="text" class="form-control" id="" placeholder="turar joyi" name="birth_place">
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-3" for="tel">Malumoti:</label>
                 <div class="offset-6 col-sm-6">
-                    <input type="text" class="form-control" id="" placeholder="malumoti" name="" data-bind="" >
+                    <input type="text" class="form-control" id="" placeholder="malumoti" name="education" >
                 </div>
             </div>
+            <button class="btn btn-success" type="submit">Save</button>
         </form>
     </div>
 </div>
+}

@@ -4,7 +4,8 @@
 # ~~~~
 
 GET     /                           @controllers.HomeController.index
-POST    /upload                     @controllers.HomeController.uploadFile
+GET     /worker-form                @controllers.HomeController.workerForm
+POST    /upload                     @controllers.HomeController.addWorker
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               @controllers.Assets.versioned(path="/public", file)

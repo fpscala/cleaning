@@ -20,7 +20,8 @@ import scala.concurrent.{ExecutionContext, Future}
 @Singleton
 class HomeController @Inject()(val controllerComponents: ControllerComponents,
                               @Named("worker-manager") val workerManager: ActorRef,
-                               indexTemplate: index)
+                               indexTemplate: index,
+                               workerTemplate: add_worker)
                               (implicit val ec: ExecutionContext)
   extends BaseController with LazyLogging {
 
@@ -28,6 +29,10 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
 
   def index = Action {
     Ok(indexTemplate())
+  }
+
+  def workerForm = Action {
+    Ok(workerTemplate())
   }
 
   def uploadFile() = Action.async(parse.multipartFormData) { implicit request: Request[MultipartFormData[TemporaryFile]] => {
@@ -46,29 +51,37 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   def addWorker() = Action.async(parse.multipartFormData) { implicit request: Request[MultipartFormData[TemporaryFile]] => {
     val body = request.body.asFormUrlEncoded
     val surname = body.get("surname").map(_.head).getOrElse("none")
-    val fristName = body.get("frist_name").map(_.head).getOrElse("none")
+    logger.info(s"surname: $surname")
+    val firstName = body.get("first_name").map(_.head).getOrElse("none")
+    logger.info(s"firstname: $firstName")
     val lastName = body.get("last_name").map(_.head)
     val address = body.get("address").map(_.head).getOrElse("none")
+    logger.info(s"address: $address")
     val phone = body.get("phone").map(_.head).getOrElse("none")
+    logger.info(s"phone: $phone")
     val passportSeriesAndNumber = body.get("passport_series_and_number").map(_.head).getOrElse("none")
-//    val dayGettingPassport = body.get("day_getting_passport").flatMap(_.headOption)
+    logger.info(s"passportSeriesAndNumber: $passportSeriesAndNumber")
+    //    val dayGettingPassport = body.get("day_getting_passport").flatMap(_.headOption)
     val dayGettingPassport = new Date
-    val photoName = body.get("photo_name").map(_.head).getOrElse("none")
-    val warnings = body.get("warnings").map(_.head)
+    //    val photoName = body.get("photo_name").map(_.head).getOrElse("none")
+//    val warnings = body.get("warnings").map(_.head)
     val pensionNumber = body.get("pension_number").map(_.head.toInt).getOrElse(0)
+    logger.info(s"pensionNumber: $pensionNumber")
     val itn = body.get("itn").map(_.head.toInt).getOrElse(0)
+    logger.info(s"itn: $itn")
     val genderId = 1
-//    val birthDay = body.get("birthday").flatMap(_.headOption)
+    //    val birthDay = body.get("birthday").flatMap(_.headOption)
     val birthDay = new Date
     val birthPlace = body.get("birth_place").map(_.head).getOrElse("none")
+    logger.info(s"birthPlace: $birthPlace")
     val education = 1
 
     request.body.file("attachedFile").map { tempFile =>
       val fileName = tempFile.filename
       val imgData = getBytesFromPath(tempFile.ref.path)
-      (workerManager ? AddWorker(Worker(None, surname, fristName, lastName, address, phone, passportSeriesAndNumber,
-        dayGettingPassport, fileName, imgData, Option(Json.toJson(warnings)), pensionNumber, itn, genderId, birthDay,
-        birthPlace, education))).mapTo[Unit].map { _ =>
+      (workerManager ? AddWorker(Worker(None, surname, firstName, lastName, address, phone, passportSeriesAndNumber,
+        dayGettingPassport, fileName, imgData, None, pensionNumber, itn, genderId, birthDay,
+        birthPlace, education))).mapTo[Int].map { _ =>
         Ok(Json.toJson("Successfully uploaded"))
       }
     }.getOrElse(Future.successful(BadRequest("Error occurred. Please try again")))
