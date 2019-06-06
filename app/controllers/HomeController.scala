@@ -12,7 +12,7 @@ import play.api.libs.Files.TemporaryFile
 import play.api.libs.json.Json
 import play.api.mvc._
 import protocols.OrderProtocol.{AddOrder, Order}
-import protocols.WorkerProtocol.{AddGender, AddImage, Gender, GetGender}
+import protocols.WorkerProtocol.{AddImage, Education, Gender, GetAllEducations, GetGender}
 import views.html._
 
 import scala.concurrent.duration.DurationInt
@@ -23,6 +23,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
                                @Named("worker-manager") val workerManager: ActorRef,
                                @Named("order-manager") val orderManager: ActorRef,
                                @Named("gender-manager") val genderManager: ActorRef,
+                               @Named("education-manager") val educationManager: ActorRef,
                                indexTemplate: index)
                               (implicit val ec: ExecutionContext)
   extends BaseController with LazyLogging {
@@ -72,6 +73,14 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
       Ok(Json.toJson(Map("gender" -> gender)))
     }
   }
+
+  def getEducation() = Action.async{
+    (educationManager ? GetAllEducations).mapTo[Seq[Education]].map { education =>
+      logger.info(s"education: $education")
+      Ok(Json.toJson(Map("education" -> education)))
+    }
+  }
+
   private def getBytesFromPath(filePath: Path): Array[Byte] = {
     Files.readAllBytes(filePath)
   }
