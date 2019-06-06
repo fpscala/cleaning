@@ -7,7 +7,7 @@ CREATE TABLE "Counts" (
 CREATE TABLE "Price_list" (
   "id" SERIAL NOT NULL PRIMARY KEY,
   "name" VARCHAR NOT NULL,
-  "count" INTEGER CONSTRAINT  "Price_listFkCountId" REFERENCES  "Counts" ("id") ON UPDATE CASCADE ON DELETE CASCADE,
+  "count" VARCHAR CONSTRAINT  "Price_listFkCountName" REFERENCES  "Counts" ("name") ON UPDATE CASCADE ON DELETE CASCADE,
   "price" VARCHAR NOT NULL,
   UNIQUE("name")
 );

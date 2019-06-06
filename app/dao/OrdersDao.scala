@@ -10,12 +10,13 @@ import slick.model.ForeignKeyAction
 
 import scala.concurrent.Future
 
-trait OrdersComponent  { self: HasDatabaseConfigProvider[JdbcProfile] =>
-
+trait OrdersComponent extends PriceListComponent { self: HasDatabaseConfigProvider[JdbcProfile] =>
   import utils.PostgresDriver.api._
 
+  val PriceListTable = TableQuery[PriceListTable]
+
   class Orders(tag: Tag) extends Table[Order](tag, "Orders") {
-    def id = column[Int]("id", O.PrimaryKey)
+    def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
     def surname = column[String]("surname")
     def firstName = column[String]("firstName")
     def address  = column[String]("address")
@@ -23,10 +24,9 @@ trait OrdersComponent  { self: HasDatabaseConfigProvider[JdbcProfile] =>
     def orderDay = column[String]("orderDay")
     def email  = column[String]("email")
     def comment  = column[String]("comment")
-//    def type1 = foreignKey("OrdersFkPrice_type", "name", Companies)(_.name, onDelete = ForeignKeyAction.Cascade)
-//    "type" INTEGER CONSTRAINT "OrdersFkPrice_listId" REFERENCES "Price_list" ("id") ON update CASCADE ON DELETE CASCADE,
-
-    def * = (surname, firstName, phone, address, orderDay, address, comment) <> (Order.tupled, Order.unapply _)
+    def typeName = column[String]("type")
+    def * = (id.?, surname, firstName, phone, address, orderDay, address, comment, typeName) <> (Order.tupled, Order.unapply _)
+    def type1 = foreignKey("OrdersFkPrice_listName", typeName, PriceListTable)(_.name)
   }
 }
 

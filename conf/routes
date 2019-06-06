@@ -3,11 +3,12 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET     /                           @controllers.HomeController.index
-POST    /upload                     @controllers.HomeController.uploadFile
+GET         /                    @controllers.HomeController.index
+POST        /upload              @controllers.HomeController.uploadFile
+GET         /order               @controllers.HomeController.getOrder
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               @controllers.Assets.versioned(path="/public", file)
-->      /webjars                    webjars.Routes
+GET         /assets/*file        @controllers.Assets.versioned(path="/public", file)
+->          /webjars             webjars.Routes
 
       
