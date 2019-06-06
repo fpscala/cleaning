@@ -10,9 +10,9 @@ import com.typesafe.scalalogging.LazyLogging
 import javax.inject._
 import play.api.libs.Files.TemporaryFile
 import play.api.libs.json.Json
-import play.api.mvc.{Action, AnyContent, BaseController, ControllerComponents, MultipartFormData, Request}
+import play.api.mvc._
 import protocols.OrderProtocol.{AddOrder, Order}
-import protocols.WorkerProtocol.AddImage
+import protocols.WorkerProtocol.{AddGender, AddImage, Gender, GetGender}
 import views.html._
 
 import scala.concurrent.duration.DurationInt
@@ -22,6 +22,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class HomeController @Inject()(val controllerComponents: ControllerComponents,
                                @Named("worker-manager") val workerManager: ActorRef,
                                @Named("order-manager") val orderManager: ActorRef,
+                               @Named("gender-manager") val genderManager: ActorRef,
                                indexTemplate: index)
                               (implicit val ec: ExecutionContext)
   extends BaseController with LazyLogging {
@@ -31,6 +32,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   def index = Action {
     Ok(indexTemplate())
   }
+
 
   def uploadFile() = Action.async(parse.multipartFormData) { implicit request: Request[MultipartFormData[TemporaryFile]] => {
     val body = request.body.asFormUrlEncoded
@@ -45,9 +47,10 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     }.getOrElse(Future.successful(BadRequest("Error occurred. Please try again")))
   }
   }
-  getOrder()
 
-  def getOrder(): Action[AnyContent] = Action.async {
+  addOrder()
+
+  def addOrder(): Action[AnyContent] = Action.async {
     val surname = "Raxmatov"
     val firstName = "Maftunbek"
     val address = "Paxtakor"
@@ -61,6 +64,14 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     }
   }
 
+
+
+  def getGender() = Action.async{
+    (genderManager ? GetGender).mapTo[Seq[Gender]].map { gender =>
+      logger.info(s"gender: $gender")
+      Ok(Json.toJson(Map("gender" -> gender)))
+    }
+  }
   private def getBytesFromPath(filePath: Path): Array[Byte] = {
     Files.readAllBytes(filePath)
   }

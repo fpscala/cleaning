@@ -7,5 +7,6 @@ class ActorsModule extends AbstractModule with AkkaGuiceSupport {
   override def configure() = {
     bindActor[WorkerManager]("worker-manager")
     bindActor[OrderManager]("order-manager")
+    bindActor[GenderManager]("gender-manager")
   }
 }

@@ -27,7 +27,12 @@ object WorkerProtocol {
 
   implicit val workerFormat: OFormat[Worker] = Json.format[Worker]
 
+  case object GetGender
+  case class AddGender(gender: Gender)
   case class Gender(id: Option[Int] = None, name: String, code: String)
+
+  implicit val genderFormat = Json.format[Gender]
+
   case class Education(id: Option[Int] = None, name: String, code: String)
 
   case class AddImage(originalFileName: String, content: Array[Byte])

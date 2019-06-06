@@ -24,6 +24,7 @@ trait GenderComponent { self: HasDatabaseConfigProvider[JdbcProfile] =>
 @ImplementedBy(classOf[GenderDaoImpl])
 trait GenderDao {
   def addGender(genderData: Gender): Future[Int]
+  def getGenders(): Future[Seq[Gender]]
 }
 
 @Singleton
@@ -41,6 +42,9 @@ class GenderDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProv
     db.run {
       (gender returning gender.map(_.id)) += genderData
     }
+  }
+  override def getGenders(): Future[Seq[Gender]] = {
+    db.run (gender.result)
   }
 
 }
