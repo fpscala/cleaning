@@ -29,7 +29,7 @@ trait WorkerComponent extends GenderComponent with EducationComponent { self: Ha
     def passportSeriesAndNumber = column[String]("passportSeriesAndNumber")
     def dayGettingPassport = column[Date]("dayGettingPassport")
     def photoName = column[String]("photoName")
-    def photoHash = column[String]("photoHash")
+    def photoHash = column[Array[Byte]]("photoHash")
     def warnings = column[JsValue]("warnings")
     def pensionNumber = column[Int]("pensionNumber")
     def itn = column[Int]("itn")

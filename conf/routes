@@ -8,6 +8,7 @@ POST        /upload              @controllers.HomeController.uploadFile
 GET         /add-order           @controllers.HomeController.addOrder
 GET         /get-gender          @controllers.HomeController.getGender
 GET         /get-education       @controllers.HomeController.getEducation
+GET         /worker-form                @controllers.HomeController.workerForm
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file        @controllers.Assets.versioned(path="/public", file)

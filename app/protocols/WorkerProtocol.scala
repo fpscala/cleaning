@@ -16,7 +16,7 @@ object WorkerProtocol {
                       passportSeriesAndNumber: String,
                       dayGettingPassport: Date,
                       photoName: String,
-                      phoneHash: String,
+                      phoneHash: Array[Byte],
                       warnings: Option[JsValue] = None,
                       pensionNumber: Int,
                       ITN: Int,                   // ITN (Individual Taxpayer Number)
