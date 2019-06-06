@@ -51,7 +51,6 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     }.getOrElse(Future.successful(BadRequest("Error occurred. Please try again")))
   }
   }
-  getOrder()
 
   def getOrder(): Action[AnyContent] = Action.async {
     val surname = "Raxmatov"
