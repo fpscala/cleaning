@@ -6,9 +6,10 @@
 GET     /                           @controllers.HomeController.index
 GET     /worker-form                @controllers.HomeController.workerForm
 POST    /upload                     @controllers.HomeController.addWorker
+GET     /order               @controllers.HomeController.getOrder
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               @controllers.Assets.versioned(path="/public", file)
-->      /webjars                    webjars.Routes
+GET         /assets/*file        @controllers.Assets.versioned(path="/public", file)
+->          /webjars             webjars.Routes
 
       

@@ -1,14 +1,16 @@
 # --- !Ups
 CREATE TABLE "Counts" (
   "id" SERIAL NOT NULL PRIMARY KEY,
-  "name" VARCHAR NOT NULL
+  "name" VARCHAR NOT NULL,
+  UNIQUE("name")
 );
 
 CREATE TABLE "Price_list" (
   "id" SERIAL NOT NULL PRIMARY KEY,
   "name" VARCHAR NOT NULL,
-  "count" INTEGER CONSTRAINT  "Price_listFkCountId" REFERENCES  "Counts" ("id") ON UPDATE CASCADE ON DELETE CASCADE,
-  "price" VARCHAR NOT NULL
+  "count" VARCHAR CONSTRAINT  "Price_listFkCountName" REFERENCES  "Counts" ("name") ON UPDATE CASCADE ON DELETE CASCADE,
+  "price" VARCHAR NOT NULL,
+  UNIQUE("name")
 );
 
 
@@ -21,16 +23,17 @@ CREATE TABLE "Orders" (
   "orderDay" TIMESTAMP NOT NULL,
   "email" VARCHAR NOT NULL,
   "comment" TEXT NULL,
-  "type" INTEGER CONSTRAINT "OrdersFkPrice_listId" REFERENCES "Price_list" ("id") ON update CASCADE ON DELETE CASCADE,
-  "price" INTEGER CONSTRAINT  "pricesFkPrice_listId" REFERENCES  "Price_list"("id") ON UPDATE CASCADE ON DELETE CASCADE
+  "type" VARCHAR CONSTRAINT "OrdersFkPrice_listName" REFERENCES "Price_list"("name") ON update CASCADE ON DELETE CASCADE
 );
 
 INSERT INTO "Counts" ("name") VALUES ('1 sht');
 INSERT INTO "Counts" ("name") VALUES ('2 sht');
 
+INSERT INTO "Price_list" ("name", "count", "price") VALUES ('price1', '1 sht', '5000 sum');
+
 
 
 # --- !Downs
 DROP TABLE "Price_list";
-DROP TABLE "Count";
+DROP TABLE "Counts";
 DROP TABLE "Orders";
