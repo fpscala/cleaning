@@ -11,7 +11,8 @@ import com.typesafe.scalalogging.LazyLogging
 import javax.inject._
 import play.api.libs.Files.TemporaryFile
 import play.api.libs.json.Json
-import play.api.mvc.{BaseController, ControllerComponents, MultipartFormData, Request}
+import play.api.mvc.{Action, AnyContent, BaseController, ControllerComponents, MultipartFormData, Request}
+import protocols.OrderProtocol.{AddOrder, Order}
 import protocols.WorkerProtocol.{AddImage, AddWorker, Worker}
 import views.html._
 
@@ -20,7 +21,8 @@ import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class HomeController @Inject()(val controllerComponents: ControllerComponents,
-                              @Named("worker-manager") val workerManager: ActorRef,
+                               @Named("worker-manager") val workerManager: ActorRef,
+                               @Named("order-manager") val orderManager: ActorRef,
                                indexTemplate: index,
                                workerTemplate: add_worker)
                               (implicit val ec: ExecutionContext)
@@ -47,7 +49,22 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
         Ok(Json.toJson("Successfully uploaded"))
       }
     }.getOrElse(Future.successful(BadRequest("Error occurred. Please try again")))
-  }}
+  }
+  }
+
+  def getOrder(): Action[AnyContent] = Action.async {
+    val surname = "Raxmatov"
+    val firstName = "Maftunbek"
+    val address = "Paxtakor"
+    val phone = "+998999673398"
+    val orderDay = new Date
+    val email = "Prince777_98@mail.ru"
+    val comment = "ISHLAGAYSAN"
+    val typeName = "price1"
+    (orderManager ? AddOrder(Order(None, surname, firstName, address, phone, orderDay, email, comment, typeName))).mapTo[Int].map { _ =>
+      Ok(Json.toJson("Successfully uploaded"))
+    }
+  }
 
   def addWorker() = Action.async(parse.multipartFormData) { implicit request: Request[MultipartFormData[TemporaryFile]] => {
     val body = request.body.asFormUrlEncoded
