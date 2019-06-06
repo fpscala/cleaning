@@ -1,7 +1,8 @@
 # --- !Ups
 CREATE TABLE "Counts" (
   "id" SERIAL NOT NULL PRIMARY KEY,
-  "name" VARCHAR NOT NULL
+  "name" VARCHAR NOT NULL,
+  UNIQUE("name")
 );
 
 CREATE TABLE "Price_list" (
@@ -28,9 +29,11 @@ CREATE TABLE "Orders" (
 INSERT INTO "Counts" ("name") VALUES ('1 sht');
 INSERT INTO "Counts" ("name") VALUES ('2 sht');
 
+INSERT INTO "Price_list" ("name", "count", "price") VALUES ('price1', '1 sht', '5000 sum');
+
 
 
 # --- !Downs
 DROP TABLE "Price_list";
-DROP TABLE "Count";
+DROP TABLE "Counts";
 DROP TABLE "Orders";

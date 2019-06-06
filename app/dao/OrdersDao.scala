@@ -1,12 +1,14 @@
 package dao
 
-import javax.inject.{Inject, Singleton}
+import java.util.Date
+
 import com.google.inject.ImplementedBy
-import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import com.typesafe.scalalogging.LazyLogging
+import javax.inject.{Inject, Singleton}
+import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import protocols.OrderProtocol.Order
 import slick.jdbc.JdbcProfile
-import slick.model.ForeignKeyAction
+import utils.Date2SqlDate
 
 import scala.concurrent.Future
 
@@ -15,17 +17,17 @@ trait OrdersComponent extends PriceListComponent { self: HasDatabaseConfigProvid
 
   val PriceListTable = TableQuery[PriceListTable]
 
-  class Orders(tag: Tag) extends Table[Order](tag, "Orders") {
+  class Orders(tag: Tag) extends Table[Order](tag, "Orders") with Date2SqlDate {
     def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
     def surname = column[String]("surname")
     def firstName = column[String]("firstName")
     def address  = column[String]("address")
     def phone = column[String]("phone")
-    def orderDay = column[String]("orderDay")
+    def orderDay = column[Date]("orderDay")
     def email  = column[String]("email")
     def comment  = column[String]("comment")
     def typeName = column[String]("type")
-    def * = (id.?, surname, firstName, phone, address, orderDay, address, comment, typeName) <> (Order.tupled, Order.unapply _)
+    def * = (id.?, surname, firstName, address, phone, orderDay, email, comment, typeName) <> (Order.tupled, Order.unapply _)
     def type1 = foreignKey("OrdersFkPrice_listName", typeName, PriceListTable)(_.name)
   }
 }

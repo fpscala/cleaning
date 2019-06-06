@@ -30,7 +30,6 @@ class OrderManager @Inject()(val environment: Environment,
 
   private def addOrder(orderData: Order) = {
     orderDao.create(orderData).flatMap { order =>
-      log.info(s"order: $order")
       Future.successful(order)
     }
   }

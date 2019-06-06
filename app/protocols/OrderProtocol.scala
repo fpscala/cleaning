@@ -15,7 +15,7 @@ object OrderProtocol {
                    firstName: String,
                    address: String,
                    phone: String,
-                   orderDay: String,
+                   orderDay: Date,
                    email: String,
                    comment: String,
                    type1: String)

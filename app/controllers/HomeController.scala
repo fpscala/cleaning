@@ -1,6 +1,7 @@
 package controllers
 
 import java.nio.file.{Files, Path}
+import java.util.Date
 
 import akka.actor.ActorRef
 import akka.pattern.ask
@@ -9,7 +10,7 @@ import com.typesafe.scalalogging.LazyLogging
 import javax.inject._
 import play.api.libs.Files.TemporaryFile
 import play.api.libs.json.Json
-import play.api.mvc.{BaseController, ControllerComponents, MultipartFormData, Request}
+import play.api.mvc.{Action, AnyContent, BaseController, ControllerComponents, MultipartFormData, Request}
 import protocols.OrderProtocol.{AddOrder, Order}
 import protocols.WorkerProtocol.AddImage
 import views.html._
@@ -44,17 +45,18 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     }.getOrElse(Future.successful(BadRequest("Error occurred. Please try again")))
   }
   }
+  getOrder()
 
-  def getOrder = {
+  def getOrder(): Action[AnyContent] = Action.async {
     val surname = "Raxmatov"
     val firstName = "Maftunbek"
     val address = "Paxtakor"
     val phone = "+998999673398"
-    val orderDay = "03.06.2019"
+    val orderDay = new Date
     val email = "Prince777_98@mail.ru"
     val comment = "ISHLAGAYSAN"
-    val typeName = "TEST"
-    (orderManager ? AddOrder(Order(None, surname, firstName, address, phone, orderDay, email, comment, typeName))).mapTo[Unit].map { _ =>
+    val typeName = "price1"
+    (orderManager ? AddOrder(Order(None, surname, firstName, address, phone, orderDay, email, comment, typeName))).mapTo[Int].map { _ =>
       Ok(Json.toJson("Successfully uploaded"))
     }
   }
