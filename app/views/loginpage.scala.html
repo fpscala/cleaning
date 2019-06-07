@@ -1,0 +1,48 @@
+@this(webJarsUtil: org.webjars.play.WebJarsUtil)
+@import views.html.main
+@()
+@main("Login", webJarsUtil) {
+<script src="@routes.Assets.versioned("javascripts/registration.js")" type="text/javascript"></script>
+<br>
+<h3 class="text-center">Login Page</h3>
+<div class="row">
+    <form class="form-horizontal" >
+        <div class="col-md-offset-4 col-md-8">
+            <div class="form-group">
+                <div class="offset-6 col-sm-6">
+                    <input type="text" class="form-control" id="" placeholder="Username" name="" data-bind="value: vm.username" >
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="col-md-offset-4 col-md-8">
+            <div class="form-group">
+                <div class="offset-6 col-sm-6">
+                    <input type="text" class="form-control" id="" placeholder="Login" name="" data-bind="value: vm.login" >
+                </div>
+            </div>
+        </div>
+        <div class="col-md-offset-4 col-md-8">
+            <div class="form-group">
+                <div class="offset-6 col-sm-6">
+                    <br>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6"> <input type="checkbox" > Remember</div>
+                        <div class="col-lg-offset-1 col-md-5"><a href="" >Forget your password?</a></div>
+                    </div>
+                    <br>
+                    <br>
+                        <button type="button" class="btn btn-success pull-right" data-bind="click: vm.loginPost">Log in</button> &nbsp;
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+<br>
+<br>
+<br>
+}

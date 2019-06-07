@@ -26,6 +26,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
                                @Named("gender-manager") val genderManager: ActorRef,
                                @Named("education-manager") val educationManager: ActorRef,
                                indexTemplate: index,
+                               loginTemplate: loginpage,
                                workerTemplate: add_worker)
                               (implicit val ec: ExecutionContext)
   extends BaseController with LazyLogging {
@@ -36,6 +37,13 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     Ok(indexTemplate())
   }
 
+  def showLoginPage = Action {
+    Ok(loginTemplate())
+  }
+
+  def loginPost() = Action.async {
+    Future.successful(Ok("OK"))
+  }
 
   def workerForm = Action {
     Ok(workerTemplate())
