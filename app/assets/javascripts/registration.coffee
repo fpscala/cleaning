@@ -11,33 +11,22 @@ $ ->
     genders: []
     educations: []
 
-  vm.report = ->
+  vm.getGenderAndEducations = ->
     $.ajax
       url: apiUrl.gender
       type: 'GET'
     .fail handleError
     .done (response) ->
-      genders = response.gender
-      console.log(genders)
-      vm.genders(genders)
-      console.log(vm.genders())
-      console.log(vm.genders().length)
-
-  vm.report()
-
-  vm.option = ->
+      for gender in response
+        vm.genders(gender)
     $.ajax
       url: apiUrl.education
       type: 'GET'
     .fail handleError
     .done (response) ->
-      educations = response.education
-      console.log(educations)
-      vm.genders(educations)
-      console.log(vm.educations())
-      console.log(vm.educations().length)
+      for edu in response
+        vm.educations(edu)
 
-  vm.option()
-
+  vm.getGenderAndEducations()
 
   ko.applyBindings {vm}

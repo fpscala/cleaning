@@ -78,8 +78,8 @@
                 <div class="form-group">
                     <label class="control-label col-sm-3" for="gender">Jinsni tanlang:</label>
                     <div class="offset-6 col-sm-6">
-                        <select class="form-control" id="gender" name="gender" data-bind="foreach: vm.genders()">
-                            <option data-bind="text: $data.name, value: $data.name"></option>
+                        <select class="form-control" id="gender" name="genderId" data-bind="foreach: vm.genders()">
+                            <option name="genderId" data-bind="text: $data.name, value: $data.id"></option>
                         </select>
                     </div>
                 </div>
@@ -98,8 +98,8 @@
                 <div class="form-group">
                     <label class="control-label col-sm-3" for="education">Malimotni tanlang:</label>
                     <div class="offset-6 col-sm-6">
-                        <select class="form-control" id="education" name="education" data-bind="foreach: vm.educations()">
-                            <option data-bind="text: $data.name, value: $data.name"></option>
+                        <select class="form-control" id="education" name="educationId" data-bind="foreach: vm.educations()">
+                            <option name="educationId" data-bind="text: $data.name, value: $data.id"></option>
                         </select>
                     </div>
                 </div>

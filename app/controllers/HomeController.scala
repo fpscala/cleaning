@@ -55,8 +55,6 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   }
   }
 
-  addOrder()
-
   def addOrder(): Action[AnyContent] = Action.async {
     val surname = "Raxmatov"
     val firstName = "Maftunbek"
@@ -73,10 +71,11 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
 
   def addWorker() = Action.async(parse.multipartFormData) { implicit request: Request[MultipartFormData[TemporaryFile]] => {
     val body = request.body.asFormUrlEncoded
+    logger.info(s"body: $body")
     val surname = body("surname").head
     logger.info(s"surname: $surname")
     val firstName = body("first_name").head
-    logger.info(s"firstname: $firstName")
+    logger.info(s"firstName: $firstName")
     val lastName = body("last_name").headOption
     val address = body("address").head
     logger.info(s"address: $address")
@@ -113,14 +112,14 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   def getGender() = Action.async{
     (genderManager ? GetGenderList).mapTo[Seq[Gender]].map { gender =>
       logger.info(s"genders: $gender")
-      Ok(Json.toJson(Map("gender" -> gender)))
+      Ok(Json.toJson(Seq(gender)))
     }
   }
 
   def getEducation() = Action.async{
     (educationManager ? GetAllEducations).mapTo[Seq[Education]].map { education =>
       logger.info(s"education: $education")
-      Ok(Json.toJson(Map("education" -> education)))
+      Ok(Json.toJson(Seq(education)))
     }
   }
 
