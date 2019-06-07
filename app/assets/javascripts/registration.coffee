@@ -1,18 +1,19 @@
 $ ->
   window.Glob ?= {}
   apiUrl =
-    genders: '/get-gender/'
+    gender: '/get-gender/'
+    education: '/get-education'
 
   handleError = (error) ->
     alert('something went wrong')
 
   vm = ko.mapping.fromJS
     genders: []
-    selectedGender: ''
+    educations: []
 
   vm.report = ->
     $.ajax
-      url: apiUrl.genders
+      url: apiUrl.gender
       type: 'GET'
     .fail handleError
     .done (response) ->
@@ -23,6 +24,20 @@ $ ->
       console.log(vm.genders().length)
 
   vm.report()
+
+  vm.option = ->
+    $.ajax
+      url: apiUrl.education
+      type: 'GET'
+    .fail handleError
+    .done (response) ->
+      educations = response.education
+      console.log(educations)
+      vm.genders(educations)
+      console.log(vm.educations())
+      console.log(vm.educations().length)
+
+  vm.option()
 
 
   ko.applyBindings {vm}
