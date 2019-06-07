@@ -1,38 +1,25 @@
 $ ->
   window.Glob ?= {}
   apiUrl =
-    reg: '/register/'
+    genders: '/get-gender/'
 
   handleError = (error) ->
-      alert('something went wrong')
+    alert('something went wrong')
 
   vm = ko.mapping.fromJS
-    email:'eee@qwe'
-    psw: ''
-    comment: ''
-    slanguages: []
-    planguage: ''
-    users: []
-    city: ''
-    country: ''
-    countries: []
+    genders: []
 
-  vm.onSubmit = ->
-    dataToSend = JSON.stringify(
-      email: vm.email()
-      psw: vm.psw()
-      comment: vm.comment()
-      sLanguages: vm.slanguages()
-      pLanguage: vm.planguage()
-    )
+  vm.report = ->
     $.ajax
-      url: apiUrl.reg
-      type: 'POST'
-      data: dataToSend
-      dataType: 'json'
-      contentType: 'application/json'
+      url: apiUrl.genders
+      type: 'GET'
     .fail handleError
     .done (response) ->
-        alert(response)
+      genders = response.gender
+      console.log(genders)
+      vm.genders(genders)
+      console.log(vm.genders())
+      console.log(vm.genders().length)
+
 
   ko.applyBindings {vm}

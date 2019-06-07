@@ -13,8 +13,7 @@ import play.api.libs.Files.TemporaryFile
 import play.api.libs.json.Json
 import play.api.mvc._
 import protocols.OrderProtocol.{AddOrder, Order}
-import protocols.WorkerProtocol.{AddImage, AddWorker, Worker}
-import protocols.WorkerProtocol.{AddImage, Education, Gender, GetAllEducations, GetGender}
+import protocols.WorkerProtocol.{AddImage, AddWorker, Education, Gender, GetAllEducations, GetGender, Worker}
 import views.html._
 
 import scala.concurrent.duration.DurationInt
@@ -26,7 +25,6 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
                                @Named("order-manager") val orderManager: ActorRef,
                                @Named("gender-manager") val genderManager: ActorRef,
                                @Named("education-manager") val educationManager: ActorRef,
-                               indexTemplate: index)
                                indexTemplate: index,
                                workerTemplate: add_worker)
                               (implicit val ec: ExecutionContext)
@@ -114,7 +112,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
 
   def getGender() = Action.async{
     (genderManager ? GetGender).mapTo[Seq[Gender]].map { gender =>
-      logger.info(s"gender: $gender")
+      logger.info(s"genders: $gender")
       Ok(Json.toJson(Map("gender" -> gender)))
     }
   }

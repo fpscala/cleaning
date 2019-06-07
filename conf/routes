@@ -6,7 +6,7 @@
 GET         /                    @controllers.HomeController.index
 POST        /upload              @controllers.HomeController.uploadFile
 GET         /add-order           @controllers.HomeController.addOrder
-GET         /get-gender          @controllers.HomeController.getGender
+GET         /get-gender/         @controllers.HomeController.getGender
 GET         /get-education       @controllers.HomeController.getEducation
 GET         /worker-form                @controllers.HomeController.workerForm
 
