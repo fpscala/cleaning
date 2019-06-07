@@ -24,7 +24,7 @@ trait EducationComponent { self: HasDatabaseConfigProvider[JdbcProfile] =>
 @ImplementedBy(classOf[EducationDaoImpl])
 trait EducationDao {
   def addGender(educationData: Education): Future[Int]
-  def getEducations(): Future[Seq[Education]]
+  def getEducationList(): Future[Seq[Education]]
 }
 
 @Singleton
@@ -44,7 +44,7 @@ class EducationDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigP
     }
   }
 
-  override def getEducations(): Future[Seq[Education]] = {
+  override def getEducationList(): Future[Seq[Education]] = {
     db.run (education.result)
   }
 

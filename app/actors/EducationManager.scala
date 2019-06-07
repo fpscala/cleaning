@@ -16,17 +16,17 @@ class EducationManager @Inject()(val environment: Environment,
                                 (implicit val ec: ExecutionContext)
   extends Actor with ActorLogging {
 
-  implicit val defaultTimeout = Timeout(60.seconds)
+  implicit val defaultTimeout: Timeout = Timeout(60.seconds)
 
-  def receive = {
+  def receive: PartialFunction[Any, Unit] = {
     case GetAllEducations =>
-      getEducations.pipeTo(sender())
+      getAllEducations.pipeTo(sender())
 
     case _ => log.info(s"received unknown message")
   }
 
-  private def getEducations = {
-    educationDao.getEducations
+  private def getAllEducations = {
+    educationDao.getEducationList()
   }
 
 }

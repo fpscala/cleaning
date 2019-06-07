@@ -27,7 +27,7 @@ object WorkerProtocol {
 
   implicit val workerFormat: OFormat[Worker] = Json.format[Worker]
 
-  case object GetGender
+  case object GetGenderList
   case class Gender(id: Option[Int] = None, name: String, code: String)
 
   implicit val genderFormat = Json.format[Gender]

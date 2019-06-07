@@ -78,8 +78,8 @@
                 <div class="form-group">
                     <label class="control-label col-sm-3" for="gender">Jinsni tanlang:</label>
                     <div class="offset-6 col-sm-6">
-                        <select class="form-control" id="gender" name="gender" data-bind="click: vm.report(), foreach: vm.genders()">
-                            <option data-bind="text: $data.name"></option>
+                        <select class="form-control" id="gender" name="gender" data-bind="foreach: vm.genders()">
+                            <option data-bind="text: $data.name, value: $data.name"></option>
                         </select>
                     </div>
                 </div>

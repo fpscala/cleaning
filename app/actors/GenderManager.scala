@@ -6,7 +6,7 @@ import akka.util.Timeout
 import dao.GenderDao
 import javax.inject.Inject
 import play.api.Environment
-import protocols.WorkerProtocol.GetGender
+import protocols.WorkerProtocol.GetGenderList
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.DurationInt
@@ -16,16 +16,16 @@ class GenderManager @Inject()(val environment: Environment,
                              (implicit val ec: ExecutionContext)
   extends Actor with ActorLogging {
 
-  implicit val defaultTimeout = Timeout(60.seconds)
+  implicit val defaultTimeout: Timeout = Timeout(60.seconds)
 
-  def receive = {
-    case GetGender =>
-      getGenders.pipeTo(sender())
+  def receive: PartialFunction[Any, Unit] = {
+    case GetGenderList =>
+      getGender.pipeTo(sender())
 
     case _ => log.info(s"received unknown message")
   }
 
-  private def getGenders = {
-    genderDao.getGenders
+  private def getGender = {
+    genderDao.getGenders()
   }
 }

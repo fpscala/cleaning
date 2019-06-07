@@ -8,6 +8,7 @@ $ ->
 
   vm = ko.mapping.fromJS
     genders: []
+    selectedGender: ''
 
   vm.report = ->
     $.ajax
@@ -20,6 +21,8 @@ $ ->
       vm.genders(genders)
       console.log(vm.genders())
       console.log(vm.genders().length)
+
+  vm.report()
 
 
   ko.applyBindings {vm}
