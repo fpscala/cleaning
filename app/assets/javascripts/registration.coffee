@@ -8,7 +8,6 @@ $ ->
 
   vm = ko.mapping.fromJS
     genders: []
-    selectedGender: ''
 
   vm.report = ->
     $.ajax
