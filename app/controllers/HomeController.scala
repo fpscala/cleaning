@@ -26,7 +26,9 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
                                @Named("gender-manager") val genderManager: ActorRef,
                                @Named("education-manager") val educationManager: ActorRef,
                                indexTemplate: index,
-                               workerTemplate: add_worker)
+                               workerTemplate: add_worker,
+                               priceListTemplate: pricelist
+                              )
                               (implicit val ec: ExecutionContext)
   extends BaseController with LazyLogging {
 
@@ -34,6 +36,10 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
 
   def index = Action {
     Ok(indexTemplate())
+  }
+
+  def priceList = Action {
+    Ok(priceListTemplate())
   }
 
 

@@ -1,4 +1,9 @@
+@this(webJarsUtil: org.webjars.play.WebJarsUtil)
+@import views.html.main
 @()
+
+@main("Play", webJarsUtil) {
+    @navbar("Price-List")
 <header class="page-top"  style="@routes.Assets.versioned("images/price-list-header.jpg")">
     <div class="container">
         <h2 class="page-top__title">Прайс лист</h2>
@@ -1181,3 +1186,4 @@
     </div>
 
 </section>
+}
