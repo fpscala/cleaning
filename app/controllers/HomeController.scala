@@ -26,6 +26,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
                                @Named("gender-manager") val genderManager: ActorRef,
                                @Named("education-manager") val educationManager: ActorRef,
                                indexTemplate: index,
+                               orderTemplate: orderList,
                                loginTemplate: loginpage,
                                workerTemplate: add_worker,
                                priceListTemplate: pricelist
@@ -37,6 +38,10 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
 
   def index: Action[AnyContent] = Action {
     Ok(indexTemplate())
+  }
+
+  def orderlist: Action[AnyContent] = Action {
+    Ok(orderTemplate())
   }
 
   def showLoginPage: Action[AnyContent] = Action {
