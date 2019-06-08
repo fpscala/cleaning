@@ -35,17 +35,23 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
 
   implicit val defaultTimeout: Timeout = Timeout(60.seconds)
 
-  def index = Action {
+  def index: Action[AnyContent] = Action {
     Ok(indexTemplate())
   }
 
-  def showLoginPage = Action {
+  def showLoginPage: Action[AnyContent] = Action {
     Ok(loginTemplate())
   }
 
-  def loginPost() = Action.async {
-    Future.successful(Ok("OK"))
-  }
+  def loginPost: Action[AnyContent] = { Action { implicit request =>
+    val formParam = request.body.asFormUrlEncoded
+    logger.info(s"formParam: $formParam")
+    val login = formParam.get("login").headOption
+    val password = formParam.get("password").headOption
+    logger.info(s"login: $login, password: $password")
+    Redirect(routes.HomeController.index())
+  }}
+
   def priceList = Action {
     Ok(priceListTemplate())
   }

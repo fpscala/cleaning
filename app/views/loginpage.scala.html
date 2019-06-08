@@ -6,11 +6,11 @@
 <br>
 <h3 class="text-center">Login Page</h3>
 <div class="row">
-    <form class="form-horizontal" >
+    <form class="form-horizontal" action="/loginPost" method="post" >
         <div class="col-md-offset-4 col-md-8">
             <div class="form-group">
                 <div class="offset-6 col-sm-6">
-                    <input type="text" class="form-control" id="" placeholder="Username" name="" data-bind="value: vm.username" >
+                    <input type="text" class="form-control" id="" placeholder="Login" name="login">
                 </div>
             </div>
         </div>
@@ -20,7 +20,7 @@
         <div class="col-md-offset-4 col-md-8">
             <div class="form-group">
                 <div class="offset-6 col-sm-6">
-                    <input type="text" class="form-control" id="" placeholder="Login" name="" data-bind="value: vm.login" >
+                    <input type="password" class="form-control" id="" placeholder="Password" name="password">
                 </div>
             </div>
         </div>
@@ -31,11 +31,11 @@
                     <br>
                     <div class="row">
                         <div class="col-md-6"> <input type="checkbox" > Remember</div>
-                        <div class="col-lg-offset-1 col-md-5"><a href="" >Forget your password?</a></div>
+                        <div class="col-lg-offset-1 col-md-5"><a href="#" >Forget your password?</a></div>
                     </div>
                     <br>
                     <br>
-                        <button type="button" class="btn btn-success pull-right" data-bind="click: vm.loginPost">Log in</button> &nbsp;
+                        <button type="submit" class="btn btn-success pull-right">Log in</button> &nbsp;
                 </div>
             </div>
         </div>
