@@ -5,6 +5,7 @@
 
 GET         /                    @controllers.HomeController.index
 GET         /orderList           @controllers.HomeController.orderlist
+GET         /workerList          @controllers.HomeController.workerlist
 GET         /price-list          @controllers.HomeController.priceList
 POST        /upload              @controllers.HomeController.addWorker
 GET         /add-order           @controllers.HomeController.addOrder

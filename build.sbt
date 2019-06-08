@@ -51,12 +51,12 @@ libraryDependencies ++= akkaLibs ++ akkaHttp ++ commonDependencies ++ dbLibs ++ 
   "org.slf4j" % "log4j-over-slf4j" % "1.7.21",
   "org.codehaus.janino" % "janino" % "3.0.7",
   //web jars
-  "org.webjars" % "bootstrap" % "4.3.1",
   "org.webjars" %% "webjars-play" % "2.7.0-1",
   "org.webjars" % "jquery" % "1.11.3",
   "org.webjars" % "jquery-file-upload" % "9.10.1",
   "org.webjars" % "knockout" % "3.3.0",
   "org.webjars" % "requirejs" % "2.2.0",
+  "org.webjars" % "bootstrap" % "3.3.4",
   "org.webjars" % "momentjs" % "2.8.1"
 
 )
