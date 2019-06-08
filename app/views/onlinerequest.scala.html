@@ -1,43 +1,47 @@
 @(requestPage: String)
 <section class="proposal" id="online-proposal">
-			<div class="container">
-				<h3 class="title title--thin title--nightblue text-center proposal__title">Онлайн заявка</h3>
-				<form method="POST" action="http://luxlaundry.uz/page/order" accept-charset="UTF-8" id="order-form" enctype="multipart/form-data"/><input name="_token" type="hidden" value="OXseY8YIwlHmITlQO8uhn8wjPe0684BdDwp7Byuo"/>
-					<div class="row">
-						<div class="col-sm-4">
-							<div class="form-group">
-								<input type="text" name="name" id="forname" class="input" placeholder="Ваше имя *"/>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="form-group">
-								<input type="text" name="email" id="foremail" class="input" placeholder="Ваш email *"/>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="form-group">
-								<input type="text" name="phone" id="forphone" class="input" placeholder="Номер телефона *"/>
-							</div>
-						</div>
-					</div>
+    <div class="container">
+        <h3 class="title title--thin title--nightblue text-center proposal__title">Онлайн заявка</h3>
+        <form method="POST" action="http://luxlaundry.uz/page/order" accept-charset="UTF-8" id="order-form" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <input type="text" name="name" id="forname" class="input" placeholder="Ваше имя *"/>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <input type="text" name="email" id="foremail" class="input" placeholder="Ваш email *"/>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <input type="text" name="phone" id="forphone" class="input" placeholder="Номер телефона *"/>
+                    </div>
+                </div>
+            </div>
 
-					<div class="row">
-						<div class="col-xs-12">
-							<div class="form-group">
-								<textarea class="input" name = "text" placeholder="Комментарий к заявке"></textarea>
-							</div>
-						</div>
-					</div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <textarea class="input" name = "text" placeholder="Комментарий к заявке"></textarea>
+                    </div>
+                </div>
+            </div>
 
-					<div class="row">
-						<div class="col-xs-12 text-center">
-							<div class="form-group">
-								<div class="btn btn--white btn--file" id="file-trigger">
-									<img src="assets/img/clip.svg">
-									Прикрепить файл								</div>
-								<input type="file" name="file" class="input hide" id="file">
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <div class="form-group">
+                        <div class="btn btn--white btn--file" style="padding: 15px" id="file-trigger">
+                            <img src="assets/img/clip.svg">
+                            Прикрепить файл </div>
+                        <input type="file" name="file" class="input hide" id="file">
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn--skyblue" style="padding: 15px">Отправить</button>
+            </div>
+        </form>
+    </div>
+</section>

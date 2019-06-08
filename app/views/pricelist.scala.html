@@ -1,5 +1,10 @@
+@this(webJarsUtil: org.webjars.play.WebJarsUtil)
+@import views.html.main
 @()
-<header class="page-top"  style="@routes.Assets.versioned("images/price-list-header.jpg")">
+
+@main("Play", webJarsUtil) {
+    @navbar("Price-List")
+<header class="page-top"  style="background-image: url('@routes.Assets.versioned("images/price-list-header.jpg")')">
     <div class="container">
         <h2 class="page-top__title">Прайс лист</h2>
     </div>
@@ -31,7 +36,7 @@
     <div class="tab-content">
         <div class="price-list__title">
             <div class="price-list__icon">
-                <img src="../assets/img/icon-shirt.svg" alt="Shirt">
+                <img src="@routes.Assets.versioned("img/icon-shirt.svg")" alt="Shirt">
             </div>
 
             <span class="title title--thick title--darkblue fs-30">
@@ -491,7 +496,7 @@
     <div class="tab-content">
         <div class="price-list__title">
             <div class="price-list__icon">
-                <img src="../assets/img/icon-shirt.svg" alt="Shirt">
+                <img src="@routes.Assets.versioned("img/icon-shirt.svg")" alt="Shirt">
             </div>
 
             <span class="title title--thick title--darkblue fs-30">
@@ -690,7 +695,7 @@
     <div class="tab-content">
         <div class="price-list__title">
             <div class="price-list__icon">
-                <img src="../assets/img/icon-shirt.svg" alt="Shirt">
+                <img src="@routes.Assets.versioned("img/icon-shirt.svg")" alt="Shirt">
             </div>
 
             <span class="title title--thick title--darkblue fs-30">
@@ -844,7 +849,7 @@
     <div class="tab-content">
         <div class="price-list__title">
             <div class="price-list__icon">
-                <img src="../assets/img/icon-shirt.svg" alt="Shirt">
+                <img src="@routes.Assets.versioned("img/icon-shirt.svg")" alt="Shirt">
             </div>
 
             <span class="title title--thick title--darkblue fs-30">
@@ -872,7 +877,7 @@
     <div class="tab-content">
         <div class="price-list__title">
             <div class="price-list__icon">
-                <img src="../assets/img/icon-shirt.svg" alt="Shirt">
+                <img src="@routes.Assets.versioned("img/icon-shirt.svg")" alt="Shirt">
             </div>
 
             <span class="title title--thick title--darkblue fs-30">
@@ -954,7 +959,7 @@
     <div class="tab-content">
         <div class="price-list__title">
             <div class="price-list__icon">
-                <img src="../assets/img/icon-shirt.svg" alt="Shirt">
+                <img src="@routes.Assets.versioned("img/icon-shirt.svg")" alt="Shirt">
             </div>
 
             <span class="title title--thick title--darkblue fs-30">
@@ -1072,7 +1077,7 @@
     <div class="tab-content">
         <div class="price-list__title">
             <div class="price-list__icon">
-                <img src="../assets/img/icon-shirt.svg" alt="Shirt">
+                <img src="@routes.Assets.versioned("img/icon-shirt.svg")" alt="Shirt">
             </div>
 
             <span class="title title--thick title--darkblue fs-30">
@@ -1118,7 +1123,7 @@
     <div class="tab-content">
         <div class="price-list__title">
             <div class="price-list__icon">
-                <img src="../assets/img/icon-shirt.svg" alt="Shirt">
+                <img src="@routes.Assets.versioned("img/icon-shirt.svg")" alt="Shirt">
             </div>
 
             <span class="title title--thick title--darkblue fs-30">
@@ -1181,3 +1186,4 @@
     </div>
 
 </section>
+}

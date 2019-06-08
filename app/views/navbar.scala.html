@@ -1,5 +1,5 @@
-@(activePage:String)
-<nav class="navbar navbar--affix">
+@(activePage: String)
+<nav class="navbar navbar--affix" style="margin-bottom: 0">
     <div class="container">
 
             <!-- Brand -->
@@ -13,7 +13,12 @@
             <!-- Leave request + Lang switcher on the right side -->
         <ul class="navbar__right">
             <li class="navbar__item">
-                <a href="" class="navbar__btn btn btn--skyblue" data-surf-to="#online-proposal">Онлайн заявка</a>
+                <a href="@routes.HomeController.index()#online-proposal" class="navbar__btn btn btn--skyblue" style="padding: 15px">
+                    Онлайн заявка</a>
+            </li>
+            <li class="navbar__item">
+                <a href="@*routes.HomeController.login()*@" class="navbar__btn btn btn--skyblue" style="padding: 15px">
+                    Вход</a>
             </li>
 
             <li class="navbar__item navbar__item--drop-toggle">
@@ -31,23 +36,17 @@
             <!-- Main navigation list -->
         <ul class="navbar__nav">
             <li class="navbar__item">
-                <a href="index.html#why-lux-laundry" class="navbar__link" data-surf-to="#why-lux-laundry">Почему Lux Laundry</a>
+                <a href="@routes.HomeController.index()#why-lux-laundry" class="navbar__link" data-surf-to="#why-lux-laundry">
+                    Почему Lux Laundry</a>
             </li>
 
             <li class="navbar__item">
-                <a href="price/price-list.html" class="navbar__link">Прайс лист</a>
-            </li>
-
-            <li class="navbar__item navbar__item">
-                <a href="index.html#reviews" class="navbar__link" data-surf-to="#reviews">Отзывы</a>
-            </li>
-
-            <li class="navbar__item navbar__item">
-                <a href="index.html#news-and-sales" class="navbar__link" data-surf-to="#news-and-sales">Новости и акции</a>
+                <a href="@routes.HomeController.priceList()" class="navbar__link">Прайс лист</a>
             </li>
 
             <li class="navbar__item navbar__item--last">
-                <a href="index.html#сontacts" class="navbar__link" data-surf-to="#contacts">Контакты</a>
+                <a href="@routes.HomeController.index()#contacts" class="navbar__link" data-surf-to="#contacts">
+                    Контакты</a>
             </li>
         </ul>
     </div>

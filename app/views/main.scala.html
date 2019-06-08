@@ -4,7 +4,7 @@
 <!-- Mirrored from luxlaundry.uz/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 30 May 2019 16:46:28 GMT -->
 <html>
     <head>
-        <title>LuxLaundry</title>
+        <title>@title</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -23,17 +23,17 @@
         <link href="@routes.Assets.versioned("images/apple-touch-icon-144x144.png")>
         <link href="@routes.Assets.versioned("images/apple-touch-icon-152x152.png")>
         <link href="@routes.Assets.versioned("images/apple-touch-icon-180x180.png")>
+        @webJarsUtil.locate("css/bootstrap.min.css").css()
         <link href="@routes.Assets.versioned("css/styles.css")" rel="stylesheet">
         <link href="@routes.Assets.versioned("css/bubbles.css")" rel="stylesheet">
-        @webJarsUtil.locate("css/bootstrap.min.css").css()
         @webJarsUtil.locate("1.11.3/jquery.min.js").script()
         @webJarsUtil.locate("js/bootstrap.min.js").script()
         @webJarsUtil.locate("knockout.js").script()
         <script src="@routes.Assets.versioned("lib/knockout.mapping-latest.js")"></script>
     </head>
     <body>
-        <button class="btn btn--skyblue btn--arrow pin-bottom-right" id="js-go-top"></button>
         @content
+        @footer()
     </body>
 </html>
     <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
