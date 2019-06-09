@@ -13,7 +13,7 @@ import play.api.libs.Files.TemporaryFile
 import play.api.libs.json.Json
 import play.api.mvc._
 import protocols.OrderProtocol.{AddOrder, Order}
-import protocols.WorkerProtocol.{AddImage, AddWorker, Education, Gender, GetAllEducations, GetGenderList, Worker}
+import protocols.WorkerProtocol.{AddImage, AddWorker, Education, Gender, GetAllEducations, GetGenderList, Worker, GetAllLoginAndPassword, Auth}
 import views.html._
 
 import scala.concurrent.duration.DurationInt
@@ -25,6 +25,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
                                @Named("order-manager") val orderManager: ActorRef,
                                @Named("gender-manager") val genderManager: ActorRef,
                                @Named("education-manager") val educationManager: ActorRef,
+                               @Named("authorize-manager") val authorizeManager: ActorRef,
                                indexTemplate: index,
                                orderTemplate: orderList,
                                workerListTemplate: workerList,
@@ -53,14 +54,27 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     Ok(loginTemplate())
   }
 
-  def loginPost: Action[AnyContent] = { Action { implicit request =>
-    val formParam = request.body.asFormUrlEncoded
-    logger.info(s"formParam: $formParam")
-    val login = formParam.get("login").headOption
-    val password = formParam.get("password").headOption
-    logger.info(s"login: $login, password: $password")
-    Redirect(routes.HomeController.index())
-  }}
+  def showLogins() = Action.async {
+    (authorizeManager ? GetAllLoginAndPassword).mapTo[Seq[Auth]].map { param =>
+      logger.info(s"param: $param")
+      Ok(Json.toJson(Seq(param)))
+    }
+  }
+
+  def loginPost: Action[AnyContent] = {
+    Action { implicit request =>
+      val formParam = request.body.asFormUrlEncoded
+      logger.info(s"formParam: $formParam")
+      val login = formParam.get("login").headOption
+      val password = formParam.get("password").headOption
+      logger.info(s"login: $login, password: $password")
+      (authorizeManager ? GetAllLoginAndPassword).mapTo[Seq[Auth]].map(param =>
+        logger.info(s"param", param)
+
+      )
+      Redirect(routes.HomeController.index())
+    }
+  }
 
   def priceList = Action {
     Ok(priceListTemplate())
@@ -114,7 +128,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     val passportSeriesAndNumber = body("passport_series_and_number").head
     logger.info(s"passportSeriesAndNumber: $passportSeriesAndNumber")
     val dayGettingPassport = parseDate(body("day_getting_passport").head)
-    val warnings = body("warnings").headOption.flatMap( w => Option(Json.toJson(w)))
+    val warnings = body("warnings").headOption.flatMap(w => Option(Json.toJson(w)))
     val pensionNumber = body("pension_number").head.toInt
     logger.info(s"pensionNumber: $pensionNumber")
     val itn = body("itn").head.toInt
@@ -125,28 +139,29 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     val birthPlace = body("birth_place").head
     logger.info(s"birthPlace: $birthPlace")
     val education = body("educationId").head.toInt
+    val password = body("password").head
 
     request.body.file("attachedFile").map { tempFile =>
       val fileName = tempFile.filename
       val imgData = getBytesFromPath(tempFile.ref.path)
       (workerManager ? AddWorker(Worker(None, surname, firstName, lastName, address, phone, passportSeriesAndNumber,
         dayGettingPassport, fileName, imgData, warnings, pensionNumber, itn, genderId, birthDay,
-        birthPlace, education))).mapTo[Int].map { _ =>
+        birthPlace, education, password))).mapTo[Int].map { _ =>
         Ok(Json.toJson("Successfully uploaded"))
       }
     }.getOrElse(Future.successful(BadRequest("Error occurred. Please try again")))
-  }}
+  }
+  }
 
 
-
-  def getGender() = Action.async{
+  def getGender() = Action.async {
     (genderManager ? GetGenderList).mapTo[Seq[Gender]].map { gender =>
       logger.info(s"genders: $gender")
       Ok(Json.toJson(Seq(gender)))
     }
   }
 
-  def getEducation() = Action.async{
+  def getEducation() = Action.async {
     (educationManager ? GetAllEducations).mapTo[Seq[Education]].map { education =>
       logger.info(s"education: $education")
       Ok(Json.toJson(Seq(education)))

@@ -13,6 +13,7 @@ GET         /get-gender/         @controllers.HomeController.getGender
 GET         /get-education       @controllers.HomeController.getEducation
 GET         /worker-form         @controllers.HomeController.workerForm
 GET         /login               @controllers.HomeController.showLoginPage
+GET         /GetAllLogin         @controllers.HomeController.showLogins
 POST        /loginPost           @controllers.HomeController.loginPost
 
 # Map static resources from the /public folder to the /assets URL path

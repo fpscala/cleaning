@@ -57,21 +57,22 @@
                         </div>
                     </div>
                     <div class="row">
-                        <label class="col-sm-offset-3 col-sm-6 text-center" for="">Olingan sana:</label>
-                        <div class="col-sm-offset-3 col-sm-6">
-                            <div class="form-group">
-                                <input type="date" class="input" id="" placeholder="Olingan sana" name="day_getting_passport">
+                        <div class="col-xs-12 text-center">
+                            <label class="col-sm-offset-3 col-sm-6 text-center" for="">Olingan sana:</label>
+                            <div class="col-sm-offset-3 col-sm-6">
+                                <div class="form-group">
+                                    <input type="date" class="input" id="" placeholder="Olingan sana" name="day_getting_passport">
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-12 text-center">
-                            <label class="" for="file">Foto</label>
-                            <div class="form-group">
-                                <div class="btn btn--white btn--file" style="padding: 15px" id="file-trigger">
-                                    <img src="assets/img/clip.svg">
-                                    Прикрепить файл </div>
-                                <input type="file" name="file" class="input hide" id="file">
+                            <label class="col-sm-6 col-sm-offset-3" for="file">Foto</label>
+                            <div class="col-sm-offset-3 col-sm-6">
+                                <div class="form-group">
+                                    <input type="file" name="file" class="btn btn--white btn--file" style="padding: 15px" id="file">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -111,10 +112,12 @@
                         </div>
                     </div>
                     <div class="row">
-                        <label class="col-sm-offset-3 col-sm-6 text-center" for="">Tug`ilgan sana::</label>
-                        <div class="col-sm-offset-3 col-sm-6">
-                            <div class="form-group">
-                                <input type="date" class="input" id="" placeholder="tug`ilgan sana" name="birthday">
+                        <div class="col-xs-12 text-center">
+                            <label class="col-sm-offset-3 col-sm-6 text-center" for="">Tug`ilgan sana::</label>
+                            <div class="col-sm-offset-3 col-sm-6">
+                                <div class="form-group">
+                                    <input type="date" class="input" id="" placeholder="tug`ilgan sana" name="birthday">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -133,6 +136,15 @@
                                     <select class="input" id="education" name="educationId" data-bind="foreach: vm.educations()">
                                         <option name="educationId" data-bind="text: $data.name, value: $data.id"></option>
                                     </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 text-center">
+                            <div class="col-sm-offset-3 col-sm-6">
+                                <div class="form-group">
+                                    <input type="text" class="input" id="" placeholder="Password.." name="password">
                                 </div>
                             </div>
                         </div>

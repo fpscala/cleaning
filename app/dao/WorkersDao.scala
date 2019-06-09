@@ -37,10 +37,11 @@ trait WorkerComponent extends GenderComponent with EducationComponent { self: Ha
     def birthDay = column[Date]("birthDay")
     def birthPlace = column[String]("birthPlace")
     def educationId = column[Int]("education")
+    def password = column[String]("password")
 
     def * = (id.?, surname, firstName, lastName.?, address, phone, passportSeriesAndNumber,
       dayGettingPassport, photoName, photoHash, warnings.?, pensionNumber, itn, genderId, birthDay, birthPlace,
-      educationId) <> (Worker.tupled, Worker.unapply _)
+      educationId, password) <> (Worker.tupled, Worker.unapply _)
 
     def gender = foreignKey("workersFkGenderCode", genderId, genderTable)(_.id)
     def education = foreignKey("workersFkEducationCode", educationId, educationTable)(_.id)

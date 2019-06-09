@@ -23,7 +23,8 @@ object WorkerProtocol {
                       gender: Int,
                       birthDay: Date,
                       birthPlace: String,
-                      education: Int)
+                      education: Int,
+                      password: String)
 
   implicit val workerFormat: OFormat[Worker] = Json.format[Worker]
 
@@ -31,6 +32,11 @@ object WorkerProtocol {
   case class Gender(id: Option[Int] = None, name: String, code: String)
 
   implicit val genderFormat = Json.format[Gender]
+
+  case object GetAllLoginAndPassword
+  case class Auth(login:String, password: String)
+
+  implicit val authorFormat = Json.format[Auth]
 
   case object GetAllEducations
   case class Education(id: Option[Int] = None, name: String, code: String)

@@ -20,7 +20,8 @@ CREATE TABLE "Workers" (
   "birthDay" TIMESTAMP NOT NULL,
   "birthPlace" VARCHAR NOT NULL,
   "education" INTEGER CONSTRAINT  "educationFkEducationCodeId" REFERENCES  "EducationCodes" ON UPDATE CASCADE ON DELETE CASCADE,
-  UNIQUE ("passportSeriesAndNumber", "pensionNumber", "itn")
+  "password" VARCHAR NOT NULL,
+  UNIQUE ("passportSeriesAndNumber", "pensionNumber", "itn", "password")
 );
 
 INSERT INTO "GenderCodes" ("name", "code") VALUES ('erkak', 'male');
