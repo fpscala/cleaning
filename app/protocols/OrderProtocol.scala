@@ -2,7 +2,7 @@ package protocols
 
 import java.util.Date
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, OFormat}
 
 object OrderProtocol {
 
@@ -20,7 +20,7 @@ object OrderProtocol {
                    comment: String,
                    type1: String)
 
-  implicit val orderFormat = Json.format[Order]
+  implicit val orderFormat: OFormat[Order] = Json.format[Order]
 
 
   case class AddPrice(price: PriceList)
@@ -34,5 +34,7 @@ object OrderProtocol {
 
   case class Count(id: Option[Int] = None,
                    name: String)
+
+  implicit val priceListFormat: OFormat[PriceList] = Json.format[PriceList]
 
 }
