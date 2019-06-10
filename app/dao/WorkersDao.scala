@@ -32,11 +32,11 @@ trait WorkerComponent extends GenderComponent with EducationComponent { self: Ha
     def photoHash = column[Array[Byte]]("photoHash")
     def warnings = column[JsValue]("warnings")
     def pensionNumber = column[Int]("pensionNumber")
-    def itn = column[Int]("itn")
-    def genderId = column[Int]("gender")
+    def itn = column[Long]("itn")
+    def genderId = column[Int]("genderId")
     def birthDay = column[Date]("birthDay")
     def birthPlace = column[String]("birthPlace")
-    def educationId = column[Int]("education")
+    def educationId = column[Int]("educationId")
     def password = column[String]("password")
 
     def * = (id.?, surname, firstName, lastName.?, address, phone, passportSeriesAndNumber,

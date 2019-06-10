@@ -19,7 +19,7 @@ object WorkerProtocol {
                       phoneHash: Array[Byte],
                       warnings: Option[JsValue] = None,
                       pensionNumber: Int,
-                      ITN: Int,                   // ITN (Individual Taxpayer Number)
+                      ITN: Long,                   // ITN (Individual Taxpayer Number)
                       gender: Int,
                       birthDay: Date,
                       birthPlace: String,

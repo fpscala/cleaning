@@ -15,11 +15,11 @@ CREATE TABLE "Workers" (
   "photoHash" VARCHAR NOT NULL,
   "warnings" jsonb NULL,
   "pensionNumber" INTEGER NULL,
-  "itn" INTEGER NOT NULL,
+  "itn" BIGINT NOT NULL,
   "genderId" INTEGER CONSTRAINT "workersFkGenderCodeId" REFERENCES "GenderCodes" ON update CASCADE ON DELETE CASCADE,
   "birthDay" TIMESTAMP NOT NULL,
   "birthPlace" VARCHAR NOT NULL,
-  "education" INTEGER CONSTRAINT  "educationFkEducationCodeId" REFERENCES  "EducationCodes" ON UPDATE CASCADE ON DELETE CASCADE,
+  "educationId" INTEGER CONSTRAINT  "educationFkEducationCodeId" REFERENCES  "EducationCodes" ON UPDATE CASCADE ON DELETE CASCADE,
   "password" VARCHAR NOT NULL,
   UNIQUE ("passportSeriesAndNumber", "pensionNumber", "itn", "password")
 );

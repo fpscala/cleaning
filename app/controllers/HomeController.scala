@@ -61,14 +61,12 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     }
   }
 
-  def loginPost: Action[AnyContent] = {
-    Action { implicit request =>
-      val formParam = request.body.asFormUrlEncoded
-      logger.info(s"formParam: $formParam")
-      val login = formParam.get("login").headOption
-      val password = formParam.get("password").headOption
-      logger.info(s"login: $login, password: $password")
-      (authorizeManager ? GetAllLoginAndPassword).mapTo[Seq[Auth]].map(param =>
+  def loginPost: Action[AnyContent] = { Action { implicit request =>
+    val formParam = request.body.asFormUrlEncoded
+    val login = formParam.get("login").headOption
+    val password = formParam.get("password").headOption
+    logger.info(s"login: $login, password: $password")
+    (authorizeManager ? GetAllLoginAndPassword).mapTo[Seq[Auth]].map(param =>
         logger.info(s"param", param)
 
       )
@@ -76,16 +74,16 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     }
   }
 
-  def priceList = Action {
+  def priceList: Action[AnyContent] = Action {
     Ok(priceListTemplate())
   }
 
 
-  def workerForm = Action {
+  def workerForm: Action[AnyContent] = Action {
     Ok(workerTemplate())
   }
 
-  def uploadFile() = Action.async(parse.multipartFormData) { implicit request: Request[MultipartFormData[TemporaryFile]] => {
+  def uploadFile(): Action[MultipartFormData[TemporaryFile]] = Action.async(parse.multipartFormData) { implicit request: Request[MultipartFormData[TemporaryFile]] => {
     val body = request.body.asFormUrlEncoded
     val name = body.get("name").flatMap(_.headOption)
     logger.info(s"name: $name")
@@ -113,31 +111,22 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     }
   }
 
-  def addWorker() = Action.async(parse.multipartFormData) { implicit request: Request[MultipartFormData[TemporaryFile]] => {
+  def addWorker(): Action[MultipartFormData[TemporaryFile]] = Action.async(parse.multipartFormData) { implicit request: Request[MultipartFormData[TemporaryFile]] => {
     val body = request.body.asFormUrlEncoded
     logger.info(s"body: $body")
     val surname = body("surname").head
-    logger.info(s"surname: $surname")
     val firstName = body("first_name").head
-    logger.info(s"firstName: $firstName")
     val lastName = body("last_name").headOption
     val address = body("address").head
-    logger.info(s"address: $address")
     val phone = body("phone").head
-    logger.info(s"phone: $phone")
     val passportSeriesAndNumber = body("passport_series_and_number").head
-    logger.info(s"passportSeriesAndNumber: $passportSeriesAndNumber")
     val dayGettingPassport = parseDate(body("day_getting_passport").head)
     val warnings = body("warnings").headOption.flatMap(w => Option(Json.toJson(w)))
     val pensionNumber = body("pension_number").head.toInt
-    logger.info(s"pensionNumber: $pensionNumber")
-    val itn = body("itn").head.toInt
-    logger.info(s"itn: $itn")
+    val itn = body("itn").head.toLong
     val genderId = body("genderId").head.toInt
     val birthDay = parseDate(body("birthday").head)
-    logger.info(s"birthDay: $birthDay")
     val birthPlace = body("birth_place").head
-    logger.info(s"birthPlace: $birthPlace")
     val education = body("educationId").head.toInt
     val password = body("password").head
 
@@ -154,14 +143,14 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   }
 
 
-  def getGender() = Action.async {
+  def getGender(): Action[AnyContent] = Action.async {
     (genderManager ? GetGenderList).mapTo[Seq[Gender]].map { gender =>
       logger.info(s"genders: $gender")
       Ok(Json.toJson(Seq(gender)))
     }
   }
 
-  def getEducation() = Action.async {
+  def getEducation(): Action[AnyContent] = Action.async {
     (educationManager ? GetAllEducations).mapTo[Seq[Education]].map { education =>
       logger.info(s"education: $education")
       Ok(Json.toJson(Seq(education)))
