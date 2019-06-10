@@ -35,6 +35,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
                               )
                               (implicit val ec: ExecutionContext)
   extends BaseController with LazyLogging {
+  val LoginSessionKey = "login.key"
 
   implicit val defaultTimeout: Timeout = Timeout(60.seconds)
 
@@ -54,25 +55,30 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     Ok(loginTemplate())
   }
 
-  def showLogins() = Action.async {
-    (authorizeManager ? GetAllLoginAndPassword).mapTo[Seq[Auth]].map { param =>
-      logger.info(s"param: $param")
-      Ok(Json.toJson(Seq(param)))
-    }
-  }
+  case class AllLoginAndPassword(login: String, password: String)
 
-  def loginPost: Action[AnyContent] = { Action { implicit request =>
+  var userList = List.empty[AllLoginAndPassword]
+
+  def loginPost = Action { implicit request =>
     val formParam = request.body.asFormUrlEncoded
     val login = formParam.get("login").headOption
     val password = formParam.get("password").headOption
     logger.info(s"login: $login, password: $password")
-    (authorizeManager ? GetAllLoginAndPassword).mapTo[Seq[Auth]].map(param =>
-        logger.info(s"param", param)
-
-      )
-      Redirect(routes.HomeController.index())
+    (authorizeManager ? GetAllLoginAndPassword).mapTo[Seq[Auth]].map { param =>
+      param.foreach { login =>
+        userList = userList :+ AllLoginAndPassword(login.login, login.password)
+        logger.info(s"Users: $userList")
+      }
+      Ok(Json.toJson(Seq(param)))
+    }
+    val authByLoginAndPwd = userList.exists(user => user.login == login.getOrElse("") && user.password == password.getOrElse("") )
+    if (authByLoginAndPwd) {
+      Redirect(routes.HomeController.index()).addingToSession(LoginSessionKey -> login.getOrElse(""))
+    } else {
+      Redirect(routes.HomeController.showLoginPage()).flashing("error" -> "Your login or password is incorrect.")
     }
   }
+
 
   def priceList: Action[AnyContent] = Action {
     Ok(priceListTemplate())
@@ -97,21 +103,23 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   }
   }
 
-  def addOrder: Action[AnyContent] = { Action.async { implicit request =>
-    val formParam = request.body.asFormUrlEncoded
-    logger.info(s"formParams: $formParam")
-    val surname = formParam.get("surname").head
-    val firstName = formParam.get("firstName").head
-    val email = formParam.get("email").head
-    val phone = formParam.get("phone").head
-    val address = formParam.get("address").head
-    val typeCleaning = formParam.get("typeCleaning").head
-    val comment = formParam.get("comment").head
-    val orderDay = new Date
-    (orderManager ? AddOrder(Order(None, surname, firstName, address, phone, orderDay, email, comment, typeCleaning))).mapTo[Int].map { _ =>
-      Ok(Json.toJson("Successfully uploaded"))
+  def addOrder: Action[AnyContent] = {
+    Action.async { implicit request =>
+      val formParam = request.body.asFormUrlEncoded
+      logger.info(s"formParams: $formParam")
+      val surname = formParam.get("surname").head
+      val firstName = formParam.get("firstName").head
+      val email = formParam.get("email").head
+      val phone = formParam.get("phone").head
+      val address = formParam.get("address").head
+      val typeCleaning = formParam.get("typeCleaning").head
+      val comment = formParam.get("comment").head
+      val orderDay = new Date
+      (orderManager ? AddOrder(Order(None, surname, firstName, address, phone, orderDay, email, comment, typeCleaning))).mapTo[Int].map { _ =>
+        Ok(Json.toJson("Successfully uploaded"))
+      }
     }
-  }}
+  }
 
   def addWorker(): Action[MultipartFormData[TemporaryFile]] = Action.async(parse.multipartFormData) { implicit request: Request[MultipartFormData[TemporaryFile]] => {
     val body = request.body.asFormUrlEncoded
@@ -148,9 +156,11 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   def getPrices: Action[AnyContent] = Action.async {
     (orderManager ? GetPrices).mapTo[Seq[PriceList]].map { prices =>
       logger.info(s"prices: $prices")
-    Ok(Json.toJson(Seq(prices)))
+      Ok(Json.toJson(Seq(prices)))
     }
   }
+
+
 
   def getGender: Action[AnyContent] = Action.async {
     (genderManager ? GetGenderList).mapTo[Seq[Gender]].map { gender =>

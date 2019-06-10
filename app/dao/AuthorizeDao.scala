@@ -17,7 +17,7 @@ trait AuthorizeComponent { self: HasDatabaseConfigProvider[JdbcProfile] =>
     def login = column[String]("firstName")
     def password = column[String]("password")
 
-    def * = ("Maftunbek", "maftunbek1998") <> (Auth.tupled, Auth.unapply _)
+    def * = (login, password) <> (Auth.tupled, Auth.unapply _)
   }
 }
 
