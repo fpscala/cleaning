@@ -12,7 +12,7 @@ import javax.inject._
 import play.api.libs.Files.TemporaryFile
 import play.api.libs.json.Json
 import play.api.mvc._
-import protocols.OrderProtocol.{AddOrder, Order, PriceList}
+import protocols.OrderProtocol.{AddOrder, GetPrices, Order, PriceList}
 import protocols.WorkerProtocol.{AddImage, AddWorker, Auth, Education, Gender, GetAllEducations, GetAllLoginAndPassword, GetGenderList, Worker}
 import views.html._
 
@@ -145,24 +145,21 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   }
 
 
-  def getPrices(): Action[AnyContent] = Action.async {
-//    (genderManager ? GetGenderList).mapTo[Seq[Gender]].map { gender =>
-//      logger.info(s"genders: $gender")
-    val price1 = "price1"
-    val `type` = "1 sht"
-
-    Future.successful(Ok(Json.toJson(Seq(PriceList(Some(1), price1, "2", `type`)))))
-//    }
+  def getPrices: Action[AnyContent] = Action.async {
+    (orderManager ? GetPrices).mapTo[Seq[PriceList]].map { prices =>
+      logger.info(s"prices: $prices")
+    Ok(Json.toJson(Seq(prices)))
+    }
   }
 
-  def getGender(): Action[AnyContent] = Action.async {
+  def getGender: Action[AnyContent] = Action.async {
     (genderManager ? GetGenderList).mapTo[Seq[Gender]].map { gender =>
       logger.info(s"genders: $gender")
       Ok(Json.toJson(Seq(gender)))
     }
   }
 
-  def getEducation(): Action[AnyContent] = Action.async {
+  def getEducation: Action[AnyContent] = Action.async {
     (educationManager ? GetAllEducations).mapTo[Seq[Education]].map { education =>
       logger.info(s"education: $education")
       Ok(Json.toJson(Seq(education)))

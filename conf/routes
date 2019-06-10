@@ -11,7 +11,7 @@ POST        /upload              @controllers.HomeController.addWorker
 GET         /add-order           @controllers.HomeController.addOrder
 GET         /get-gender/         @controllers.HomeController.getGender
 GET         /get-education       @controllers.HomeController.getEducation
-GET         /get-prices          @controllers.HomeController.getPrices()
+GET         /get-prices          @controllers.HomeController.getPrices
 GET         /worker-form         @controllers.HomeController.workerForm
 GET         /login               @controllers.HomeController.showLoginPage
 GET         /GetAllLogin         @controllers.HomeController.showLogins

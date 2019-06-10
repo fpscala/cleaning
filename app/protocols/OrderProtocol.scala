@@ -10,6 +10,8 @@ object OrderProtocol {
 
   case object GetAllOrders
 
+  case object GetPrices
+
   case class Order(id: Option[Int] = None,
                    surname: String,
                    firstName: String,

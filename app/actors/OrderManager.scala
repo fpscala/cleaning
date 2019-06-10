@@ -3,16 +3,18 @@ package actors
 import akka.actor.{Actor, ActorLogging}
 import akka.pattern.pipe
 import akka.util.Timeout
-import dao.OrdersDao
+import dao.{OrdersDao, PriceListDao}
 import javax.inject.Inject
 import play.api.Environment
-import protocols.OrderProtocol.{AddOrder, GetAllOrders, Order}
+import protocols.OrderProtocol
+import protocols.OrderProtocol.{AddOrder, GetAllOrders, GetPrices, Order}
 
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{ExecutionContext, Future}
 
 class OrderManager @Inject()(val environment: Environment,
-                             orderDao: OrdersDao)
+                             orderDao: OrdersDao,
+                             priceListDao: PriceListDao)
                             (implicit val ec: ExecutionContext)
   extends Actor with ActorLogging {
 
@@ -25,6 +27,10 @@ class OrderManager @Inject()(val environment: Environment,
     case GetAllOrders =>
       getAllOrder.pipeTo(sender())
 
+    case GetPrices =>
+      getPrices.pipeTo(sender())
+
+
     case _ => log.info(s"received unknown message")
   }
 
@@ -36,5 +42,9 @@ class OrderManager @Inject()(val environment: Environment,
 
   private def getAllOrder = {
     orderDao.getOrders
+  }
+
+  private def getPrices: Future[Seq[OrderProtocol.PriceList]] = {
+    priceListDao.getPrices
   }
 }
