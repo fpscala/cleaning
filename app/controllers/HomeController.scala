@@ -97,19 +97,21 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   }
   }
 
-  def addOrder(): Action[AnyContent] = Action.async {
-    val surname = "Raxmatov"
-    val firstName = "Maftunbek"
-    val address = "Paxtakor"
-    val phone = "+998999673398"
+  def addOrder: Action[AnyContent] = { Action.async { implicit request =>
+    val formParam = request.body.asFormUrlEncoded
+    logger.info(s"formParams: $formParam")
+    val surname = formParam.get("surname").head
+    val firstName = formParam.get("firstName").head
+    val email = formParam.get("email").head
+    val phone = formParam.get("phone").head
+    val address = formParam.get("address").head
+    val typeCleaning = formParam.get("typeCleaning").head
+    val comment = formParam.get("comment").head
     val orderDay = new Date
-    val email = "Prince777_98@mail.ru"
-    val comment = "ISHLAGAYSAN"
-    val typeName = "price1"
-    (orderManager ? AddOrder(Order(None, surname, firstName, address, phone, orderDay, email, comment, typeName))).mapTo[Int].map { _ =>
+    (orderManager ? AddOrder(Order(None, surname, firstName, address, phone, orderDay, email, comment, typeCleaning))).mapTo[Int].map { _ =>
       Ok(Json.toJson("Successfully uploaded"))
     }
-  }
+  }}
 
   def addWorker(): Action[MultipartFormData[TemporaryFile]] = Action.async(parse.multipartFormData) { implicit request: Request[MultipartFormData[TemporaryFile]] => {
     val body = request.body.asFormUrlEncoded
@@ -146,8 +148,8 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   def getPrices(): Action[AnyContent] = Action.async {
 //    (genderManager ? GetGenderList).mapTo[Seq[Gender]].map { gender =>
 //      logger.info(s"genders: $gender")
-    val price1 = "10000"
-    val `type` = "пара"
+    val price1 = "price1"
+    val `type` = "1 sht"
 
     Future.successful(Ok(Json.toJson(Seq(PriceList(Some(1), price1, "2", `type`)))))
 //    }
