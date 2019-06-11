@@ -12,7 +12,7 @@ import javax.inject._
 import play.api.libs.Files.TemporaryFile
 import play.api.libs.json.Json
 import play.api.mvc._
-import protocols.OrderProtocol.{AddOrder, GetPrices, Order, PriceList}
+import protocols.OrderProtocol.{AddOrder, AddPrice, Count, GetCountList, GetPrices, Order, PriceList}
 import protocols.WorkerProtocol.{AddImage, AddWorker, Auth, Education, Gender, GetAllEducations, GetAllLoginAndPassword, GetGenderList, Worker}
 import views.html._
 
@@ -31,7 +31,8 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
                                workerListTemplate: workerList,
                                loginTemplate: loginpage,
                                workerTemplate: add_worker,
-                               priceListTemplate: pricelist
+                               priceListTemplate: pricelist,
+                               addPriceListTemplate: add_pricelist
                               )
                               (implicit val ec: ExecutionContext)
   extends BaseController with LazyLogging {
@@ -84,6 +85,10 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     Ok(priceListTemplate())
   }
 
+  def addPriceList: Action[AnyContent] = Action {
+    Ok(addPriceListTemplate())
+  }
+
 
   def workerForm: Action[AnyContent] = Action {
     Ok(workerTemplate())
@@ -116,6 +121,19 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
       val comment = formParam.get("comment").head
       val orderDay = new Date
       (orderManager ? AddOrder(Order(None, surname, firstName, address, phone, orderDay, email, comment, typeCleaning))).mapTo[Int].map { _ =>
+        Ok(Json.toJson("Successfully uploaded"))
+      }
+    }
+  }
+
+  def addPrices: Action[AnyContent] = {
+    Action.async { implicit request =>
+      val formParam = request.body.asFormUrlEncoded
+      logger.info(s"formParams: $formParam")
+      val name = formParam.get("name").head
+      val count = formParam.get("firstName").head
+      val price = formParam.get("email").head
+      (orderManager ? AddPrice(PriceList(None, name, count, price))).mapTo[Int].map { _ =>
         Ok(Json.toJson("Successfully uploaded"))
       }
     }
@@ -155,6 +173,13 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
 
   def getPrices: Action[AnyContent] = Action.async {
     (orderManager ? GetPrices).mapTo[Seq[PriceList]].map { prices =>
+      logger.info(s"prices: $prices")
+      Ok(Json.toJson(Seq(prices)))
+    }
+  }
+
+  def getCounts: Action[AnyContent] = Action.async {
+    (genderManager ? GetCountList).mapTo[Seq[Count]].map { prices =>
       logger.info(s"prices: $prices")
       Ok(Json.toJson(Seq(prices)))
     }

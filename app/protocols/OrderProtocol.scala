@@ -34,9 +34,15 @@ object OrderProtocol {
                        count: String,
                        price: String)
 
+  implicit val priceListFormat: OFormat[PriceList] = Json.format[PriceList]
+
+
+  case object GetCountList
+
   case class Count(id: Option[Int] = None,
                    name: String)
 
-  implicit val priceListFormat: OFormat[PriceList] = Json.format[PriceList]
+  implicit val countFormat: OFormat[Count] = Json.format[Count]
+
 
 }

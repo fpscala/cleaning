@@ -6,20 +6,22 @@
 GET         /                    @controllers.HomeController.index
 GET         /orderList           @controllers.HomeController.orderlist
 GET         /workerList          @controllers.HomeController.workerlist
+GET         /addPrice            @controllers.HomeController.addPriceList
 GET         /price-list          @controllers.HomeController.priceList
 POST        /upload              @controllers.HomeController.addWorker
-GET         /add-order           @controllers.HomeController.addOrder
+#GET         /add-order           @controllers.HomeController.addOrder
 GET         /get-gender/         @controllers.HomeController.getGender
 GET         /get-education       @controllers.HomeController.getEducation
 GET         /get-prices          @controllers.HomeController.getPrices
+GET         /get-counts          @controllers.HomeController.getCounts
 GET         /worker-form         @controllers.HomeController.workerForm
-#GET         /GetAllLogin         @controllers.HomeController.showLogins
 GET         /login               @controllers.HomeController.showLoginPage
 POST        /login               @controllers.HomeController.loginPost
+GET         /add-price           @controllers.HomeController.addPrices
+POST        /loginPost           @controllers.HomeController.loginPost
 POST        /add-order           @controllers.HomeController.addOrder
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file        @controllers.Assets.versioned(path="/public", file)
 ->          /webjars             webjars.Routes
 
-      
