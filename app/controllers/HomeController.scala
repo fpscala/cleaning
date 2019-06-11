@@ -51,9 +51,9 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     Ok(workerListTemplate())
   }
 
-  def showLoginPage: Action[AnyContent] = Action {
+  def showLoginPage: Action[AnyContent] = Action { implicit request: RequestHeader => {
     Ok(loginTemplate())
-  }
+  }}
 
   case class AllLoginAndPassword(login: String, password: String)
 
