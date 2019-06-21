@@ -17,7 +17,7 @@ GET         /get-counts          @controllers.HomeController.getCounts
 GET         /worker-form         @controllers.HomeController.workerForm
 GET         /login               @controllers.HomeController.showLoginPage
 POST        /login               @controllers.HomeController.loginPost
-GET         /add-price           @controllers.HomeController.addPrices
+POST        /add-price           @controllers.HomeController.addPrices
 POST        /loginPost           @controllers.HomeController.loginPost
 POST        /add-order           @controllers.HomeController.addOrder
 

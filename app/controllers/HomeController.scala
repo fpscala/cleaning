@@ -54,7 +54,8 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
 
   def showLoginPage: Action[AnyContent] = Action { implicit request: RequestHeader => {
     Ok(loginTemplate())
-  }}
+  }
+  }
 
   case class AllLoginAndPassword(login: String, password: String)
 
@@ -72,7 +73,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
       }
       Ok(Json.toJson(Seq(param)))
     }
-    val authByLoginAndPwd = userList.exists(user => user.login == login.getOrElse("") && user.password == password.getOrElse("") )
+    val authByLoginAndPwd = userList.exists(user => user.login == login.getOrElse("") && user.password == password.getOrElse(""))
     if (authByLoginAndPwd) {
       Redirect(routes.HomeController.index()).addingToSession(LoginSessionKey -> login.getOrElse(""))
     } else {
@@ -85,8 +86,9 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     Ok(priceListTemplate())
   }
 
-  def addPriceList: Action[AnyContent] = Action {
+  def addPriceList: Action[AnyContent] = Action { implicit request: RequestHeader => {
     Ok(addPriceListTemplate())
+  }
   }
 
 
@@ -126,15 +128,15 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     }
   }
 
-  def addPrices: Action[AnyContent] = {
+  def addPrices = {
     Action.async { implicit request =>
-      val formParam = request.body.asFormUrlEncoded
-      logger.info(s"formParams: $formParam")
-      val name = formParam.get("name").head
-      val count = formParam.get("firstName").head
-      val price = formParam.get("email").head
+      val formParams = request.body.asFormUrlEncoded
+      logger.info(s"PriceList: $formParams")
+      val name = formParams.get("name").head
+      val count = formParams.get("count").head
+      val price = formParams.get("price").head
       (orderManager ? AddPrice(PriceList(None, name, count, price))).mapTo[Int].map { _ =>
-        Ok(Json.toJson("Successfully uploaded"))
+        Redirect(routes.HomeController.addPriceList()).flashing("info" -> "Successfully uploaded.")
       }
     }
   }
@@ -186,7 +188,6 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   }
 
 
-
   def getGender: Action[AnyContent] = Action.async {
     (genderManager ? GetGenderList).mapTo[Seq[Gender]].map { gender =>
       logger.info(s"genders: $gender")
@@ -201,19 +202,26 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     }
   }
 
-  private def getBytesFromPath(filePath: Path): Array[Byte] = {
+  private def getBytesFromPath(filePath: Path): Array[Byte]
+  = {
     Files.readAllBytes(filePath)
   }
 
-  private def convertToStrDate(date: Date) = {
+  private def convertToStrDate(date: Date)
+
+  = {
     new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date)
   }
 
-  private def parseDateTime(dateStr: String) = {
+  private def parseDateTime(dateStr: String)
+
+  = {
     new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateStr)
   }
 
-  private def parseDate(dateStr: String) = {
+  private def parseDate(dateStr: String)
+
+  = {
     new SimpleDateFormat("yyyy-MM-dd").parse(dateStr)
   }
 

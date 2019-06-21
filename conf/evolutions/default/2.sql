@@ -26,8 +26,11 @@ CREATE TABLE "Orders" (
   "type" VARCHAR CONSTRAINT "OrdersFkPrice_listName" REFERENCES "Price_list"("name") ON update CASCADE ON DELETE CASCADE
 );
 
-INSERT INTO "Counts" ("name") VALUES ('1 sht');
-INSERT INTO "Counts" ("name") VALUES ('2 sht');
+INSERT INTO "Counts" ("name") VALUES ('1кг.');
+INSERT INTO "Counts" ("name") VALUES ('1шт.');
+INSERT INTO "Counts" ("name") VALUES ('комп.');
+INSERT INTO "Counts" ("name") VALUES ('2шт.');
+INSERT INTO "Counts" ("name") VALUES ('Пара.');
 
 INSERT INTO "Price_list" ("name", "count", "price") VALUES ('price1', '1 sht', '5000 sum');
 

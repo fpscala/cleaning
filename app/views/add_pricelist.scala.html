@@ -1,6 +1,6 @@
 @this(webJarsUtil: org.webjars.play.WebJarsUtil)
+@()(implicit flash: Flash)
 @import views.html.main
-@()
 @main("Add Worker", webJarsUtil) {
     @navbar("worker-form")
     <script src="@routes.Assets.versioned("javascripts/order.js")" type="text/javascript"></script>
@@ -8,7 +8,14 @@
         <div class="container" style="margin-top: 50px">
             <div class="col-sm-offset-2 col-sm-8">
                 <h3 class="title title--thin title--nightblue text-center proposal__title">Add PriceList to DB</h3>
-                <form class="form-horizontal" action="/add-price" method="post" enctype="multipart/form-data">
+                <form class="form-horizontal" action="/add-price" method="post">
+                    @flash.get("info").map { infoText =>
+                        <div class="alert alert-success alert-dismissible">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Success!</strong>@infoText
+                        </div>
+                    }
+
                     <div class="row">
                         <div class="col-sm-4">
                             <div class="col-sm-12">
