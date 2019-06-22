@@ -22,8 +22,10 @@ CREATE TABLE "Orders" (
   "address" VARCHAR NOT NULL,
   "orderDay" TIMESTAMP NOT NULL,
   "email" VARCHAR NOT NULL,
+  "linkCode" INT NOT NULL,
   "comment" TEXT NULL,
-  "type" VARCHAR CONSTRAINT "OrdersFkPrice_listName" REFERENCES "Price_list"("name") ON update CASCADE ON DELETE CASCADE
+  "type" VARCHAR CONSTRAINT "OrdersFkPrice_listName" REFERENCES "Price_list"("name") ON update CASCADE ON DELETE CASCADE,
+  UNIQUE("linkCode")
 );
 
 INSERT INTO "Counts" ("name") VALUES ('1кг.');

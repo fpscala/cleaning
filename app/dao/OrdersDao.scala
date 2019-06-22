@@ -25,9 +25,10 @@ trait OrdersComponent extends PriceListComponent { self: HasDatabaseConfigProvid
     def phone = column[String]("phone")
     def orderDay = column[Date]("orderDay")
     def email  = column[String]("email")
+    def linkCode  = column[Int]("linkCode")
     def comment  = column[String]("comment")
     def typeName = column[String]("type")
-    def * = (id.?, surname, firstName, address, phone, orderDay, email, comment, typeName) <> (Order.tupled, Order.unapply _)
+    def * = (id.?, surname, firstName, address, phone, orderDay, email, linkCode, comment, typeName) <> (Order.tupled, Order.unapply _)
     def type1 = foreignKey("OrdersFkPrice_listName", typeName, PriceListTable)(_.name)
   }
 }

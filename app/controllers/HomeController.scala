@@ -18,6 +18,7 @@ import views.html._
 
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{ExecutionContext, Future}
+import scala.util.Random
 
 @Singleton
 class HomeController @Inject()(val controllerComponents: ControllerComponents,
@@ -31,6 +32,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
                                workerListTemplate: workerList,
                                loginTemplate: loginpage,
                                workerTemplate: add_worker,
+                               StatusTemplate: order_status,
                                priceListTemplate: pricelist,
                                addPriceListTemplate: add_pricelist
                               )
@@ -40,8 +42,9 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
 
   implicit val defaultTimeout: Timeout = Timeout(60.seconds)
 
-  def index: Action[AnyContent] = Action {
+  def index: Action[AnyContent] = Action { implicit request: RequestHeader => {
     Ok(indexTemplate())
+  }
   }
 
   def orderlist: Action[AnyContent] = Action {
@@ -50,6 +53,10 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
 
   def workerlist: Action[AnyContent] = Action {
     Ok(workerListTemplate())
+  }
+
+  def StatusOrder: Action[AnyContent] = Action {
+    Ok(StatusTemplate())
   }
 
   def showLoginPage: Action[AnyContent] = Action { implicit request: RequestHeader => {
@@ -113,7 +120,6 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   def addOrder: Action[AnyContent] = {
     Action.async { implicit request =>
       val formParam = request.body.asFormUrlEncoded
-      logger.info(s"formParams: $formParam")
       val surname = formParam.get("surname").head
       val firstName = formParam.get("firstName").head
       val email = formParam.get("email").head
@@ -121,17 +127,21 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
       val address = formParam.get("address").head
       val typeCleaning = formParam.get("typeCleaning").head
       val comment = formParam.get("comment").head
+      val linkCode = randomCode(9)
       val orderDay = new Date
-      (orderManager ? AddOrder(Order(None, surname, firstName, address, phone, orderDay, email, comment, typeCleaning))).mapTo[Int].map { _ =>
-        Ok(Json.toJson("Successfully uploaded"))
+      (orderManager ? AddOrder(Order(None, surname, firstName, address, phone, orderDay, email, linkCode, comment, typeCleaning))).mapTo[Int].map { _ =>
+        Redirect(routes.HomeController.index()).flashing("info" -> s" $linkCode")
       }
     }
+  }
+
+  private def randomCode(length: Int) = {
+    Seq.fill(length)(Random.nextInt(9)).mkString("").toInt
   }
 
   def addPrices = {
     Action.async { implicit request =>
       val formParams = request.body.asFormUrlEncoded
-      logger.info(s"PriceList: $formParams")
       val name = formParams.get("name").head
       val count = formParams.get("count").head
       val price = formParams.get("price").head

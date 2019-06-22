@@ -9,7 +9,7 @@ GET         /workerList          @controllers.HomeController.workerlist
 GET         /addPrice            @controllers.HomeController.addPriceList
 GET         /price-list          @controllers.HomeController.priceList
 POST        /upload              @controllers.HomeController.addWorker
-#GET         /add-order           @controllers.HomeController.addOrder
+GET         /status-order        @controllers.HomeController.StatusOrder
 GET         /get-gender/         @controllers.HomeController.getGender
 GET         /get-education       @controllers.HomeController.getEducation
 GET         /get-prices          @controllers.HomeController.getPrices

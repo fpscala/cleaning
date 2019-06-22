@@ -1,8 +1,14 @@
-@(requestPage: String)
+@(requestPage: String)(implicit flash: Flash)
 <script src="@routes.Assets.versioned("javascripts/order.js")" type="text/javascript"></script>
 <section class="proposal" id="online-proposal">
     <div class="container" style="margin-top: 50px">
         <h3 class="title title--thin title--nightblue text-center proposal__title">Онлайн заявка</h3>
+        @flash.get("info").map { infoText =>
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Your Order Code: </strong>@infoText
+            </div>
+        }
         <form method="post" action="/add-order" accept-charset="UTF-8" id="order-form">
             <div class="row">
                 <div class="col-sm-4">
@@ -39,7 +45,7 @@
                         <label class="col-sm-6 text-center" for="typeCleaning" >Выберите тип очистки:</label>
                         <div class="col-sm-6">
                             <div class="form-inline">
-                                <select class=" input" id="typeCleaning" name="typeCleaning"  data-bind="foreach: vm.prices">
+                                <select class=" input" id="typeCleaning" name="typeCleaning" data-bind="foreach: vm.prices">
                                     <option data-bind="text: $data.name, value: $data.name"></option>
                                 </select>
                             </div>

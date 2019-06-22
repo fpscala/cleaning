@@ -1,0 +1,47 @@
+@this(webJarsUtil: org.webjars.play.WebJarsUtil)
+@import views.html.main
+@()
+
+@main("Play", webJarsUtil) {
+    @navbar("Order-Status")
+    <div class="row">
+        <div class="container pr">
+            <div class="row padding">
+                <div class="col-sm-6">
+                    <b class="text-center">Iyun 22, 2019</b>
+                </div>
+                <div class="col-sm-6 text-right"><b>Iyun 25, 2019</b></div>
+            </div>
+            <div class="row">
+                <div class="progressbar">
+                    <ul>
+                        <li class="active">
+                            <p>Order Placed</p>
+                            <i class="fas fa-clipboard-list"></i>
+                        </li>
+                        <li class="active">
+                            <p>In Progress</p>
+                            <i class="fas fa-tint"></i>
+                        </li>
+                        <li class="ctive">
+                            <p>Accepted</p>
+                            <i class="fas fa-clipboard-check"></i>
+                        </li>
+                        <li class="ctive">
+                            <p>Shipped</p>
+                            <i class="fas fa-shipping-fast"></i>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container details">
+            <div class="row">
+                <b class="col-sm-10 col-sm-offset-1">Details for Order <span>#185283</span></b>
+                <div class="col-sm-10 col-sm-offset-1 bg-white">
+                    wdadaw
+                </div>
+            </div>
+        </div>
+    </div>
+}

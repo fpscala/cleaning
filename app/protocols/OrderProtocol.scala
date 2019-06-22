@@ -19,6 +19,7 @@ object OrderProtocol {
                    phone: String,
                    orderDay: Date,
                    email: String,
+                   linkCode: Int,
                    comment: String,
                    type1: String)
 
