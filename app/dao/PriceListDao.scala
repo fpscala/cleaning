@@ -7,6 +7,7 @@ import com.typesafe.scalalogging.LazyLogging
 import slick.jdbc.JdbcProfile
 import protocols.OrderProtocol._
 
+
 import scala.concurrent.Future
 
 trait PriceListComponent extends CountComponent {
@@ -56,6 +57,7 @@ class PriceListDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigP
       (price returning price.map(_.id)) += priceData
     }
   }
+
 
   override def getPrices(): Future[Seq[PriceList]] = {
     db.run(price.result)

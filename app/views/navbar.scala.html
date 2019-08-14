@@ -1,42 +1,11 @@
 @(activePage: String)
-<nav class="navbar navbar--affix" style="margin-bottom: 0">
-    <div class="container">
-
-            <!-- Brand -->
-        <a href="" class="logo navbar__logo"></a>
-
-            <!-- Mobile menu toggler -->
-        <button class="hamburger navbar__hamburger">
-            <span></span>
-        </button>
-
-            <!-- Leave request + Lang switcher on the right side -->
-        <ul class="navbar__right float-md-right">
-            <li class="navbar__item">
-                <a href="@routes.HomeController.index()#online-proposal" class="navbar__btn btn btn--skyblue" style="padding: 15px">
-                    Онлайн заявка</a>
-            </li>
-            <li class="navbar__item">
-                <a href="@routes.HomeController.showLoginPage()" class="navbar__btn btn btn--skyblue" style="padding: 15px">
-                    Вход</a>
-            </li>
-        </ul>
-
-            <!-- Main navigation list -->
-        <ul class="navbar__nav">
-            <li class="navbar__item">
-                <a href="@routes.HomeController.index()#why-lux-laundry" class="navbar__link" data-surf-to="#why-lux-laundry">
-                    Почему Lux Laundry</a>
-            </li>
-
-            <li class="navbar__item">
-                <a href="@routes.HomeController.priceList()" class="navbar__link">Прайс лист</a>
-            </li>
-
-            <li class="navbar__item navbar__item--last">
-                <a href="@routes.HomeController.index()#contacts" class="navbar__link" data-surf-to="#contacts">
-                    Контакты</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+<div class="row navbar-danger">
+    <ul class="col-md-10 offset-md-1">
+        <li>
+            <a href="@routes.HomeController.index()">Главная</a>
+        </li>
+        <li>
+            <a href="@routes.HomeController.priceList()">Прас лист</a>
+        </li>
+    </ul>
+</div>
