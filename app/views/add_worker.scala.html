@@ -4,157 +4,120 @@
 @main("Add Worker", webJarsUtil) {
     @navbar("worker-form")
     <script src="@routes.Assets.versioned("javascripts/registration.js")" type="text/javascript"></script>
-    <section class="proposal" id="online-proposal">
+    <div class="main">
         <div class="container" style="margin-top: 50px">
-            <div class="col-sm-offset-2 col-sm-8">
-                <h3 class="title title--thin title--nightblue text-center proposal__title">Cleaning worker</h3>
+            <div class="offset-sm-2 col-sm-8">
+                <h3 class="text-center text-danger mb-5 display-4">Cleaning worker</h3>
                 <form class="form-horizontal" action="/upload" method="post" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-sm-4">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <input type="text" class="input" id="familiya" placeholder="Familiyasi" name="surname">
-                                </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="familiya" placeholder="Familiyasi" name="surname">
                             </div>
                         </div>
 
                         <div class="col-sm-4">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <input type="text" class="input" id="ismi" placeholder="Ваше имя *" name="first_name">
-                                </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="ismi" placeholder="Ваше имя *" name="first_name">
                             </div>
                         </div>
                         <div class="col-sm-4">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <input type="text" class="input" id="otasi_ismi" placeholder="otasi_ismi" name="last_name">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-offset-1 col-sm-10">
                             <div class="form-group">
-                                <input type="text" class="input" id="manzili" placeholder="manzili" name="address">
+                                <input type="text" class="form-control" id="otasi_ismi" placeholder="otasi_ismi" name="last_name">
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-6">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <input type="text" class="input" id="tel" placeholder="Номер телефона *" name="phone">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <input type="text" class="input" id="pasport" placeholder="Passport" name="passport_series_and_number">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 text-center">
-                            <label class="col-sm-offset-3 col-sm-6 text-center" for="">Olingan sana:</label>
-                            <div class="col-sm-offset-3 col-sm-6">
-                                <div class="form-group">
-                                    <input type="date" class="input" id="" placeholder="Olingan sana" name="day_getting_passport">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 text-center">
-                            <label class="col-sm-6 col-sm-offset-3" for="file">Foto</label>
-                            <div class="col-sm-offset-3 col-sm-6">
-                                <div class="form-group">
-                                    <input type="file" name="attachedFile" class="btn btn--white btn--file" style="padding: 15px" id="file">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-offset-1 col-sm-10">
+                        <div class="offset-sm-1 col-sm-10">
                             <div class="form-group">
-                                <input type="text" class="input" id="" placeholder="Ogohlatirish" name="warnings">
+                                <input type="text" class="form-control" id="manzili" placeholder="manzili" name="address">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <input type="text" class="input" id="" placeholder="Pensionniy nomer" name="pension_number">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <input type="text" class="input" id="itn" placeholder="Inn" name="itn">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 text-center">
-                            <label class="col-sm-offset-3 col-sm-6 text-center" for="gender">Jinsni tanlang:</label>
-                            <div class="col-sm-offset-3 col-sm-6">
-                                <div class="form-group">
-                                    <select class=" input" id="gender" name="genderId" data-bind="foreach: vm.genders()">
-                                        <option name="genderId" data-bind="text: $data.name, value: $data.id"></option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 text-center">
-                            <label class="col-sm-offset-3 col-sm-6 text-center" for="">Tug`ilgan sana::</label>
-                            <div class="col-sm-offset-3 col-sm-6">
-                                <div class="form-group">
-                                    <input type="date" class="input" id="" placeholder="tug`ilgan sana" name="birthday">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-offset-1 col-sm-10">
                             <div class="form-group">
-                                <input type="text" class="input" id="" placeholder="turar joyi" name="birth_place">
+                                <input type="text" class="form-control" id="tel" placeholder="Номер телефона *" name="phone">
                             </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="pasport" placeholder="Passport" name="passport_series_and_number">
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-date-input" class="col-2 col-form-label">Date</label>
+                        <div class="col-10">
+                            <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-12 text-center">
-                            <label class="col-sm-offset-3 col-sm-6 text-center" for="education">Malimotni tanlang:</label>
-                            <div class="col-sm-offset-3 col-sm-6">
-                                <div class="form-group">
-                                    <select class="input" id="education" name="educationId" data-bind="foreach: vm.educations()">
-                                        <option name="educationId" data-bind="text: $data.name, value: $data.id"></option>
-                                    </select>
+                        <div class="col-sm-10 offset-sm-1">
+                            <div class="form-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="customFile">
+                                    <label class="custom-file-label" for="customFile">Choose file</label>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-12 text-center">
-                            <div class="col-sm-offset-3 col-sm-6">
-                                <div class="form-group">
-                                    <input type="text" class="input" id="" placeholder="Password.." name="password">
-                                </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="" placeholder="Pensionniy nomer" name="pension_number">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="itn" placeholder="Inn" name="itn">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <select class="custom-select" id="gender" name="genderId" data-bind="foreach: vm.genders()">
+                            <option name="genderId" data-bind="text: $data.name, value: $data.id"></option>
+                        </select>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-date-input" class="col-2 col-form-label">Date</label>
+                        <div class="col-10">
+                            <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="offset-sm-1 col-sm-10">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="" placeholder="turar joyi" name="birth_place">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <select class="custom-select" id="education" name="educationId" data-bind="foreach: vm.educations()">
+                            <option name="educationId" data-bind="text: $data.name, value: $data.id"></option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="offset-sm-1 col-sm-10">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="" placeholder="Password.." name="password">
                             </div>
                         </div>
                     </div>
 
-                    <div class="text-center">
-                        <button type="submit" class="btn btn--skyblue" style="padding: 15px">Отправить</button>
+                    <div class="text-center mb-5">
+                        <button type="button" class="btn btn-outline-success">Отправить</button>
                     </div>
                 </form>
+                <script>
+                        // Add the following code if you want the name of the file appear on select
+                        $(".custom-file-input").on("change", function () {
+                            var fileName = $(this).val().split("\\").pop();
+                            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+                        });
+                </script>
             </div>
         </div>
-    </section>
+    </div>
 }

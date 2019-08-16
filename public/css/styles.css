@@ -12,7 +12,7 @@ html {
 body {
     position: relative;
     margin: 0;
-    padding-bottom: 2.5em;
+    padding-bottom: 4.5em;
     min-height: 100%;
     font-family: "Helvetica Neue", Arial, sans-serif;
     color: black;
@@ -161,4 +161,7 @@ a:hover {
 
 .bg-dark {
     background-color: #191919;
+}
+.input {
+    width: 100%;
 }
