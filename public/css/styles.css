@@ -121,6 +121,7 @@ a:hover {
 .navbar-danger {
     height: 40px;
     background-color: #dc3545;
+    box-shadow: 0px 10px 15px -5px #3d5497;
 }
 
 .navbar-danger ul li {
