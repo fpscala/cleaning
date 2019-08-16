@@ -1,165 +1,118 @@
 @this(webJarsUtil: org.webjars.play.WebJarsUtil)
 @()(implicit flash: Flash)
-@import views.html.main
+    @import views.html.main
 
+<link href="@routes.Assets.versioned("css/style_index.css")" rel="stylesheet">
 @main("Cleaning.uz", webJarsUtil) {
-            <header>
-                <div class="row bg-light img">
-                    <div class="col-md-10 offset-md-1 contacts">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h2>Cleaning.uz</h2>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-sm-6 col-md-3">
-                                            <div class="contacts-item contacts-item-address">
-                                                <span>Адрес</span><br>
-                                                <p>улица Ал-хоразмий, 110, Ургенч, Узбекистан</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-6 col-md-3">
-                                            <div class="contacts-item contacts-item-work-time">
-                                                <span>Режим работы</span><br>
-                                                <p>ПН-CБ с 8:00 до 19:00</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-6 col-md-3">
-                                            <div class="contacts-item contacts-item-phone">
-                                                <span>Телефон</span><br>
-                                                <p>+99899 967 33 98</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-6 col-md-3">
-                                            <div class="contacts-item contacts-item-email">
-                                                <span>Email</span><br>
-                                                <a href="#" class="text-underline">Prince777_98@@mail.ru</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-               @navbar("home")
-                <div class="col-md-12 container-fluid">
-                    <div class="img-header">
-
-
-                    </div>
-                </div>
-            </header>
-            <main class="bg-light">
-                <div class="row bg-light" style="height: auto">
-                    <div class="col-md-10 offset-md-1">
-                        <div class="row">
-                            <div class="col-md-6 offset-md-3 text-center p-5">
-                                <h1><b>Мы предлагаем</b></h1>
-                                <b>_________</b>
-                            </div>
-                        </div>
-                        <div class="row p-3 pb-5">
-                            <div class="col-md-4">
-                                <div class="bg-darker" style="height: 250px"></div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="bg-darker" style="height: 250px"></div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="bg-darker" style="height: 250px"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="bg-yellow row" style="height: auto">
-                    <div class="col-md-10 offset-md-1">
-                        <div class="row">
-                            <div class="col-md-6 offset-md-3 text-center p-5">
-                                <h1><b>Наши преимущества</b></h1>
-                                <b>_________</b>
-                            </div>
-                        </div>
-                        <div class="row p-3 pb-5">
-                            <div class="col-md-4">
-                                <div class="bg-darker" style="height: 250px"></div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="bg-darker" style="height: 250px"></div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="bg-darker" style="height: 250px"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row bg-light" style="height: auto">
-                    <div class="col-md-10 offset-md-1">
-                        <div class="row">
-                            <div class="col-md-6 offset-md-3 text-center p-5">
-                                <h1><b>Почему стоит выбрать нас?</b></h1>
-                                <b>_________</b>
-                            </div>
-                        </div>
-                        <div class="row p-3 pb-5">
-                            <div class="col-md-3">
-                                <div class="bg-darker" style="height: 250px"></div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="bg-darker" style="height: 250px"></div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="bg-darker" style="height: 250px"></div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="bg-darker" style="height: 250px"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="row bg-darker p-5" style="height: auto;">
-                    <div class="col-md-10 offset-md-1" style="border: 1px dashed #dae0e5">
-                        <div class="row p-3 pb-5">
-                            <div class="col-md-10 offset-md-1">
-                                <div class="bg-darker" style="height: 250px"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row bg-light p-5" style="height: auto">
-                    <div class="col-md-10 offset-md-1">
-                        <div class="row">
-                            <div class="col-md-6 offset-md-3 text-center p-5">
-                                <h1><b>Отзывы</b></h1>
-                                <b>_________</b>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-10 offset-md-1" style="border: 1px dashed #dae0e5">
-                        <div class="row p-3 pb-5">
-                            <div class="col-md-10 offset-md-1">
-                                <div class="" style="height: 250px"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row bg-yellow" style="height: auto">
+    @navbar("home")
+    <div class="row">
+        <div class="img-header">
+        </div>
+    </div>
+    <div class="bg-light main">
+        <div class="row bg-light" style="height: auto">
+            <div class="col-md-10 offset-md-1">
+                <div class="row">
                     <div class="col-md-6 offset-md-3 text-center p-5">
-                        <h1><b>Наш адрес</b></h1>
-                        <h4>улица Ал-хоразмий, 110, Ургенч, Узбекистан</h4>
+                        <h1><b>Мы предлагаем</b></h1>
                         <b>_________</b>
                     </div>
-                    <div class="col-md-12">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3852.9719055949354!2d60.62918519611445!3d41.57083172746043!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x41dfcec63d012a49%3A0xa2280e571ee2fa3e!2z0KLQkNCi0KMg0KPRgNCz0LDQvdGHINGE0LjQu9C40LDQu9C4!5e0!3m2!1sru!2s!4v1563178510128!5m2!1sru!2s" width="100%" height="250" frameborder="0" style="border:0" allowfullscreen></iframe>
+                </div>
+                <div class="row p-3 pb-5">
+                    <div class="col-md-4">
+                        <div class="bg-darker" style="height: 250px"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="bg-darker" style="height: 250px"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="bg-darker" style="height: 250px"></div>
                     </div>
                 </div>
-            </main>
-    }
+            </div>
+        </div>
+        <div class="bg-yellow row" style="height: auto">
+            <div class="col-md-10 offset-md-1">
+                <div class="row">
+                    <div class="col-md-6 offset-md-3 text-center p-5">
+                        <h1><b>Наши преимущества</b></h1>
+                        <b>_________</b>
+                    </div>
+                </div>
+                <div class="row p-3 pb-5">
+                    <div class="col-md-4">
+                        <div class="bg-darker" style="height: 250px"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="bg-darker" style="height: 250px"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="bg-darker" style="height: 250px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row bg-light" style="height: auto">
+            <div class="col-md-10 offset-md-1">
+                <div class="row">
+                    <div class="col-md-6 offset-md-3 text-center p-5">
+                        <h1><b>Почему стоит выбрать нас?</b></h1>
+                        <b>_________</b>
+                    </div>
+                </div>
+                <div class="row p-3 pb-5">
+                    <div class="col-md-3">
+                        <div class="bg-darker" style="height: 250px"></div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="bg-darker" style="height: 250px"></div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="bg-darker" style="height: 250px"></div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="bg-darker" style="height: 250px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row bg-darker p-5" style="height: auto;">
+            <div class="col-md-10 offset-md-1" style="border: 1px dashed #dae0e5">
+                <div class="row p-3 pb-5">
+                    <div class="col-md-10 offset-md-1">
+                        <div class="bg-darker" style="height: 250px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row bg-light p-5" style="height: auto">
+            <div class="col-md-10 offset-md-1">
+                <div class="row">
+                    <div class="col-md-6 offset-md-3 text-center p-5">
+                        <h1><b>Отзывы</b></h1>
+                        <b>_________</b>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-10 offset-md-1" style="border: 1px dashed #dae0e5">
+                <div class="row p-3 pb-5">
+                    <div class="col-md-10 offset-md-1">
+                        <div class="" style="height: 250px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row bg-yellow" style="height: auto">
+            <div class="col-md-6 offset-md-3 text-center p-5">
+                <h1><b>Наш адрес</b></h1>
+                <h4>улица Ал-хоразмий, 110, Ургенч, Узбекистан</h4>
+                <b>_________</b>
+            </div>
+            <div class="col-md-12">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3852.9719055949354!2d60.62918519611445!3d41.57083172746043!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x41dfcec63d012a49%3A0xa2280e571ee2fa3e!2z0KLQkNCi0KMg0KPRgNCz0LDQvdGHINGE0LjQu9C40LDQu9C4!5e0!3m2!1sru!2s!4v1563178510128!5m2!1sru!2s" width="100%" height="250" frameborder="0" style="border: 0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+}
 

@@ -1,21 +1,48 @@
 html {
     height: 100%;
-    width: 100%;
-
+    box-sizing: border-box;
 }
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
 body {
-    height: 100%;
-    width: 100%;
+    position: relative;
+    margin: 0;
+    padding-bottom: 2.5em;
+    min-height: 100%;
+    font-family: "Helvetica Neue", Arial, sans-serif;
     color: black;
-    background: url("../images/bg.png") center no-repeat;
     background-attachment: fixed;
-    background-size: cover;
+    background-size: inherit;
+}
+
+.header {
+    width: 100%;
 }
 
 a {
     text-decoration: none;
     text-decoration-color: white;
     color: black;
+}
+
+.footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1em;
+    background-color: #efefef;
+    text-align: center;
+    width: 100%;
+}
+
+.main{
+    margin: 0 auto;
 }
 
 a:hover {
@@ -27,6 +54,12 @@ a:hover {
 .contacts {
     width: 100%;
     padding: 18px 0;
+}
+
+.row {
+     margin-right: 0;
+     margin-left: 0;
+    padding-top: 0px;
 }
 
 .contacts-item {
@@ -82,7 +115,7 @@ a:hover {
     }
 
     .contacts-item {
-        margin-bottom: 30px
+        margin-bottom: 15px
     }
 }
 .navbar-danger {
@@ -105,7 +138,9 @@ a:hover {
 }
 
 .img-header {
-    height: 440px;
+    height: 424px;
+    background: url("../images/bg.jpg") right no-repeat;
+    width: 100%;
 }
 
 .bg-light {

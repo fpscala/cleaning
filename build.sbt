@@ -52,7 +52,7 @@ libraryDependencies ++= akkaLibs ++ akkaHttp ++ commonDependencies ++ dbLibs ++ 
   "org.codehaus.janino" % "janino" % "3.0.7",
   //web jars
   "org.webjars" %% "webjars-play" % "2.7.0-1",
-  "org.webjars" % "jquery" % "3.4.1",
+  "org.webjars"% "jquery"% "3.4.1",
   "org.webjars" % "jquery-file-upload" % "9.10.1",
   "org.webjars" % "knockout" % "3.3.0",
   "org.webjars" % "requirejs" % "2.2.0",

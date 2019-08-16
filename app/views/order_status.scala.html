@@ -1,46 +1,65 @@
 @this(webJarsUtil: org.webjars.play.WebJarsUtil)
 @import views.html.main
 @()
+<link href="@routes.Assets.versioned("css/progressbar.css")" rel="stylesheet">
 
 @main("Play", webJarsUtil) {
     @navbar("Order-Status")
-    <div class="row">
-        <div class="container pr">
-            <div class="row padding">
-                <div class="col-sm-6">
-                    <b class="text-center">Iyun 22, 2019</b>
+    <div class="main">
+        <div class="container-fluid pr">
+            <div class="row">
+                <div class="col-sm-10 offset-sm-1 p-2 pt-4">
+                    <div class="row">
+                        <div class="col-sm-5 offset-sm-1 col-6 text-left">
+                            <b class="text-light">Iyun 22, 2019</b>
+                        </div>
+                        <div class="col-sm-5 col-6 text-right">
+                            <b class="text-light">Iyun 25, 2019</b>
+                        </div>
+                        <div class="col-sm-1"></div>
+                    </div>
                 </div>
-                <div class="col-sm-6 text-right"><b>Iyun 25, 2019</b></div>
             </div>
             <div class="row">
-                <div class="progressbar">
-                    <ul>
-                        <li class="active">
+                <div class="progressbar col-sm-10 offset-sm-1 col-12">
+                    <ul class="row pl-0 text-light">
+                        <div class="col-3 col-sm-3">
                             <p>Order Placed</p>
+                        </div>
+                        <div class="col-3 col-sm-3">
+                            <p>In Progress</p>
+                        </div>
+                        <div class="col-3 col-sm-3">
+                            <p>Accepted</p>
+                        </div>
+                        <div class="col-3 col-sm-3">
+                            <p>Shipped</p>
+                        </div>
+                    </ul>
+                    <ul class="row pl-0">
+                        <li class="active col-3 col-sm-3">
                             <i class="fas fa-clipboard-list"></i>
                         </li>
-                        <li class="active">
-                            <p>In Progress</p>
+                        <li class="active col-3 col-sm-3">
                             <i class="fas fa-tint"></i>
                         </li>
-                        <li class="ctive">
-                            <p>Accepted</p>
+                        <li class="ctive col-3 col-sm-3">
                             <i class="fas fa-clipboard-check"></i>
                         </li>
-                        <li class="ctive">
-                            <p>Shipped</p>
+                        <li class="ctive col-3 col-sm-3">
                             <i class="fas fa-shipping-fast"></i>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="container details">
-            <div class="row">
-                <b class="col-sm-10 col-sm-offset-1">Details for Order <span>#185283</span></b>
-                <div class="col-sm-10 col-sm-offset-1 bg-white">
-                    wdadaw
-                </div>
+        <div class="row bg-yellow details">
+            <b class="col-md-10 offset-md-1">
+                Details for Order
+                <span>#185283</span>
+            </b>
+            <div class="col-md-10 offset-md-1 bg-white">
+                wdadaw
             </div>
         </div>
     </div>
