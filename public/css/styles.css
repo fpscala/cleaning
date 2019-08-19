@@ -166,3 +166,68 @@ a:hover {
 .input {
     width: 100%;
 }
+
+input[type=checkbox] {
+    cursor: pointer;
+}
+
+hr {
+    background-color: white;
+}
+
+.bg-gridient {
+    background-image: url("../images/login-bg.jpg");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: "Apple Color Emoji";
+}
+
+.content {
+    bottom: 0;
+    background: rgb(255, 255, 255); /* Fallback color */
+    background: rgba(255, 255, 255, 0.2); /* Black background with 0.5 opacity */
+    color: #f1f1f1;
+    width: 100%;
+    padding: 40px;
+    border-radius: 20px;
+}
+.SignIn {
+    color: #495057;
+}
+.bg-blue {
+    background: #006666;
+    color: lavender;
+    font-size: 25px;
+}
+
+.circle {
+    width: 90px;
+    height: 90px;
+    background: rgb(10, 160, 190); /* Fallback color */
+    background: rgba(30, 140, 140, 0.3); /* Black background with 0.5 opacity */
+    top: -85px;
+}
+.user-img {
+   margin-top:15px;
+}
+.bg-ch {
+    background: rgba(0,102,102,0.2);
+    color: #f1f1f1;
+    font-weight: normal;
+    font-family: "Serif";
+
+}
+
+.navbar-bord {
+    border-bottom: 2px solid #fefefe;
+
+}
+
+.mt--5 {
+   margin-top: -5.5em;
+}
+
+
+
+
