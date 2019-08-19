@@ -121,6 +121,8 @@ a:hover {
 .navbar-danger {
     height: 40px;
     background-color: #dc3545;
+    display: inline-block;
+    width: 100%;
     box-shadow: 0px 10px 15px -5px #3d5497;
 }
 
@@ -138,11 +140,6 @@ a:hover {
     color: white;
 }
 
-.img-header {
-    height: 424px;
-    background: url("../images/bg.jpg") right no-repeat;
-    width: 100%;
-}
 
 .bg-light {
     background-color: #ffffff;
