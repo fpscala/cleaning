@@ -12,7 +12,7 @@ import javax.inject._
 import play.api.libs.Files.TemporaryFile
 import play.api.libs.json.Json
 import play.api.mvc._
-import protocols.OrderProtocol.{AddOrder, AddPrice, Count, GetCountList, GetPrices, Order, PriceList}
+import protocols.OrderProtocol.{AddOrder, AddPrice, Count, GetAllNamesAndPrices, GetCountList, GetPrices, Order, PriceList}
 import protocols.WorkerProtocol.{AddImage, AddWorker, Auth, Education, Gender, GetAllEducations, GetAllLoginAndPassword, GetGenderList, Worker}
 import views.html._
 
@@ -117,22 +117,21 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   }
   }
 
-  def addOrder: Action[AnyContent] = {
-    Action.async { implicit request =>
-      val formParam = request.body.asFormUrlEncoded
-      val surname = formParam.get("surname").head
-      val firstName = formParam.get("firstName").head
-      val email = formParam.get("email").head
-      val phone = formParam.get("phone").head
-      val address = formParam.get("address").head
-      val typeCleaning = formParam.get("typeCleaning").head
-      val comment = formParam.get("comment").head
-      val linkCode = randomCode(9)
-      val orderDay = new Date
-      (orderManager ? AddOrder(Order(None, surname, firstName, address, phone, orderDay, email, linkCode, comment, typeCleaning))).mapTo[Int].map { _ =>
-        Redirect(routes.HomeController.index()).flashing("info" -> s" $linkCode")
-      }
+  def addOrder = Action.async(parse.json) { implicit request => {
+    val surname = (request.body \ "surname").as[String]
+    val firstName = (request.body \ "firstName").as[String]
+    val email = (request.body \ "email").as[String]
+    val phone = (request.body \ "phone").as[String]
+    val address = (request.body \ "address").as[String]
+    val typeCleaning = (request.body \ "typeCleaning").as[String]
+    val comment = (request.body \ "comment").as[String]
+    val linkCode = randomCode(9)
+    logger.info(s"linkCode: $linkCode")
+    val orderDay = new Date
+    (orderManager ? AddOrder(Order(None, surname, firstName, address, phone, orderDay, email, comment, linkCode, typeCleaning))).mapTo[Int].map { _ =>
+      Redirect(routes.HomeController.index()).flashing("info" -> s" $linkCode")
     }
+  }
   }
 
   private def randomCode(length: Int) = {
@@ -187,6 +186,15 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     (orderManager ? GetPrices).mapTo[Seq[PriceList]].map { prices =>
       logger.info(s"prices: $prices")
       Ok(Json.toJson(Seq(prices)))
+    }
+  }
+
+  case class NameAndPrice(name: String, price: String)
+
+  def getNames: Action[AnyContent] = Action.async {
+    (orderManager ? GetAllNamesAndPrices).mapTo[Seq[PriceList]].map { names =>
+      logger.info(s"names: $names")
+      Ok(Json.toJson(Seq(names)))
     }
   }
 

@@ -22,16 +22,16 @@ CREATE TABLE "Orders" (
   "address" VARCHAR NOT NULL,
   "orderDay" TIMESTAMP NOT NULL,
   "email" VARCHAR NOT NULL,
-  "linkCode" INT NOT NULL,
   "comment" TEXT NULL,
+  "linkCode" INT NOT NULL,
   "type" VARCHAR CONSTRAINT "OrdersFkPrice_listName" REFERENCES "Price_list"("name") ON update CASCADE ON DELETE CASCADE,
   UNIQUE("linkCode")
 );
 
-INSERT INTO "Counts" ("name") VALUES ('1кг.');
-INSERT INTO "Counts" ("name") VALUES ('1шт.');
+INSERT INTO "Counts" ("name") VALUES ('1 кг.');
+INSERT INTO "Counts" ("name") VALUES ('1 шт.');
 INSERT INTO "Counts" ("name") VALUES ('комп.');
-INSERT INTO "Counts" ("name") VALUES ('2шт.');
+INSERT INTO "Counts" ("name") VALUES ('2 шт.');
 INSERT INTO "Counts" ("name") VALUES ('Пара.');
 
 INSERT INTO "Price_list" ("name", "count", "price") VALUES ('price1', '1 sht', '5000 sum');

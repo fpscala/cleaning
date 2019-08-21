@@ -15,15 +15,15 @@ $ ->
     $.ajax
       url: apiUrl.prices
       type: 'GET'
-    .fail handleError
-    .done (response) ->
+      .fail handleError
+      .done (response) ->
       for price in response
         vm.prices(price)
     $.ajax
       url: apiUrl.counts
       type: 'GET'
-    .fail handleError
-    .done (response) ->
+      .fail handleError
+      .done (response) ->
       for count in response
         vm.counts(count)
 

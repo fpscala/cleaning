@@ -13,6 +13,7 @@ GET         /status-order        @controllers.HomeController.StatusOrder
 GET         /get-gender/         @controllers.HomeController.getGender
 GET         /get-education       @controllers.HomeController.getEducation
 GET         /get-prices          @controllers.HomeController.getPrices
+GET         /get-names           @controllers.HomeController.getNames
 GET         /get-counts          @controllers.HomeController.getCounts
 GET         /worker-form         @controllers.HomeController.workerForm
 GET         /login               @controllers.HomeController.showLoginPage
