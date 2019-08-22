@@ -56,6 +56,7 @@ libraryDependencies ++= akkaLibs ++ akkaHttp ++ commonDependencies ++ dbLibs ++ 
   "org.webjars" % "jquery-file-upload" % "9.10.1",
   "org.webjars" % "knockout" % "3.3.0",
   "org.webjars" % "requirejs" % "2.2.0",
+  "org.webjars" % "toastr" % "2.1.2",
   "org.webjars" % "bootstrap" % "4.3.1",
   "org.webjars" % "momentjs" % "2.8.1"
 )
