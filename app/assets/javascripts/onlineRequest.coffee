@@ -29,6 +29,7 @@ $ ->
     names: []
     name: ''
     selectedProductId: ''
+    textLinkCode:''
 #    isSubmitted: no
 #    page: defaultPage
 
@@ -64,6 +65,11 @@ $ ->
       vm.price()
 
 #  vm.Page = Page
+
+  $modalSendCommitment = $('#send-linkCode')
+  vm.showModalSendCommitment = (msg) ->
+    vm.textLinkCode(msg)
+    $modalSendCommitment.modal('show')
 
   vm.onSubmit = ->
     toastr.clear()
@@ -112,10 +118,7 @@ $ ->
       contentType: 'application/json'
     .fail handleError
     .done (response) ->
-#      vm.isSubmitted(no)
-      console.log("is here")
-#      vm.page(Page.ThankYou)
-      alert(response)
+      vm.showModalSendCommitment(response)
 
 
   ko.applyBindings {vm}
