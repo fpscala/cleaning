@@ -37,6 +37,8 @@ object OrderProtocol {
                        count: String,
                        price: String)
 
+  case class Phone (phone: String)
+
   implicit val priceListFormat: OFormat[PriceList] = Json.format[PriceList]
 
 

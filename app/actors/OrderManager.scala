@@ -60,6 +60,7 @@ class OrderManager @Inject()(val environment: Environment,
     priceListDao.getPrices
   }
 
+
   private def getAllNamesAndPrices: Future[Seq[OrderProtocol.PriceList]] = {
     priceListDao.getNamesAndPrices
   }

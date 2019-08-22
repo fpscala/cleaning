@@ -12,7 +12,7 @@ import javax.inject._
 import play.api.libs.Files.TemporaryFile
 import play.api.libs.json.Json
 import play.api.mvc._
-import protocols.OrderProtocol.{AddOrder, AddPrice, Count, GetAllNamesAndPrices, GetCountList, GetPrices, Order, PriceList}
+import protocols.OrderProtocol.{AddOrder, AddPrice, Count, GetAllNamesAndPrices, GetCountList, GetPrices, Order, Phone, PriceList}
 import protocols.WorkerProtocol.{AddImage, AddWorker, Auth, Education, Gender, GetAllEducations, GetAllLoginAndPassword, GetGenderList, Worker}
 import views.html._
 
@@ -129,6 +129,14 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     val orderDay = new Date
     (orderManager ? AddOrder(Order(None, surname, firstName, address, phone, orderDay, email, comment, linkCode, typeCleaning))).mapTo[Int].map { _ =>
       Ok(Json.toJson(s"$linkCode"))
+    }
+  }
+  }
+
+  def isPhoneInDb = Action.async(parse.json){implicit request => {
+    val tel = (request.body \ "phone").as[String]
+    (orderManager ? Phone(tel)).mapTo[Int].map { _ =>
+      Ok(Json.toJson(true))
     }
   }
   }

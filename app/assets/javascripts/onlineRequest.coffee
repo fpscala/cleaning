@@ -30,6 +30,7 @@ $ ->
     name: ''
     selectedProductId: ''
     textLinkCode:''
+    isPhone: ''
 #    isSubmitted: no
 #    page: defaultPage
 
@@ -44,6 +45,19 @@ $ ->
         vm.names(arr)
 
   vm.getNames()
+
+  vm.scanPhone = (tel) ->
+    data =
+      phone: tel
+    $.ajax
+      url: '/scan-tel'
+      type: 'POST'
+      data: JSON.stringify(data)
+      dataType: 'json'
+      contentType: 'application/json'
+    .fail handleError
+    .done (result)
+      vm.isPhone(result)
 
   handleError = (error) ->
     vm.isSubmitted(no)
@@ -119,6 +133,8 @@ $ ->
     .fail handleError
     .done (response) ->
       vm.showModalSendCommitment(response)
+
+
 
 
   ko.applyBindings {vm}
