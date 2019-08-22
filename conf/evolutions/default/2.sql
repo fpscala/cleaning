@@ -23,7 +23,7 @@ CREATE TABLE "Orders" (
   "orderDay" TIMESTAMP NOT NULL,
   "email" VARCHAR NOT NULL,
   "comment" TEXT NULL,
-  "linkCode" INT NOT NULL,
+  "linkCode" VARCHAR(5) NOT NULL,
   "type" VARCHAR CONSTRAINT "OrdersFkPrice_listName" REFERENCES "Price_list"("name") ON update CASCADE ON DELETE CASCADE,
   UNIQUE("linkCode")
 );

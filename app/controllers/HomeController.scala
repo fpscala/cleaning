@@ -125,17 +125,17 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     val address = (request.body \ "address").as[String]
     val typeCleaning = (request.body \ "typeCleaning").as[String]
     val comment = (request.body \ "comment").as[String]
-    val linkCode = randomCode(9)
+    val linkCode = randomCode(5)
     logger.info(s"linkCode: $linkCode")
     val orderDay = new Date
     (orderManager ? AddOrder(Order(None, surname, firstName, address, phone, orderDay, email, comment, linkCode, typeCleaning))).mapTo[Int].map { _ =>
-      Redirect(routes.HomeController.index()).flashing("info" -> s" $linkCode")
+      Ok(Json.toJson(s"LinkCode: $linkCode"))
     }
   }
   }
 
   private def randomCode(length: Int) = {
-    Seq.fill(length)(Random.nextInt(9)).mkString("").toInt
+    Random.alphanumeric.take(length).mkString.toLowerCase
   }
 
   def addPrices = {

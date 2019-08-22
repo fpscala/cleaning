@@ -7,11 +7,16 @@ $ ->
     urlName: '/get-names'
     send: '/add-order'
 
-  handleError = (error) ->
-    if error.status is 500 or (error.status is 400 and error.responseText)
-      toastr.error(error.responseText)
-    else
-      toastr.error('Something went wrong! Please try again.')
+#  Page =
+#    Home: 'home'
+#    ThankYou: 'thankYou'
+#    AlreadySubmitted: 'submitted'
+
+#  defaultPage =
+#    if (Glob.alreadySubmitted)
+#      Page.AlreadySubmitted
+#    else Page.Home
+
 
   vm = ko.mapping.fromJS
     surname: ''
@@ -22,7 +27,11 @@ $ ->
     comment: ''
     price:''
     names: []
-    selectedProductPrice: ''
+    name: ''
+    selectedProductId: ''
+#    isSubmitted: no
+#    page: defaultPage
+
 
   vm.getNames = ->
     $.ajax
@@ -30,16 +39,31 @@ $ ->
       type: 'GET'
     .fail handleError
     .done (response) ->
-      for allName in response
-        vm.names(allName)
+      for arr in response
+        vm.names(arr)
+
+  vm.getNames()
+
+  handleError = (error) ->
+    vm.isSubmitted(no)
+    if error.status is 500 or (error.status is 400 and error.responseText)
+      toastr.error(error.responseText)
+    else
+      toastr.error('Something went wrong! Please try again.')
 
 
 
-  vm.selectedProductPrice.subscribe (pr) ->
+  vm.selectedProductId.subscribe (pr) ->
+    for goods in vm.names()
+      if goods.id is pr
+        vm.name(goods.name)
+        vm.price(goods.price)
     if pr is undefined
       vm.price('0')
     else
-      vm.price(pr)
+      vm.price()
+
+#  vm.Page = Page
 
   vm.onSubmit = ->
     toastr.clear()
@@ -68,18 +92,18 @@ $ ->
       toastr.error("Please select type goods")
       return no
 
-
     data =
       surname: vm.surname()
       firstName: vm.firstName()
       email: vm.email()
       phone: vm.phone()
       address: vm.address()
-      typeCleaning: vm.price()
+      typeCleaning: vm.name()
       comment: vm.comment()
 
     console.log(data)
 
+#    vm.isSubmitted(yes)
     $.ajax
       url: apiUrl.send
       type: 'POST'
@@ -88,9 +112,10 @@ $ ->
       contentType: 'application/json'
     .fail handleError
     .done (response) ->
+#      vm.isSubmitted(no)
       console.log("is here")
+#      vm.page(Page.ThankYou)
       alert(response)
 
-  vm.getNames()
 
   ko.applyBindings {vm}

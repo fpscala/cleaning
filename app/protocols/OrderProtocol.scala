@@ -22,7 +22,7 @@ object OrderProtocol {
                    orderDay: Date,
                    email: String,
                    comment: String,
-                   linkCode: Int,
+                   linkCode: String,
                    type1: String)
 
   implicit val orderFormat: OFormat[Order] = Json.format[Order]
