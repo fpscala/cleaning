@@ -40,7 +40,6 @@ trait PriceListDao {
 
   def getPrices: Future[Seq[PriceList]]
 
-  def getNamesAndPrices: Future[Seq[PriceList]]
 }
 
 @Singleton
@@ -60,14 +59,8 @@ class PriceListDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigP
     }
   }
 
-
   override def getPrices(): Future[Seq[PriceList]] = {
     db.run(price.result)
   }
-
-  override def getNamesAndPrices(): Future[Seq[PriceList]]  = {
-    db.run(price.result)
-  }
-
-
 }
+

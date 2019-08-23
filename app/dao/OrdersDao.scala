@@ -12,30 +12,45 @@ import utils.Date2SqlDate
 
 import scala.concurrent.Future
 
-trait OrdersComponent extends PriceListComponent { self: HasDatabaseConfigProvider[JdbcProfile] =>
+trait OrdersComponent extends PriceListComponent {
+  self: HasDatabaseConfigProvider[JdbcProfile] =>
+
   import utils.PostgresDriver.api._
 
   val PriceListTable = TableQuery[PriceListTable]
 
   class Orders(tag: Tag) extends Table[Order](tag, "Orders") with Date2SqlDate {
     def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
+
     def surname = column[String]("surname")
+
     def firstName = column[String]("firstName")
-    def address  = column[String]("address")
+
+    def address = column[String]("address")
+
     def phone = column[String]("phone")
+
     def orderDay = column[Date]("orderDay")
-    def email  = column[String]("email")
-    def comment  = column[String]("comment")
-    def linkCode  = column[String]("linkCode")
+
+    def email = column[String]("email")
+
+    def comment = column[String]("comment")
+
+    def linkCode = column[String]("linkCode")
+
     def typeName = column[String]("type")
+
     def * = (id.?, surname, firstName, address, phone, orderDay, email, comment, linkCode, typeName) <> (Order.tupled, Order.unapply _)
+
     def type1 = foreignKey("OrdersFkPrice_listName", typeName, PriceListTable)(_.name)
   }
+
 }
 
 @ImplementedBy(classOf[OrdersDaoImpl])
 trait OrdersDao {
   def create(ordersData: Order): Future[Int]
+
   def getOrders: Future[Seq[Order]]
 }
 

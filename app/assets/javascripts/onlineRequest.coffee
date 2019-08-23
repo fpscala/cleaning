@@ -4,7 +4,7 @@ $ ->
   Glob = window.Glob || {}
 
   apiUrl =
-    urlName: '/get-names'
+    urlName: 'get-prices'
     send: '/add-order'
 
 #  Page =
@@ -30,7 +30,6 @@ $ ->
     name: ''
     selectedProductId: ''
     textLinkCode:''
-    isPhone: ''
 #    isSubmitted: no
 #    page: defaultPage
 
@@ -46,21 +45,8 @@ $ ->
 
   vm.getNames()
 
-  vm.scanPhone = (tel) ->
-    data =
-      phone: tel
-    $.ajax
-      url: '/scan-tel'
-      type: 'POST'
-      data: JSON.stringify(data)
-      dataType: 'json'
-      contentType: 'application/json'
-    .fail handleError
-    .done (result)
-      vm.isPhone(result)
-
   handleError = (error) ->
-    vm.isSubmitted(no)
+#    vm.isSubmitted(no)
     if error.status is 500 or (error.status is 400 and error.responseText)
       toastr.error(error.responseText)
     else
@@ -120,8 +106,6 @@ $ ->
       address: vm.address()
       typeCleaning: vm.name()
       comment: vm.comment()
-
-    console.log(data)
 
 #    vm.isSubmitted(yes)
     $.ajax

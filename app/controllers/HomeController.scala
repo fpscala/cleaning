@@ -12,7 +12,7 @@ import javax.inject._
 import play.api.libs.Files.TemporaryFile
 import play.api.libs.json.Json
 import play.api.mvc._
-import protocols.OrderProtocol.{AddOrder, AddPrice, Count, GetAllNamesAndPrices, GetCountList, GetPrices, Order, Phone, PriceList}
+import protocols.OrderProtocol.{AddOrder, AddPrice, Count, GetCountList, GetPrices, Order, PriceList}
 import protocols.WorkerProtocol.{AddImage, AddWorker, Auth, Education, Gender, GetAllEducations, GetAllLoginAndPassword, GetGenderList, Worker}
 import views.html._
 
@@ -133,14 +133,6 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   }
   }
 
-  def isPhoneInDb = Action.async(parse.json){implicit request => {
-    val tel = (request.body \ "phone").as[String]
-    (orderManager ? Phone(tel)).mapTo[Int].map { _ =>
-      Ok(Json.toJson(true))
-    }
-  }
-  }
-
   private def randomCode(length: Int) = {
     Random.alphanumeric.take(length).mkString.toLowerCase
   }
@@ -191,23 +183,12 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
 
   def getPrices: Action[AnyContent] = Action.async {
     (orderManager ? GetPrices).mapTo[Seq[PriceList]].map { prices =>
-      logger.info(s"prices: $prices")
       Ok(Json.toJson(Seq(prices)))
-    }
-  }
-
-  case class NameAndPrice(name: String, price: String)
-
-  def getNames: Action[AnyContent] = Action.async {
-    (orderManager ? GetAllNamesAndPrices).mapTo[Seq[PriceList]].map { names =>
-      logger.info(s"names: $names")
-      Ok(Json.toJson(Seq(names)))
     }
   }
 
   def getCounts: Action[AnyContent] = Action.async {
     (genderManager ? GetCountList).mapTo[Seq[Count]].map { prices =>
-      logger.info(s"prices: $prices")
       Ok(Json.toJson(Seq(prices)))
     }
   }
@@ -215,14 +196,12 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
 
   def getGender: Action[AnyContent] = Action.async {
     (genderManager ? GetGenderList).mapTo[Seq[Gender]].map { gender =>
-      logger.info(s"genders: $gender")
       Ok(Json.toJson(Seq(gender)))
     }
   }
 
   def getEducation: Action[AnyContent] = Action.async {
     (educationManager ? GetAllEducations).mapTo[Seq[Education]].map { education =>
-      logger.info(s"education: $education")
       Ok(Json.toJson(Seq(education)))
     }
   }

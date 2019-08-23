@@ -12,8 +12,6 @@ object OrderProtocol {
 
   case object GetPrices
 
-  case object GetAllNamesAndPrices
-
   case class Order(id: Option[Int] = None,
                    surname: String,
                    firstName: String,
@@ -36,8 +34,6 @@ object OrderProtocol {
                        name: String,
                        count: String,
                        price: String)
-
-  case class Phone (phone: String)
 
   implicit val priceListFormat: OFormat[PriceList] = Json.format[PriceList]
 
