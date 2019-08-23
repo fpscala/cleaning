@@ -33,7 +33,8 @@ object OrderProtocol {
   case class PriceList(id: Option[Int] = None,
                        name: String,
                        count: String,
-                       price: String)
+                       price: String,
+                       title: String)
 
   implicit val priceListFormat: OFormat[PriceList] = Json.format[PriceList]
 

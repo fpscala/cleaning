@@ -143,9 +143,34 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
       val name = formParams.get("name").head
       val count = formParams.get("count").head
       val price = formParams.get("price").head
-      (orderManager ? AddPrice(PriceList(None, name, count, price))).mapTo[Int].map { _ =>
+      val title = formParams.get("price").head
+      (orderManager ? AddPrice(PriceList(None, name, count, price, title))).mapTo[Int].map { _ =>
         Redirect(routes.HomeController.addPriceList()).flashing("info" -> "Successfully uploaded.")
       }
+      //      val doc = Jsoup.connect("http://localhost:9000/price-list").get
+      //      var i = 1
+      //      val titles = doc.body().getElementsByClass("price-list__title").forEach { b =>
+      //        var title = b.getElementsByClass("title").text()
+      //        var k = i - 1
+      //        println(title)
+      //        if (i > k) {
+      //          val data = doc.body().select(s".$i > .price-list__item").forEach { a =>
+      //            val name = a.getElementsByClass("price-list__name").text()
+      //            println(name)
+      //            val dots = a.getElementsByClass("price-list__quantity").text()
+      //            println(dots)
+      //            val price = a.getElementsByClass("price-list__price").text().replace(" UZS", "")
+      //            println(price)
+      //            (orderManager ? AddPrice(PriceList(None, name, dots, price, title))).mapTo[Int].map { id =>
+      //              println(s"order with id: $id is added")
+      //
+      //            }
+      //          }
+      //          i += 1
+      //        }
+      //
+      //      }
+      //      Future.successful(Ok(Json.toJson("asdf")))
     }
   }
 

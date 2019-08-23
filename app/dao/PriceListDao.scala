@@ -26,7 +26,9 @@ trait PriceListComponent extends CountComponent {
 
     def price = column[String]("price")
 
-    def * = (id.?, name, count, price) <> (PriceList.tupled, PriceList.unapply _)
+    def title = column[String]("title")
+
+    def * = (id.?, name, count, price, title) <> (PriceList.tupled, PriceList.unapply _)
 
     def getCount = foreignKey("Price_listFkCountName", count, countTable)(_.name)
 

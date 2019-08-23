@@ -10,6 +10,7 @@ CREATE TABLE "Price_list" (
   "name" VARCHAR NOT NULL,
   "count" VARCHAR CONSTRAINT  "Price_listFkCountName" REFERENCES  "Counts" ("name") ON UPDATE CASCADE ON DELETE CASCADE,
   "price" VARCHAR NOT NULL,
+  "title" VARCHAR NOT NULL,
   UNIQUE("name")
 );
 
@@ -25,16 +26,16 @@ CREATE TABLE "Orders" (
   "comment" TEXT NULL,
   "linkCode" VARCHAR(5) NOT NULL,
   "type" VARCHAR CONSTRAINT "OrdersFkPrice_listName" REFERENCES "Price_list"("name") ON update CASCADE ON DELETE CASCADE,
+  status_order INTEGER not null,
   UNIQUE("linkCode")
 );
 
-INSERT INTO "Counts" ("name") VALUES ('1 кг.');
-INSERT INTO "Counts" ("name") VALUES ('1 шт.');
+INSERT INTO "Counts" ("name") VALUES ('1кг.');
+INSERT INTO "Counts" ("name") VALUES ('1шт.');
 INSERT INTO "Counts" ("name") VALUES ('комп.');
-INSERT INTO "Counts" ("name") VALUES ('2 шт.');
+INSERT INTO "Counts" ("name") VALUES ('2шт.');
 INSERT INTO "Counts" ("name") VALUES ('Пара.');
-
-INSERT INTO "Price_list" ("name", "count", "price") VALUES ('price1', '1 sht', '5000 sum');
+INSERT INTO "Counts" ("name") VALUES ('1м.');
 
 
 

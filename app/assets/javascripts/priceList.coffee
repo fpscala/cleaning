@@ -1,32 +1,40 @@
 $ ->
-  window.Glob ?= {}
+  my.initAjax()
+
+  Glob = window.Glob || {}
+
   apiUrl =
-    prices: '/get-prices'
-    counts: '/get-counts'
+    urlName: '/get-prices'
 
   handleError = (error) ->
-    alert('something went wrong')
+#    vm.isSubmitted(no)
+    if error.status is 500 or (error.status is 400 and error.responseText)
+      toastr.error(error.responseText)
+    else
+      toastr.error('Something went wrong! Please try again.')
 
   vm = ko.mapping.fromJS
-    prices: []
-    counts: []
+    priceList: []
+    afterTitle: []
+    newArray: []
 
-  vm.getPrices = ->
+  vm.getPriceList = ->
     $.ajax
-      url: apiUrl.prices
+      url: apiUrl.urlName
       type: 'GET'
-      .fail handleError
-      .done (response) ->
-      for price in response
-        vm.prices(price)
-    $.ajax
-      url: apiUrl.counts
-      type: 'GET'
-      .fail handleError
-      .done (response) ->
-      for count in response
-        vm.counts(count)
+    .fail handleError
+    .done (response) ->
+      for arr in response
+        vm.priceList(arr)
+        arr.map (element) ->
+          vm.afterTitle.push element.title
+      vm.afterTitle (word) ->
+        word isnt "Текстильные изделия"
+      console.log(vm.afterTitle())
 
-  vm.getPrices()
+
+  console.log(vm.afterTitle())
+
+  vm.getPriceList()
 
   ko.applyBindings {vm}
