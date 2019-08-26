@@ -208,7 +208,11 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
 
   def getPrices: Action[AnyContent] = Action.async {
     (orderManager ? GetPrices).mapTo[Seq[PriceList]].map { prices =>
-      Ok(Json.toJson(Seq(prices)))
+      logger.info(s"prices: ${prices} \n")
+      val grupped = prices.groupBy(t => t.title)
+      logger.info(s"grupped: $grupped")
+//      val map = prices.map(a => a.title -> a).toMap
+      Ok(Json.toJson(grupped))
     }
   }
 

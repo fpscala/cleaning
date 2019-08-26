@@ -15,26 +15,17 @@ $ ->
 
   vm = ko.mapping.fromJS
     priceList: []
-    afterTitle: []
-    newArray: []
+    titles: ["Текстильные изделия","Верхняя одежда", "Аксессуары", "Столовое белье", "Покраска", "Постельные принадлежности", "Предметы интерьера", "Прочее"]
 
-  vm.getPriceList = ->
+  getPriceList = ->
     $.ajax
       url: apiUrl.urlName
       type: 'GET'
     .fail handleError
     .done (response) ->
-      for arr in response
-        vm.priceList(arr)
-        arr.map (element) ->
-          vm.afterTitle.push element.title
-      vm.afterTitle (word) ->
-        word isnt "Текстильные изделия"
-      console.log(vm.afterTitle())
+      vm.priceList response
 
+  getPriceList()
 
-  console.log(vm.afterTitle())
-
-  vm.getPriceList()
 
   ko.applyBindings {vm}

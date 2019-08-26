@@ -62,7 +62,7 @@ class PriceListDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigP
   }
 
   override def getPrices(): Future[Seq[PriceList]] = {
-    db.run(price.result)
+    db.run(price.sortBy(_.id).result)
   }
 }
 
