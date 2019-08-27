@@ -30,6 +30,7 @@ $ ->
     name: ''
     selectedProductId: ''
     textLinkCode:''
+    statusOrder: 0
 #    isSubmitted: no
 #    page: defaultPage
 
@@ -40,8 +41,8 @@ $ ->
       type: 'GET'
     .fail handleError
     .done (response) ->
-      for arr in response
-        vm.names(arr)
+      vm.names(response)
+      console.log(vm.names())
 
   vm.getNames()
 
@@ -106,7 +107,7 @@ $ ->
       address: vm.address()
       typeCleaning: vm.name()
       comment: vm.comment()
-
+      statusOrder: vm.statusOrder()
 #    vm.isSubmitted(yes)
     $.ajax
       url: apiUrl.send

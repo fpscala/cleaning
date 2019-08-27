@@ -12,7 +12,7 @@ import javax.inject._
 import play.api.libs.Files.TemporaryFile
 import play.api.libs.json.Json
 import play.api.mvc._
-import protocols.OrderProtocol.{AddOrder, AddPrice, Count, GetCountList, GetPrices, Order, PriceList}
+import protocols.OrderProtocol.{AddOrder, AddPrice, Count, GetCountList, GetPrices, Order, PriceList, UpdateStatusOrder}
 import protocols.WorkerProtocol.{AddImage, AddWorker, Auth, Education, Gender, GetAllEducations, GetAllLoginAndPassword, GetGenderList, Worker}
 import views.html._
 
@@ -127,8 +127,18 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     val comment = (request.body \ "comment").as[String]
     val linkCode = randomCode(5)
     val orderDay = new Date
-    (orderManager ? AddOrder(Order(None, surname, firstName, address, phone, orderDay, email, comment, linkCode, typeCleaning))).mapTo[Int].map { _ =>
+    val statusOrder = (request.body \ "statusOrder").as[Int]
+    (orderManager ? AddOrder(Order(None, surname, firstName, address, phone, orderDay, email, comment, linkCode, typeCleaning, statusOrder))).mapTo[Int].map { _ =>
       Ok(Json.toJson(s"$linkCode"))
+    }
+  }
+  }
+
+  def updateStatus = Action.async(parse.json) { implicit request => {
+    val id = (request.body \ "id").as[Int]
+    val statusOrder = (request.body \ "statusOrder").as[Int]
+    (orderManager ? UpdateStatusOrder(id, statusOrder)).mapTo[Int].map { status =>
+      Ok(Json.toJson(status))
     }
   }
   }
@@ -211,7 +221,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
       logger.info(s"prices: ${prices} \n")
       val grupped = prices.groupBy(t => t.title)
       logger.info(s"grupped: $grupped")
-//      val map = prices.map(a => a.title -> a).toMap
+      //      val map = prices.map(a => a.title -> a).toMap
       Ok(Json.toJson(grupped))
     }
   }

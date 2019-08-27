@@ -12,6 +12,9 @@ object OrderProtocol {
 
   case object GetPrices
 
+  case class UpdateStatusOrder(id: Int,
+                               statusOrder: Int)
+
   case class Order(id: Option[Int] = None,
                    surname: String,
                    firstName: String,
@@ -21,7 +24,8 @@ object OrderProtocol {
                    email: String,
                    comment: String,
                    linkCode: String,
-                   type1: String)
+                   type1: String,
+                   statusOrder: Int)
 
   implicit val orderFormat: OFormat[Order] = Json.format[Order]
 
