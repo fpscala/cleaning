@@ -57,6 +57,7 @@ libraryDependencies ++= akkaLibs ++ akkaHttp ++ commonDependencies ++ dbLibs ++ 
   "org.webjars" % "knockout" % "3.3.0",
   "org.webjars" % "requirejs" % "2.2.0",
   "org.webjars" % "toastr" % "2.1.2",
+  "net.ruippeixotog" %% "scala-scraper" % "2.1.0",
   "org.webjars" % "bootstrap" % "4.3.1",
   "org.webjars" % "momentjs" % "2.8.1"
 )

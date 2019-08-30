@@ -26,7 +26,9 @@ trait PriceListComponent extends CountComponent {
 
     def price = column[String]("price")
 
-    def * = (id.?, name, count, price) <> (PriceList.tupled, PriceList.unapply _)
+    def title = column[String]("title")
+
+    def * = (id.?, name, count, price, title) <> (PriceList.tupled, PriceList.unapply _)
 
     def getCount = foreignKey("Price_listFkCountName", count, countTable)(_.name)
 
@@ -40,7 +42,6 @@ trait PriceListDao {
 
   def getPrices: Future[Seq[PriceList]]
 
-  def getNamesAndPrices: Future[Seq[PriceList]]
 }
 
 @Singleton
@@ -60,14 +61,8 @@ class PriceListDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigP
     }
   }
 
-
   override def getPrices(): Future[Seq[PriceList]] = {
-    db.run(price.result)
+    db.run(price.sortBy(_.id).result)
   }
-
-  override def getNamesAndPrices(): Future[Seq[PriceList]]  = {
-    db.run(price.result)
-  }
-
-
 }
+

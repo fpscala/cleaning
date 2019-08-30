@@ -12,7 +12,7 @@ import javax.inject._
 import play.api.libs.Files.TemporaryFile
 import play.api.libs.json.Json
 import play.api.mvc._
-import protocols.OrderProtocol.{AddOrder, AddPrice, Count, GetAllNamesAndPrices, GetCountList, GetPrices, Order, Phone, PriceList}
+import protocols.OrderProtocol.{AddOrder, AddPrice, Count, GetCountList, GetPrices, Order, PriceList, UpdateStatusOrder}
 import protocols.WorkerProtocol.{AddImage, AddWorker, Auth, Education, Gender, GetAllEducations, GetAllLoginAndPassword, GetGenderList, Worker}
 import views.html._
 
@@ -127,16 +127,18 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     val comment = (request.body \ "comment").as[String]
     val linkCode = randomCode(5)
     val orderDay = new Date
-    (orderManager ? AddOrder(Order(None, surname, firstName, address, phone, orderDay, email, comment, linkCode, typeCleaning))).mapTo[Int].map { _ =>
+    val statusOrder = (request.body \ "statusOrder").as[Int]
+    (orderManager ? AddOrder(Order(None, surname, firstName, address, phone, orderDay, email, comment, linkCode, typeCleaning, statusOrder))).mapTo[Int].map { _ =>
       Ok(Json.toJson(s"$linkCode"))
     }
   }
   }
 
-  def isPhoneInDb = Action.async(parse.json){implicit request => {
-    val tel = (request.body \ "phone").as[String]
-    (orderManager ? Phone(tel)).mapTo[Int].map { _ =>
-      Ok(Json.toJson(true))
+  def updateStatus = Action.async(parse.json) { implicit request => {
+    val id = (request.body \ "id").as[Int]
+    val statusOrder = (request.body \ "statusOrder").as[Int]
+    (orderManager ? UpdateStatusOrder(id, statusOrder)).mapTo[Int].map { status =>
+      Ok(Json.toJson(status))
     }
   }
   }
@@ -151,9 +153,34 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
       val name = formParams.get("name").head
       val count = formParams.get("count").head
       val price = formParams.get("price").head
-      (orderManager ? AddPrice(PriceList(None, name, count, price))).mapTo[Int].map { _ =>
+      val title = formParams.get("price").head
+      (orderManager ? AddPrice(PriceList(None, name, count, price, title))).mapTo[Int].map { _ =>
         Redirect(routes.HomeController.addPriceList()).flashing("info" -> "Successfully uploaded.")
       }
+      //      val doc = Jsoup.connect("http://localhost:9000/price-list").get
+      //      var i = 1
+      //      val titles = doc.body().getElementsByClass("price-list__title").forEach { b =>
+      //        var title = b.getElementsByClass("title").text()
+      //        var k = i - 1
+      //        println(title)
+      //        if (i > k) {
+      //          val data = doc.body().select(s".$i > .price-list__item").forEach { a =>
+      //            val name = a.getElementsByClass("price-list__name").text()
+      //            println(name)
+      //            val dots = a.getElementsByClass("price-list__quantity").text()
+      //            println(dots)
+      //            val price = a.getElementsByClass("price-list__price").text().replace(" UZS", "")
+      //            println(price)
+      //            (orderManager ? AddPrice(PriceList(None, name, dots, price, title))).mapTo[Int].map { id =>
+      //              println(s"order with id: $id is added")
+      //
+      //            }
+      //          }
+      //          i += 1
+      //        }
+      //
+      //      }
+      //      Future.successful(Ok(Json.toJson("asdf")))
     }
   }
 
@@ -191,23 +218,16 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
 
   def getPrices: Action[AnyContent] = Action.async {
     (orderManager ? GetPrices).mapTo[Seq[PriceList]].map { prices =>
-      logger.info(s"prices: $prices")
-      Ok(Json.toJson(Seq(prices)))
-    }
-  }
-
-  case class NameAndPrice(name: String, price: String)
-
-  def getNames: Action[AnyContent] = Action.async {
-    (orderManager ? GetAllNamesAndPrices).mapTo[Seq[PriceList]].map { names =>
-      logger.info(s"names: $names")
-      Ok(Json.toJson(Seq(names)))
+      logger.info(s"prices: ${prices} \n")
+      val grupped = prices.groupBy(t => t.title)
+      logger.info(s"grupped: $grupped")
+      //      val map = prices.map(a => a.title -> a).toMap
+      Ok(Json.toJson(grupped))
     }
   }
 
   def getCounts: Action[AnyContent] = Action.async {
     (genderManager ? GetCountList).mapTo[Seq[Count]].map { prices =>
-      logger.info(s"prices: $prices")
       Ok(Json.toJson(Seq(prices)))
     }
   }
@@ -215,14 +235,12 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
 
   def getGender: Action[AnyContent] = Action.async {
     (genderManager ? GetGenderList).mapTo[Seq[Gender]].map { gender =>
-      logger.info(s"genders: $gender")
       Ok(Json.toJson(Seq(gender)))
     }
   }
 
   def getEducation: Action[AnyContent] = Action.async {
     (educationManager ? GetAllEducations).mapTo[Seq[Education]].map { education =>
-      logger.info(s"education: $education")
       Ok(Json.toJson(Seq(education)))
     }
   }
