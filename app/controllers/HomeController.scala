@@ -9,6 +9,7 @@ import akka.pattern.ask
 import akka.util.Timeout
 import com.typesafe.scalalogging.LazyLogging
 import javax.inject._
+import org.jsoup.Jsoup
 import play.api.libs.Files.TemporaryFile
 import play.api.libs.json.Json
 import play.api.mvc._
@@ -19,6 +20,19 @@ import views.html._
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Random
+
+object HomeController extends App {
+  val doc = Jsoup.connect("http://luxlaundry.uz/price/price-list").get
+  var content = doc.body().getElementsByClass("tab-content").forEach { element =>
+    val title = element.getElementsByClass("title").text()
+    val names = element.getElementsByClass("price-list__item").forEach { b =>
+      val name = b.getElementsByClass("price-list__name").text()
+      val count = b.getElementsByClass("price-list__quantity").text()
+      val price = b.getElementsByClass("price-list__price").text()
+    }
+  }
+
+}
 
 @Singleton
 class HomeController @Inject()(val controllerComponents: ControllerComponents,
@@ -157,91 +171,90 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
       (orderManager ? AddPrice(PriceList(None, name, count, price, title))).mapTo[Int].map { _ =>
         Redirect(routes.HomeController.addPriceList()).flashing("info" -> "Successfully uploaded.")
       }
-      //      val doc = Jsoup.connect("http://localhost:9000/price-list").get
-      //      var i = 1
-      //      val titles = doc.body().getElementsByClass("price-list__title").forEach { b =>
-      //        var title = b.getElementsByClass("title").text()
-      //        var k = i - 1
-      //        println(title)
-      //        if (i > k) {
-      //          val data = doc.body().select(s".$i > .price-list__item").forEach { a =>
-      //            val name = a.getElementsByClass("price-list__name").text()
-      //            println(name)
-      //            val dots = a.getElementsByClass("price-list__quantity").text()
-      //            println(dots)
-      //            val price = a.getElementsByClass("price-list__price").text().replace(" UZS", "")
-      //            println(price)
-      //            (orderManager ? AddPrice(PriceList(None, name, dots, price, title))).mapTo[Int].map { id =>
-      //              println(s"order with id: $id is added")
-      //
-      //            }
-      //          }
-      //          i += 1
-      //        }
-      //
-      //      }
-      //      Future.successful(Ok(Json.toJson("asdf")))
+//      val doc = Jsoup.connect("http://luxlaundry.uz/price/price-list").get
+//      var content = doc.body().getElementsByClass("tab-content").forEach { element =>
+//        val title = element.getElementsByClass("title").text()
+//        val names = element.getElementsByClass("price-list__item").forEach { b =>
+//          val name = b.getElementsByClass("price-list__name").text()
+//          val count = b.getElementsByClass("price-list__quantity").text()
+//          val price = b.getElementsByClass("price-list__price").text()
+//          (orderManager ? AddPrice(PriceList(None, name, count, price, title))).mapTo[Int].map { id =>
+//            println(s"order with id: $id is added")
+//          }
+//        }
+//      }
+//      Future.successful(Ok(Json.toJson("asdf")))
     }
   }
 
-  def addWorker(): Action[MultipartFormData[TemporaryFile]] = Action.async(parse.multipartFormData) { implicit request: Request[MultipartFormData[TemporaryFile]] => {
-    val body = request.body.asFormUrlEncoded
-    logger.info(s"body: $body")
-    val surname = body("surname").head
-    val firstName = body("first_name").head
-    val lastName = body("last_name").headOption
-    val address = body("address").head
-    val phone = body("phone").head
-    val passportSeriesAndNumber = body("passport_series_and_number").head
-    val dayGettingPassport = parseDate(body("day_getting_passport").head)
-    val warnings = body("warnings").headOption.flatMap(w => Option(Json.toJson(w)))
-    val pensionNumber = body("pension_number").head.toInt
-    val itn = body("itn").head.toLong
-    val genderId = body("genderId").head.toInt
-    val birthDay = parseDate(body("birthday").head)
-    val birthPlace = body("birth_place").head
-    val education = body("educationId").head.toInt
-    val password = body("password").head
 
-    request.body.file("attachedFile").map { tempFile =>
-      val fileName = tempFile.filename
-      val imgData = getBytesFromPath(tempFile.ref.path)
-      (workerManager ? AddWorker(Worker(None, surname, firstName, lastName, address, phone, passportSeriesAndNumber,
-        dayGettingPassport, fileName, imgData, warnings, pensionNumber, itn, genderId, birthDay,
-        birthPlace, education, password))).mapTo[Int].map { _ =>
-        Ok(Json.toJson("Successfully uploaded"))
-      }
-    }.getOrElse(Future.successful(BadRequest("Error occurred. Please try again")))
-  }
+  def addWorker(): Action[MultipartFormData[TemporaryFile]] = Action.async(parse.multipartFormData) {
+    implicit request: Request[MultipartFormData[TemporaryFile]] => {
+      val body = request.body.asFormUrlEncoded
+      logger.info(s"body: $body")
+      val surname = body("surname").head
+      val firstName = body("first_name").head
+      val lastName = body("last_name").headOption
+      val address = body("address").head
+      val phone = body("phone").head
+      val passportSeriesAndNumber = body("passport_series_and_number").head
+      val dayGettingPassport = parseDate(body("day_getting_passport").head)
+      val warnings = body("warnings").headOption.flatMap(w => Option(Json.toJson(w)))
+      val pensionNumber = body("pension_number").head.toInt
+      val itn = body("itn").head.toLong
+      val genderId = body("genderId").head.toInt
+      val birthDay = parseDate(body("birthday").head)
+      val birthPlace = body("birth_place").head
+      val education = body("educationId").head.toInt
+      val password = body("password").head
+
+      request.body.file("attachedFile").map {
+        tempFile =>
+          val fileName = tempFile.filename
+          val imgData = getBytesFromPath(tempFile.ref.path)
+          (workerManager ? AddWorker(Worker(None, surname, firstName, lastName, address, phone, passportSeriesAndNumber,
+            dayGettingPassport, fileName, imgData, warnings, pensionNumber, itn, genderId, birthDay,
+            birthPlace, education, password))).mapTo[Int].map {
+            _ =>
+              Ok(Json.toJson("Successfully uploaded"))
+          }
+      }.getOrElse(Future.successful(BadRequest("Error occurred. Please try again")))
+    }
   }
 
 
   def getPrices: Action[AnyContent] = Action.async {
-    (orderManager ? GetPrices).mapTo[Seq[PriceList]].map { prices =>
-      logger.info(s"prices: ${prices} \n")
-      val grupped = prices.groupBy(t => t.title)
-      logger.info(s"grupped: $grupped")
-      //      val map = prices.map(a => a.title -> a).toMap
-      Ok(Json.toJson(grupped))
+    (orderManager ? GetPrices).mapTo[Seq[PriceList]].map {
+      prices =>
+        logger.info(s"prices: ${
+          prices
+        } \n")
+        val grupped = prices.groupBy(t => t.title)
+        logger.info(s"grupped: $grupped")
+        //      val map = prices.map(a => a.title -> a).toMap
+        Ok(Json.toJson(grupped))
     }
   }
 
   def getCounts: Action[AnyContent] = Action.async {
-    (genderManager ? GetCountList).mapTo[Seq[Count]].map { prices =>
-      Ok(Json.toJson(Seq(prices)))
+    (genderManager ? GetCountList).mapTo[Seq[Count]].map {
+      prices =>
+        Ok(Json.toJson(Seq(prices)))
     }
   }
 
 
   def getGender: Action[AnyContent] = Action.async {
-    (genderManager ? GetGenderList).mapTo[Seq[Gender]].map { gender =>
-      Ok(Json.toJson(Seq(gender)))
+    (genderManager ? GetGenderList).mapTo[Seq[Gender]].map {
+      gender =>
+        Ok(Json.toJson(Seq(gender)))
     }
   }
 
   def getEducation: Action[AnyContent] = Action.async {
-    (educationManager ? GetAllEducations).mapTo[Seq[Education]].map { education =>
-      Ok(Json.toJson(Seq(education)))
+    (educationManager ? GetAllEducations).mapTo[Seq[Education]].map {
+      education =>
+        Ok(Json.toJson(Seq(education)))
     }
   }
 
