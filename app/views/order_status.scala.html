@@ -4,66 +4,80 @@
 <link href="@routes.Assets.versioned("stylesheets/progressbar.css")" rel="stylesheet">
 
 @main("Play", webJarsUtil) {
-    @navbar("Order-Status")
-    <div class="main">
-        <div class="container text-center mt-5 mb-5">
-            <h3>Status</h3>
-        </div>
-        <div class="container-fluid pr">
-            <div class="row">
-                <div class="col-sm-10 offset-sm-1 p-2 pt-4">
-                    <div class="row">
-                        <div class="col-sm-5 offset-sm-1 col-6 text-left">
-                            <b class="text-light">Iyun 22, 2019</b>
-                        </div>
-                        <div class="col-sm-5 col-6 text-right">
-                            <b class="text-light">Iyun 25, 2019</b>
-                        </div>
-                        <div class="col-sm-1"></div>
-                    </div>
-                </div>
+  @navbar("Order-Status")
+  <script src="@routes.Assets.versioned("javascripts/priceList.js")" type="text/javascript"></script>
+  <div class="main">
+    <div class="container text-center mt-5 mb-5">
+      <div class="row">
+        <div class="col-12 col-sm-8 offset-sm-2">
+          <form>
+            <div class="form-group">
+              <label for="linkCode"><h1>Iltimos linkCode ni kiriting!</h1></label>
+              <input type="text" name="linkCode" id="linkCode" data-bind="value: vm.subscriptCode" class=form-control placeholder="Линк код *" />
             </div>
-            <div class="row">
-                <div class="progressbar col-sm-10 offset-sm-1 col-12">
-                    <ul class="row pl-0 text-light">
-                        <div class="col-3 col-sm-3">
-                            <p>Order Placed</p>
-                        </div>
-                        <div class="col-3 col-sm-3">
-                            <p>In Progress</p>
-                        </div>
-                        <div class="col-3 col-sm-3">
-                            <p>Accepted</p>
-                        </div>
-                        <div class="col-3 col-sm-3">
-                            <p>Shipped</p>
-                        </div>
-                    </ul>
-                    <ul class="row pl-0">
-                        <li class="active col-3 col-sm-3">
-                            <i class="fas fa-clipboard-list"></i>
-                        </li>
-                        <li class="active col-3 col-sm-3">
-                            <i class="fas fa-tint"></i>
-                        </li>
-                        <li class="ctive col-3 col-sm-3">
-                            <i class="fas fa-clipboard-check"></i>
-                        </li>
-                        <li class="ctive col-3 col-sm-3">
-                            <i class="fas fa-shipping-fast"></i>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+          </form>
+          <p data-bind="text: vm.textLinkCode"></p>
         </div>
-        <div class="row bg-yellow details">
-            <b class="col-md-10 offset-md-1">
-                Details for Order
-                <span>#185283</span>
-            </b>
-            <div class="col-md-10 offset-md-1 bg-white">
-                wdadaw
-            </div>
-        </div>
+      </div>
     </div>
+    <div class="container-fluid" style="display: none">
+      <div class="pr" >
+        <div class="row">
+          <div class="col-sm-10 offset-sm-1 p-2 pt-4">
+            <div class="row">
+              <div class="col-sm-5 offset-sm-1 col-6 text-left">
+                <b class="text-light">Iyun 22, 2019</b>
+              </div>
+              <div class="col-sm-5 col-6 text-right">
+                <b class="text-light">Iyun 25, 2019</b>
+              </div>
+              <div class="col-sm-1"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="progressbar col-sm-10 offset-sm-1 col-12">
+            <ul class="row pl-0 text-light">
+              <div class="col-3 col-sm-3">
+                <p>Order Placed</p>
+              </div>
+              <div class="col-3 col-sm-3">
+                <p>In Progress</p>
+              </div>
+              <div class="col-3 col-sm-3">
+                <p>Accepted</p>
+              </div>
+              <div class="col-3 col-sm-3">
+                <p>Shipped</p>
+              </div>
+            </ul>
+            <ul class="row pl-0">
+              <li class="active col-3 col-sm-3">
+                <i class="fas fa-clipboard-list"></i>
+              </li>
+              <li class="active col-3 col-sm-3">
+                <i class="fas fa-tint"></i>
+              </li>
+              <li class="ctive col-3 col-sm-3">
+                <i class="fas fa-clipboard-check"></i>
+              </li>
+              <li class="ctive col-3 col-sm-3">
+                <i class="fas fa-shipping-fast"></i>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row bg-yellow details">
+        <b class="col-md-10 offset-md-1">
+          Details for Order
+          <span>#185283</span>
+        </b>
+        <div class="col-md-10 offset-md-1 bg-white">
+          wdadaw
+        </div>
+      </div>
+    </div>
+  </div>
+
 }

@@ -112,7 +112,6 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   }
   }
 
-
   def workerForm: Action[AnyContent] = Action {
     Ok(workerTemplate())
   }
@@ -120,7 +119,6 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   def uploadFile(): Action[MultipartFormData[TemporaryFile]] = Action.async(parse.multipartFormData) { implicit request: Request[MultipartFormData[TemporaryFile]] => {
     val body = request.body.asFormUrlEncoded
     val name = body.get("name").flatMap(_.headOption)
-    logger.info(s"name: $name")
     request.body.file("attachedFile").map { tempFile =>
       val fileName = tempFile.filename
       val imgData = getBytesFromPath(tempFile.ref.path)
@@ -191,7 +189,6 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   def addWorker(): Action[MultipartFormData[TemporaryFile]] = Action.async(parse.multipartFormData) {
     implicit request: Request[MultipartFormData[TemporaryFile]] => {
       val body = request.body.asFormUrlEncoded
-      logger.info(s"body: $body")
       val surname = body("surname").head
       val firstName = body("first_name").head
       val lastName = body("last_name").headOption
@@ -226,12 +223,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   def getPrices: Action[AnyContent] = Action.async {
     (orderManager ? GetPrices).mapTo[Seq[PriceList]].map {
       prices =>
-        logger.info(s"prices: ${
-          prices
-        } \n")
         val grupped = prices.groupBy(t => t.title)
-        logger.info(s"grupped: $grupped")
-        //      val map = prices.map(a => a.title -> a).toMap
         Ok(Json.toJson(grupped))
     }
   }

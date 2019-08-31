@@ -15,7 +15,7 @@ $ ->
 
   vm = ko.mapping.fromJS
     priceList: []
-    titles: ["Текстильные изделия","Верхняя одежда", "Аксессуары", "Столовое белье", "Покраска", "Постельные принадлежности", "Предметы интерьера", "Прочее"]
+    titles: []
 
   getPriceList = ->
     $.ajax
@@ -24,6 +24,8 @@ $ ->
     .fail handleError
     .done (response) ->
       vm.priceList response
+      for k,v of vm.priceList()
+        vm.titles.push k
 
   getPriceList()
 

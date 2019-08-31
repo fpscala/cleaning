@@ -31,7 +31,10 @@ $ ->
     selectedProductId: ''
     textLinkCode:''
     statusOrder: 0
-#    isSubmitted: no
+    titles: []
+    goodName: []
+
+  #    isSubmitted: no
 #    page: defaultPage
 
 
@@ -42,7 +45,13 @@ $ ->
     .fail handleError
     .done (response) ->
       vm.names(response)
-      console.log(vm.names())
+      for k,v of vm.names()
+        vm.titles.push k
+      vm.titles().map (title) ->
+        for goods in vm.names()[title]
+          vm.goodName.push goods
+          vm.goodName.sort (a, b) ->
+            a.id - b.id
 
   vm.getNames()
 
@@ -56,7 +65,7 @@ $ ->
 
 
   vm.selectedProductId.subscribe (pr) ->
-    for goods in vm.names()
+    for goods in vm.goodName()
       if goods.id is pr
         vm.name(goods.name)
         vm.price(goods.price)
