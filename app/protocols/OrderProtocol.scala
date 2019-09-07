@@ -8,6 +8,8 @@ object OrderProtocol {
 
   case class AddOrder(orders: Order)
 
+  case class GetDetails(linkCode: String)
+
   case object GetAllOrders
 
   case object GetPrices

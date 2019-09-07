@@ -11,9 +11,9 @@ import com.typesafe.scalalogging.LazyLogging
 import javax.inject._
 import org.jsoup.Jsoup
 import play.api.libs.Files.TemporaryFile
-import play.api.libs.json.Json
+import play.api.libs.json.{JsValue, Json}
 import play.api.mvc._
-import protocols.OrderProtocol.{AddOrder, AddPrice, Count, GetCountList, GetPrices, Order, PriceList, UpdateStatusOrder}
+import protocols.OrderProtocol.{AddOrder, AddPrice, Count, GetCountList, GetDetails, GetPrices, Order, PriceList, UpdateStatusOrder}
 import protocols.WorkerProtocol.{AddImage, AddWorker, Auth, Education, Gender, GetAllEducations, GetAllLoginAndPassword, GetGenderList, Worker}
 import views.html._
 
@@ -129,7 +129,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   }
   }
 
-  def addOrder = Action.async(parse.json) { implicit request => {
+  def addOrder: Action[JsValue] = Action.async(parse.json) { implicit request => {
     val surname = (request.body \ "surname").as[String]
     val firstName = (request.body \ "firstName").as[String]
     val email = (request.body \ "email").as[String]
@@ -146,7 +146,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   }
   }
 
-  def updateStatus = Action.async(parse.json) { implicit request => {
+  def updateStatus: Action[JsValue] = Action.async(parse.json) { implicit request => {
     val id = (request.body \ "id").as[Int]
     val statusOrder = (request.body \ "statusOrder").as[Int]
     (orderManager ? UpdateStatusOrder(id, statusOrder)).mapTo[Int].map { status =>
@@ -159,7 +159,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     Random.alphanumeric.take(length).mkString.toLowerCase
   }
 
-  def addPrices = {
+  def addPrices: Action[AnyContent] = {
     Action.async { implicit request =>
       val formParams = request.body.asFormUrlEncoded
       val name = formParams.get("name").head
@@ -225,6 +225,22 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
       prices =>
         val grupped = prices.groupBy(t => t.title)
         Ok(Json.toJson(grupped))
+    }
+  }
+
+  def getDetailsCustomer: Action[JsValue] = Action.async(parse.json) { implicit request => {
+    val linkCode = (request.body \ "linkCode").as[String]
+    (orderManager ? GetDetails(linkCode)).mapTo[Option[Order]].map {
+      details =>
+//        details match {
+//          case Some (order) =>
+//            Ok(Json.toJson(order))
+//          case None =>
+//            Ok(Json.toJson("This order"))
+//        }
+        Ok(Json.toJson(details))
+
+    }
     }
   }
 

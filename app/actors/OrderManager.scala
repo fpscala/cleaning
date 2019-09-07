@@ -7,7 +7,7 @@ import dao.{OrdersDao, PriceListDao}
 import javax.inject.Inject
 import play.api.Environment
 import protocols.OrderProtocol
-import protocols.OrderProtocol.{AddOrder, AddPrice, GetAllOrders, GetPrices, Order, PriceList, UpdateStatusOrder}
+import protocols.OrderProtocol.{AddOrder, AddPrice, GetAllOrders, GetDetails, GetPrices, Order, PriceList, UpdateStatusOrder}
 
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{ExecutionContext, Future}
@@ -36,6 +36,9 @@ class OrderManager @Inject()(val environment: Environment,
     case GetPrices =>
       getPrices.pipeTo(sender())
 
+    case GetDetails(linkCode) =>
+      getDetails(linkCode).pipeTo(sender())
+
     case _ => log.info(s"received unknown message")
   }
 
@@ -51,6 +54,13 @@ class OrderManager @Inject()(val environment: Environment,
       updatedOrder = order.get.copy(statusOrder = status)
       response <- orderDao.update(updatedOrder)
     } yield response
+  }
+
+  private def getDetails(linkCode: String) = {
+
+    for {
+      detailsOrder <- orderDao.getOrderByLinkCode(linkCode)
+    } yield detailsOrder
   }
 
   private def addPrice(priceData: PriceList): Future[Int] = {

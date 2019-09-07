@@ -3,10 +3,12 @@ $ ->
 
   Glob = window.Glob || {}
 
+  apiUrl =
+    sendCode: '/get-details'
+
   vm = ko.mapping.fromJS
     subscribeCode: ''
-    textLinkCode:'dad'
-
+    detailsCustomer: ''
 
   handleError = (error) ->
 #    vm.isSubmitted(no)
@@ -16,12 +18,25 @@ $ ->
       toastr.error('Something went wrong! Please try again.')
 
 
-#  vm.subscribeCode.subscribe (code) ->
-#        vm.textLinkCode(code)
-#    if pr is undefined
-#      vm.textLinkCode('0')
-#    else
-#      vm.textLinkCode()
+  vm.subscribeCode.subscribe (code) ->
+    data =
+      linkCode: code
+
+    $.ajax
+      url: apiUrl.sendCode
+      type: 'POST'
+      data: JSON.stringify(data)
+      dataType: 'json'
+      contentType: 'application/json'
+    .fail handleError
+    .done (response) ->
+      if  response is null
+        vm.detailsCustomer ("dwadwad")
+      else
+        vm.detailsCustomer(response.firstName)
+      console.log(response)
+
+
 
 
   ko.applyBindings {vm}

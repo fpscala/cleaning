@@ -58,6 +58,8 @@ trait OrdersDao {
   def getOrders: Future[Seq[Order]]
 
   def getOrderById(id: Int): Future[Option[Order]]
+
+  def getOrderByLinkCode(linkCode: String): Future[Option[Order]]
 }
 
 @Singleton
@@ -89,5 +91,9 @@ class OrdersDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProv
 
   override def getOrderById(id: Int): Future[Option[Order]] = {
     db.run(orders.filter(_.id === id).result.headOption)
+  }
+
+  override def getOrderByLinkCode(linkCode: String): Future[Option[Order]] = {
+    db.run(orders.filter(_.linkCode === linkCode).result.headOption)
   }
 }
