@@ -48,18 +48,18 @@ class OrderManager @Inject()(val environment: Environment,
     } yield response match {
       case Some (isOrder) =>
         if(isOrder.email == orderData.email && isOrder.type1 == orderData.type1) {
-          Future.successful(isOrder.linkCode)
+          isOrder.linkCode
         }
         else {
-          orderDao.create(orderData).flatMap { order =>
+          orderDao.create(orderData).map { order =>
             log.info(s"ORDER: $order")
-            Future.successful(order)
+            order
           }
         }
       case None =>
         log.info("is here")
-        orderDao.create(orderData).flatMap { order =>
-          Future.successful(order)
+        orderDao.create(orderData).map { order =>
+          order
         }
     }
   }

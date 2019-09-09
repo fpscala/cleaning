@@ -139,9 +139,9 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     val linkCode = randomCode(5)
     val orderDay = new Date
     val statusOrder = (request.body \ "statusOrder").as[Int]
-    (orderManager ? AddOrder(Order(None, surname, firstName, address, phone, orderDay, email, comment, linkCode, typeCleaning, statusOrder))).mapTo[Future[String]].map { order =>
-//      Ok(Json.toJson(order)) <-------<< not working
-      Ok(Json.toJson(""))
+    (orderManager ? AddOrder(Order(None, surname, firstName, address, phone, orderDay, email, comment, linkCode, typeCleaning, statusOrder))).mapTo[String].map { order =>
+      Ok(Json.toJson(order))
+//      Ok(Json.toJson(""))
     }
   }
   }
