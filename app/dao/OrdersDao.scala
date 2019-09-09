@@ -51,7 +51,7 @@ trait OrdersComponent extends PriceListComponent {
 
 @ImplementedBy(classOf[OrdersDaoImpl])
 trait OrdersDao {
-  def create(ordersData: Order): Future[Int]
+  def create(ordersData: Order): Future[String]
 
   def update(order: Order): Future[Int]
 
@@ -60,6 +60,8 @@ trait OrdersDao {
   def getOrderById(id: Int): Future[Option[Order]]
 
   def getOrderByLinkCode(linkCode: String): Future[Option[Order]]
+
+  def findOrderByPhone(phone: String): Future[Option[Order]]
 }
 
 @Singleton
@@ -73,9 +75,9 @@ class OrdersDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProv
 
   val orders = TableQuery[Orders]
 
-  override def create(orderData: Order): Future[Int] = {
+  override def create(orderData: Order): Future[String] = {
     db.run {
-      (orders returning orders.map(_.id)) += orderData
+      (orders returning orders.map(_.linkCode)) += orderData
     }
   }
 
@@ -91,6 +93,10 @@ class OrdersDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProv
 
   override def getOrderById(id: Int): Future[Option[Order]] = {
     db.run(orders.filter(_.id === id).result.headOption)
+  }
+
+  override def findOrderByPhone(phone: String): Future[Option[Order]] = {
+    db.run(orders.filter(_.phone === phone).result.headOption)
   }
 
   override def getOrderByLinkCode(linkCode: String): Future[Option[Order]] = {

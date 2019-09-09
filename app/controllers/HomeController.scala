@@ -18,8 +18,8 @@ import protocols.WorkerProtocol.{AddImage, AddWorker, Auth, Education, Gender, G
 import views.html._
 
 import scala.concurrent.duration.DurationInt
-import scala.concurrent.{ExecutionContext, Future}
-import scala.util.Random
+import scala.concurrent.{Await, ExecutionContext, Future}
+import scala.util.{Failure, Random, Success}
 
 object HomeController extends App {
 //  val doc = Jsoup.connect("http://luxlaundry.uz/price/price-list").get
@@ -139,8 +139,9 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     val linkCode = randomCode(5)
     val orderDay = new Date
     val statusOrder = (request.body \ "statusOrder").as[Int]
-    (orderManager ? AddOrder(Order(None, surname, firstName, address, phone, orderDay, email, comment, linkCode, typeCleaning, statusOrder))).mapTo[Int].map { _ =>
-      Ok(Json.toJson(s"$linkCode"))
+    (orderManager ? AddOrder(Order(None, surname, firstName, address, phone, orderDay, email, comment, linkCode, typeCleaning, statusOrder))).mapTo[Future[String]].map { order =>
+//      Ok(Json.toJson(order)) <-------<< not working
+      Ok(Json.toJson(""))
     }
   }
   }

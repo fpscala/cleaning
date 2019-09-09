@@ -42,9 +42,25 @@ class OrderManager @Inject()(val environment: Environment,
     case _ => log.info(s"received unknown message")
   }
 
-  private def addOrder(orderData: Order): Future[Int] = {
-    orderDao.create(orderData).flatMap { order =>
-      Future.successful(order)
+  private def addOrder(orderData: Order) = {
+    for {
+      response <- orderDao.findOrderByPhone(orderData.phone)
+    } yield response match {
+      case Some (isOrder) =>
+        if(isOrder.email == orderData.email && isOrder.type1 == orderData.type1) {
+          Future.successful(isOrder.linkCode)
+        }
+        else {
+          orderDao.create(orderData).flatMap { order =>
+            log.info(s"ORDER: $order")
+            Future.successful(order)
+          }
+        }
+      case None =>
+        log.info("is here")
+        orderDao.create(orderData).flatMap { order =>
+          Future.successful(order)
+        }
     }
   }
 
