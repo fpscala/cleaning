@@ -43,12 +43,12 @@ class OrderManager @Inject()(val environment: Environment,
   }
 
   private def addOrder(orderData: Order) = {
-    for {
+    (for {
       response <- orderDao.findOrderByPhone(orderData.phone)
     } yield response match {
       case Some (isOrder) =>
         if(isOrder.email == orderData.email && isOrder.type1 == orderData.type1) {
-          isOrder.linkCode
+          Future.successful(isOrder.linkCode)
         }
         else {
           orderDao.create(orderData).map { order =>
@@ -61,7 +61,7 @@ class OrderManager @Inject()(val environment: Environment,
         orderDao.create(orderData).map { order =>
           order
         }
-    }
+    }).flatten
   }
 
   private def updateStatusOrder(id: Int, status: Int): Future[Int] = {
