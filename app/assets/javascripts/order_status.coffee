@@ -9,6 +9,14 @@ $ ->
   vm = ko.mapping.fromJS
     subscribeCode: ''
     detailsCustomer: ''
+    customerName: ''
+    customerSurName: ''
+    customerEmail: ''
+    customerPhone: ''
+    customerAddress: ''
+    customerTypeCleaning: ''
+    customerLinkCode: ''
+    customerOrderDay: ''
 
   handleError = (error) ->
 #    vm.isSubmitted(no)
@@ -17,6 +25,20 @@ $ ->
     else
       toastr.error('Something went wrong! Please try again.')
 
+
+  $derailsLinkCode = $('#details-costumer')
+  vm.showDivDetails = (msg) ->
+    console.log(msg)
+#    vm.detailsCustomer(msg)
+    vm.customerName(msg.firstName)
+    vm.customerSurName(msg.surname)
+    vm.customerEmail(msg.email)
+    vm.customerPhone(msg.phone)
+    vm.customerAddress(msg.address)
+    vm.customerTypeCleaning(msg.type1)
+    vm.customerLinkCode(msg.linkCode)
+    vm.customerOrderDay(msg.orderDay)
+#    $derailsLinkCode.show
 
   vm.subscribeCode.subscribe (code) ->
     data =
@@ -33,8 +55,7 @@ $ ->
       if  response is null
         vm.detailsCustomer ("dwadwad")
       else
-        vm.detailsCustomer(response.firstName)
-      console.log(response)
+        vm.showDivDetails(response)
 
 
 

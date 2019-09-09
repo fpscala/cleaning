@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-    <div class="container-fluid" style="display: none">
+    <div class="container-fluid" id="details-costumer">
       <div class="pr" >
         <div class="row">
           <div class="col-sm-10 offset-sm-1 p-2 pt-4">
@@ -70,11 +70,44 @@
       </div>
       <div class="row bg-yellow details">
         <b class="col-md-10 offset-md-1">
-          Details for Order
-          <span>#185283</span>
+          <div class="alert alert-success display-4">
+            Your code order <strong class="text-danger" data-bind="text: vm.customerLinkCode()"></strong>
+          </div>
         </b>
-        <div class="col-md-10 offset-md-1 bg-white">
-          wdadaw
+
+        <div class="col-md-10 offset-md-1">
+          <table class="table table-dark display-4 table-striped">
+            <tbody>
+              <tr>
+                <td>FirstName</td>
+                <td data-bind="text: vm.customerName()"></td>
+              </tr>
+              <tr>
+                <td>SurName</td>
+                <td data-bind="text: vm.customerSurName()"></td>
+              </tr>
+              <tr>
+                <td>Email</td>
+                <td data-bind="text: vm.customerEmail()"></td>
+              </tr>
+              <tr>
+                <td>Phone</td>
+                <td data-bind="text: vm.customerPhone()"></td>
+              </tr>
+              <tr>
+                <td>Address</td>
+                <td data-bind="text: vm.customerAddress()"></td>
+              </tr>
+              <tr>
+                <td>Type Cleaning</td>
+                <td data-bind="text: vm.customerTypeCleaning()"></td>
+              </tr>
+              <tr>
+                <td>Order Date</td>
+                <td data-bind="text: vm.customerOrderDay()"></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

@@ -70,7 +70,7 @@ $ ->
         vm.name(goods.name)
         vm.price(goods.price)
     if pr is undefined
-      vm.price('0')
+      vm.price('0 UZS')
     else
       vm.price()
 

@@ -22,16 +22,15 @@ import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Random
 
 object HomeController extends App {
-  val doc = Jsoup.connect("http://luxlaundry.uz/price/price-list").get
-  var content = doc.body().getElementsByClass("tab-content").forEach { element =>
-    val title = element.getElementsByClass("title").text()
-    val names = element.getElementsByClass("price-list__item").forEach { b =>
-      val name = b.getElementsByClass("price-list__name").text()
-      val count = b.getElementsByClass("price-list__quantity").text()
-      val price = b.getElementsByClass("price-list__price").text()
-    }
-  }
-
+//  val doc = Jsoup.connect("http://luxlaundry.uz/price/price-list").get
+//  var content = doc.body().getElementsByClass("tab-content").forEach { element =>
+//    val title = element.getElementsByClass("title").text()
+//    val names = element.getElementsByClass("price-list__item").forEach { b =>
+//      val name = b.getElementsByClass("price-list__name").text()
+//      val count = b.getElementsByClass("price-list__quantity").text()
+//      val price = b.getElementsByClass("price-list__price").text()
+//    }
+//  }
 }
 
 @Singleton
