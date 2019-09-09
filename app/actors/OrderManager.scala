@@ -44,7 +44,7 @@ class OrderManager @Inject()(val environment: Environment,
 
   private def addOrder(orderData: Order) = {
     (for {
-      response <- orderDao.findOrderByPhone(orderData.phone)
+      response <- orderDao.findOrderByPhone(orderData.phone, orderData.type1)
     } yield response match {
       case Some (isOrder) =>
         log.info(s"old: ${isOrder.type1}")

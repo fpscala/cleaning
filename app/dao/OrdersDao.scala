@@ -61,7 +61,7 @@ trait OrdersDao {
 
   def getOrderByLinkCode(linkCode: String): Future[Option[Order]]
 
-  def findOrderByPhone(phone: String): Future[Option[Order]]
+  def findOrderByPhone(phone: String, type1: String): Future[Option[Order]]
 }
 
 @Singleton
@@ -95,8 +95,8 @@ class OrdersDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProv
     db.run(orders.filter(_.id === id).result.headOption)
   }
 
-  override def findOrderByPhone(phone: String): Future[Option[Order]] = {
-    db.run(orders.filter(_.phone === phone).result.headOption)
+  override def findOrderByPhone(phone: String, type1: String): Future[Option[Order]] = {
+    db.run(orders.filter(order => order.phone === phone && order.typeName === type1).result.headOption)
   }
 
   override def getOrderByLinkCode(linkCode: String): Future[Option[Order]] = {
