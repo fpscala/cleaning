@@ -47,6 +47,9 @@ class OrderManager @Inject()(val environment: Environment,
       response <- orderDao.findOrderByPhone(orderData.phone)
     } yield response match {
       case Some (isOrder) =>
+        log.info(s"old: ${isOrder.type1}")
+        log.info(s"current: ${orderData.type1}")
+
         if(isOrder.email == orderData.email && isOrder.type1 == orderData.type1) {
           Future.successful(isOrder.linkCode)
         }

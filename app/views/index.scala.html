@@ -135,29 +135,29 @@
 
       </div>
     </div>
-    <div class="row bg-darker p-5" style="height: auto;">
-      <div class="col-sm-10 offset-sm-1">
+    <div class="row bg-darker pb-5" style="height: auto;">
+      <div class="col-sm-10 offset-sm-1 col-12">
         <div class="row">
-          <div class="col-sm-6 offset-sm-3 text-center p-5">
+          <div class="col-sm-6 offset-sm-3 col-12 text-center p-5">
             <h1><b>Онлайн заявка</b></h1>
             <b>_________</b>
           </div>
         </div>
       </div>
-      <div class="col-sm-10 offset-sm-1">
+      <div class="col-sm-8 offset-sm-2 col-12">
         <form accept-charset="UTF-8" id="order-form">
           <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-4 col-12">
               <div class="form-group">
                 <input type="text" name="surname" id="surname" data-bind="value: vm.surname" class=form-control placeholder="Ваше фамилия *"/>
               </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-4 col-12">
               <div class="form-group">
                 <input type="text" name="firstName" id="firstName" class=form-control placeholder="Ваше имя *" data-bind="value: vm.firstName"/>
               </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-4 col-12">
               <div class="form-group">
                 <input type="email" name="email" id="email" class=form-control placeholder="Ваш email *" data-bind="value: vm.email"/>
               </div>
@@ -165,35 +165,35 @@
           </div>
 
           <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-4 col-12">
               <div class="form-group">
                 <input type="tel" name="phone" id="phone" class=form-control placeholder="Номер телефона *" data-bind="value: vm.phone"/>
               </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-4 col-12">
               <div class="form-group">
                 <input class=form-control name="address" placeholder="Ваш адресс *" data-bind="value: vm.address">
               </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-4 col-12">
               <div class="row form-group">
                 <select class="custom-select" id="typeCleaning" name="typeCleaning" data-bind="options: vm.goodName(), optionsText: 'name',
                 optionsValue: 'id', value: vm.selectedProductId, optionsCaption: 'Выберите тип товара' ">
                 </select>
               </div>
             </div>
-            <div class="offset-sm-4 col-sm-4">
+            <div class="offset-sm-4 col-sm-4 col-12">
               <div class="alert alert-dark text-center">
                 <strong>Цена: <span data-bind="text: vm.price"></span></strong>
               </div>
             </div>
-            <div class="offset-sm-2 col-sm-8">
+            <div class="offset-sm-2 col-sm-8 col-12">
               <div class="form-group">
                 <textarea class=form-control name="comment" rows="5" placeholder="Комментарий к заявке" data-bind="value: vm.comment"></textarea>
               </div>
             </div>
           </div>
-          <div class="text-center">
+          <div class="text-center col-12">
             <button type="submit" class="btn btn-outline-success" data-bind="click: vm.onSubmit">Отправить</button>
           </div>
         </form>
