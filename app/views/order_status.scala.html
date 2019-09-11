@@ -16,11 +16,11 @@
               <input type="text" name="linkCode" id="linkCode" data-bind="value: vm.subscribeCode" class=form-control placeholder="Линк код *" />
             </div>
           </form>
-          <p data-bind="text: vm.detailsCustomer()"></p>
+          <p data-bind="text: vm.detailsCustomer(), visible: vm.detailsCustomer().length != 0 && vm.customerLinkCode().length == 0"></p>
         </div>
       </div>
     </div>
-    <div class="container-fluid" id="details-costumer">
+    <div class="container-fluid" id="details-costumer"  data-bind="visible: vm.customerLinkCode().length > 0 && vm.detailsCustomer().length == 0">
       <div class="pr" >
         <div class="row">
           <div class="col-sm-10 offset-sm-1 p-2 pt-4">
@@ -101,6 +101,10 @@
               <tr>
                 <td>Type Cleaning</td>
                 <td data-bind="text: vm.customerTypeCleaning()"></td>
+              </tr>
+              <tr>
+                <td>Price</td>
+                <td data-bind="text: vm.customerPrice()"></td>
               </tr>
               <tr>
                 <td>Order Date</td>

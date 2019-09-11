@@ -228,16 +228,13 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
 
   def getDetailsCustomer: Action[JsValue] = Action.async(parse.json) { implicit request => {
     val linkCode = (request.body \ "linkCode").as[String]
-    (orderManager ? GetDetails(linkCode)).mapTo[Option[Order]].map {
-      details =>
-        //        details match {
-        //          case Some (order) =>
-        //            Ok(Json.toJson(order))
-        //          case None =>
-        //            Ok(Json.toJson("This order"))
-        //        }
-        Ok(Json.toJson(details))
-
+    (orderManager ? GetDetails(linkCode)).mapTo[Option[Order]].map {details =>
+      details match {
+          case Some (order) =>
+            Ok(Json.toJson(order))
+          case None =>
+            Ok(Json.toJson(null))
+        }
     }
   }
   }

@@ -71,7 +71,6 @@ class OrderManager @Inject()(val environment: Environment,
   }
 
   private def getDetails(linkCode: String) = {
-
     for {
       detailsOrder <- orderDao.getOrderByLinkCode(linkCode)
     } yield detailsOrder

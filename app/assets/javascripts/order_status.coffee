@@ -15,6 +15,7 @@ $ ->
     customerPhone: ''
     customerAddress: ''
     customerTypeCleaning: ''
+    customerPrice: ''
     customerLinkCode: ''
     customerOrderDay: ''
 
@@ -24,7 +25,6 @@ $ ->
       toastr.error(error.responseText)
     else
       toastr.error('Something went wrong! Please try again.')
-
 
   $derailsLinkCode = $('#details-costumer')
   vm.showDivDetails = (msg) ->
@@ -36,11 +36,14 @@ $ ->
     vm.customerPhone(msg.phone)
     vm.customerAddress(msg.address)
     vm.customerTypeCleaning(msg.type1)
+    vm.customerPrice(msg.price)
     vm.customerLinkCode(msg.linkCode)
     vm.customerOrderDay(msg.orderDay)
 #    $derailsLinkCode.show
 
   vm.subscribeCode.subscribe (code) ->
+    vm.customerLinkCode('')
+    vm.detailsCustomer ('')
     data =
       linkCode: code
 
@@ -53,7 +56,7 @@ $ ->
     .fail handleError
     .done (response) ->
       if  response is null
-        vm.detailsCustomer ("dwadwad")
+        vm.detailsCustomer ("NOT FOUND")
       else
         vm.showDivDetails(response)
 
