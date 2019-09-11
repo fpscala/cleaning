@@ -1,11 +1,19 @@
 $ ->
-  window.Glob ?= {}
+  my.initAjax()
+
+  Glob = window.Glob || {}
+
   apiUrl =
     gender: '/get-gender/'
     education: '/get-education'
 
   handleError = (error) ->
-    alert('something went wrong')
+#    vm.isSubmitted(no)
+    if error.status is 500 or (error.status is 400 and error.responseText)
+      toastr.error(error.responseText)
+    else
+      toastr.error('Something went wrong! Please try again.')
+
 
   vm = ko.mapping.fromJS
     genders: []

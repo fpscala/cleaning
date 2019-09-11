@@ -23,7 +23,7 @@ trait AuthorizeComponent { self: HasDatabaseConfigProvider[JdbcProfile] =>
 
 @ImplementedBy(classOf[AuthorizeDaoImpl])
 trait AuthorizeDao {
-  def getAuthor(): Future[Seq[Auth]]
+  def getAuthor(customerData:Auth): Future[Option[Auth]]
 }
 
 @Singleton
@@ -37,8 +37,8 @@ class AuthorizeDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigP
 
   val author = TableQuery[AuthTable]
 
-  override def getAuthor(): Future[Seq[Auth]] = {
-    db.run (author.result)
+  override def getAuthor(customerData:Auth): Future[Option[Auth]] = {
+    db.run (author.filter(data => data.login === customerData.login && data.password === customerData.password).result.headOption)
   }
 
 }

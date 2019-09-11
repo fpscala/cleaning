@@ -1,6 +1,7 @@
 # --- !Ups
 CREATE TABLE "GenderCodes" ("id" SERIAL NOT NULL PRIMARY KEY,"name" VARCHAR NOT NULL, "code" VARCHAR NOT NULL, UNIQUE(code));
 CREATE TABLE "EducationCodes" ("id" SERIAL NOT NULL PRIMARY KEY,"name" VARCHAR NOT NULL, "code" VARCHAR NOT NULL, UNIQUE(code));
+CREATE TABLE "Role" ("id" SERIAL NOT NULL PRIMARY KEY, "role" VARCHAR NOT NULL, UNIQUE(role));
 
 CREATE TABLE "Workers" (
   "id" SERIAL NOT NULL PRIMARY KEY,
@@ -21,6 +22,7 @@ CREATE TABLE "Workers" (
   "birthPlace" VARCHAR NOT NULL,
   "educationId" INTEGER CONSTRAINT  "educationFkEducationCodeId" REFERENCES  "EducationCodes" ON UPDATE CASCADE ON DELETE CASCADE,
   "password" VARCHAR NOT NULL,
+  "role" INTEGER CONSTRAINT  "roleFkRoleId" REFERENCES  "Role" ON UPDATE CASCADE ON DELETE CASCADE,
   UNIQUE ("passportSeriesAndNumber", "pensionNumber", "itn", "password")
 );
 
@@ -31,7 +33,11 @@ INSERT INTO "EducationCodes" ("name", "code") VALUES ('yoq', 'absent');
 INSERT INTO "EducationCodes" ("name", "code") VALUES ('orta', 'secondary');
 INSERT INTO "EducationCodes" ("name", "code") VALUES ('oliy', 'high');
 
+INSERT INTO "Role" ("role") VALUES ('Worker');
+INSERT INTO "Role" ("role") VALUES ('Manager');
+
 # --- !Downs
 DROP TABLE "Workers";
+DROP TABLE "Role";
 DROP TABLE "EducationCodes";
 DROP TABLE "GenderCodes";

@@ -6,9 +6,9 @@ import akka.util.Timeout
 import dao.AuthorizeDao
 import javax.inject.Inject
 import play.api.Environment
-import protocols.WorkerProtocol.GetAllLoginAndPassword
+import protocols.WorkerProtocol.{Auth, CheckLoginAndPassword}
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.duration.DurationInt
 
 class AuthorizeManager @Inject()(val environment: Environment,
@@ -20,15 +20,17 @@ class AuthorizeManager @Inject()(val environment: Environment,
   implicit val defaultTimeout: Timeout = Timeout(60.seconds)
 
   def receive = {
-    case GetAllLoginAndPassword =>
-      getAllLoginAndPassword.pipeTo(sender())
+    case CheckLoginAndPassword(customerData) =>
+      checkLoginAndPassword(customerData).pipeTo(sender())
 
     case _ => log.info(s"received unknown message")
 
   }
 
-  private def getAllLoginAndPassword ={
-    authorizeDao.getAuthor()
+  private def checkLoginAndPassword(customerData:Auth): Future[Option[Auth]] = {
+    authorizeDao.getAuthor(customerData).map { data =>
+      data
+    }
   }
 
 }

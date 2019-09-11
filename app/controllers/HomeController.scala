@@ -9,28 +9,27 @@ import akka.pattern.ask
 import akka.util.Timeout
 import com.typesafe.scalalogging.LazyLogging
 import javax.inject._
-import org.jsoup.Jsoup
 import play.api.libs.Files.TemporaryFile
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc._
 import protocols.OrderProtocol.{AddOrder, AddPrice, Count, GetCountList, GetDetails, GetPrices, Order, PriceList, UpdateStatusOrder}
-import protocols.WorkerProtocol.{AddImage, AddWorker, Auth, Education, Gender, GetAllEducations, GetAllLoginAndPassword, GetGenderList, Worker}
+import protocols.WorkerProtocol.{AddImage, AddWorker, Auth, CheckLoginAndPassword, Education, Gender, GetAllEducations, GetGenderList, Worker}
 import views.html._
 
 import scala.concurrent.duration.DurationInt
-import scala.concurrent.{Await, ExecutionContext, Future}
-import scala.util.{Failure, Random, Success}
+import scala.concurrent.{ExecutionContext, Future}
+import scala.util.Random
 
 object HomeController extends App {
-//  val doc = Jsoup.connect("http://luxlaundry.uz/price/price-list").get
-//  var content = doc.body().getElementsByClass("tab-content").forEach { element =>
-//    val title = element.getElementsByClass("title").text()
-//    val names = element.getElementsByClass("price-list__item").forEach { b =>
-//      val name = b.getElementsByClass("price-list__name").text()
-//      val count = b.getElementsByClass("price-list__quantity").text()
-//      val price = b.getElementsByClass("price-list__price").text()
-//    }
-//  }
+  //  val doc = Jsoup.connect("http://luxlaundry.uz/price/price-list").get
+  //  var content = doc.body().getElementsByClass("tab-content").forEach { element =>
+  //    val title = element.getElementsByClass("title").text()
+  //    val names = element.getElementsByClass("price-list__item").forEach { b =>
+  //      val name = b.getElementsByClass("price-list__name").text()
+  //      val count = b.getElementsByClass("price-list__quantity").text()
+  //      val price = b.getElementsByClass("price-list__price").text()
+  //    }
+  //  }
 }
 
 @Singleton
@@ -81,24 +80,21 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
 
   var userList = List.empty[AllLoginAndPassword]
 
-  def loginPost = Action { implicit request =>
-    val formParam = request.body.asFormUrlEncoded
-    val login = formParam.get("login").headOption
-    val password = formParam.get("password").headOption
+  def loginPost = Action.async(parse.json) { implicit request => {
+    val login = (request.body \ "login").as[String]
+    val password = (request.body \ "password").as[String]
     logger.info(s"login: $login, password: $password")
-    (authorizeManager ? GetAllLoginAndPassword).mapTo[Seq[Auth]].map { param =>
-      param.foreach { login =>
-        userList = userList :+ AllLoginAndPassword(login.login, login.password)
-        logger.info(s"Users: $userList")
-      }
-      Ok(Json.toJson(Seq(param)))
+    (authorizeManager ? CheckLoginAndPassword(Auth(login, password))).mapTo[Option[Auth]].map { param =>
+      logger.info(s"login: $param")
+      Ok(Json.toJson(param))
     }
-    val authByLoginAndPwd = userList.exists(user => user.login == login.getOrElse("") && user.password == password.getOrElse(""))
-    if (authByLoginAndPwd) {
-      Redirect(routes.HomeController.index()).addingToSession(LoginSessionKey -> login.getOrElse(""))
-    } else {
-      Redirect(routes.HomeController.showLoginPage()).flashing("error" -> "Your login or password is incorrect.")
-    }
+    //    val authByLoginAndPwd = userList.exists(user => user.login == login && user)
+    //    if (authByLoginAndPwd) {
+    //      Redirect(routes.HomeController.index()).addingToSession(LoginSessionKey -> login.getOrElse(""))
+    //    } else {
+    //      Redirect(routes.HomeController.showLoginPage()).flashing("error" -> "Your login or password is incorrect.")
+    //    }
+  }
   }
 
 
@@ -141,7 +137,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     val statusOrder = (request.body \ "statusOrder").as[Int]
     (orderManager ? AddOrder(Order(None, surname, firstName, address, phone, orderDay, email, comment, linkCode, typeCleaning, statusOrder))).mapTo[String].map { order =>
       Ok(Json.toJson(order))
-//      Ok(Json.toJson(""))
+      //      Ok(Json.toJson(""))
     }
   }
   }
@@ -169,19 +165,19 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
       (orderManager ? AddPrice(PriceList(None, name, count, price, title))).mapTo[Int].map { _ =>
         Redirect(routes.HomeController.addPriceList()).flashing("info" -> "Successfully uploaded.")
       }
-//      val doc = Jsoup.connect("http://luxlaundry.uz/price/price-list").get
-//      var content = doc.body().getElementsByClass("tab-content").forEach { element =>
-//        val title = element.getElementsByClass("title").text()
-//        val names = element.getElementsByClass("price-list__item").forEach { b =>
-//          val name = b.getElementsByClass("price-list__name").text()
-//          val count = b.getElementsByClass("price-list__quantity").text()
-//          val price = b.getElementsByClass("price-list__price").text()
-//          (orderManager ? AddPrice(PriceList(None, name, count, price, title))).mapTo[Int].map { id =>
-//            println(s"order with id: $id is added")
-//          }
-//        }
-//      }
-//      Future.successful(Ok(Json.toJson("asdf")))
+      //      val doc = Jsoup.connect("http://luxlaundry.uz/price/price-list").get
+      //      var content = doc.body().getElementsByClass("tab-content").forEach { element =>
+      //        val title = element.getElementsByClass("title").text()
+      //        val names = element.getElementsByClass("price-list__item").forEach { b =>
+      //          val name = b.getElementsByClass("price-list__name").text()
+      //          val count = b.getElementsByClass("price-list__quantity").text()
+      //          val price = b.getElementsByClass("price-list__price").text()
+      //          (orderManager ? AddPrice(PriceList(None, name, count, price, title))).mapTo[Int].map { id =>
+      //            println(s"order with id: $id is added")
+      //          }
+      //        }
+      //      }
+      //      Future.successful(Ok(Json.toJson("asdf")))
     }
   }
 
@@ -232,16 +228,16 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     val linkCode = (request.body \ "linkCode").as[String]
     (orderManager ? GetDetails(linkCode)).mapTo[Option[Order]].map {
       details =>
-//        details match {
-//          case Some (order) =>
-//            Ok(Json.toJson(order))
-//          case None =>
-//            Ok(Json.toJson("This order"))
-//        }
+        //        details match {
+        //          case Some (order) =>
+        //            Ok(Json.toJson(order))
+        //          case None =>
+        //            Ok(Json.toJson("This order"))
+        //        }
         Ok(Json.toJson(details))
 
     }
-    }
+  }
   }
 
   def getCounts: Action[AnyContent] = Action.async {
