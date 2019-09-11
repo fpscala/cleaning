@@ -116,6 +116,7 @@ $ ->
       address: vm.address()
       typeCleaning: vm.name()
       comment: vm.comment()
+      price: vm.price()
       statusOrder: vm.statusOrder()
 #    vm.isSubmitted(yes)
     $.ajax

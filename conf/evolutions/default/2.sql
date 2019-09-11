@@ -14,7 +14,6 @@ CREATE TABLE "Price_list" (
   UNIQUE("name")
 );
 
-
 CREATE TABLE "Orders" (
   "id" SERIAL NOT NULL PRIMARY KEY,
   "surname" VARCHAR NOT NULL,
@@ -26,7 +25,8 @@ CREATE TABLE "Orders" (
   "comment" TEXT NULL,
   "linkCode" VARCHAR(5) NOT NULL,
   "type" VARCHAR CONSTRAINT "OrdersFkPrice_listName" REFERENCES "Price_list"("name") ON update CASCADE ON DELETE CASCADE,
-  status_order INTEGER not null,
+  "price" VARCHAR NOT NULL,
+  "status_order" INTEGER NOT NULL,
   UNIQUE("linkCode")
 );
 
@@ -36,8 +36,6 @@ INSERT INTO "Counts" ("name") VALUES ('комп.');
 INSERT INTO "Counts" ("name") VALUES ('2шт.');
 INSERT INTO "Counts" ("name") VALUES ('Пара.');
 INSERT INTO "Counts" ("name") VALUES ('1м.');
-
-
 
 # --- !Downs
 DROP TABLE "Price_list";

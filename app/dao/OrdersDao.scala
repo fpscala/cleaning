@@ -40,9 +40,11 @@ trait OrdersComponent extends PriceListComponent {
 
     def typeName = column[String]("type")
 
+    def price = column[String]("price")
+
     def statusOrder = column[Int]("status_order")
 
-    def * = (id.?, surname, firstName, address, phone, orderDay, email, comment, linkCode, typeName, statusOrder) <> (Order.tupled, Order.unapply _)
+    def * = (id.?, surname, firstName, address, phone, orderDay, email, comment, linkCode, typeName, price, statusOrder) <> (Order.tupled, Order.unapply _)
 
     def type1 = foreignKey("OrdersFkPrice_listName", typeName, PriceListTable)(_.name)
   }

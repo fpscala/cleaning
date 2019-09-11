@@ -27,6 +27,7 @@ object OrderProtocol {
                    comment: String,
                    linkCode: String,
                    type1: String,
+                   name: String,
                    statusOrder: Int)
 
   implicit val orderFormat: OFormat[Order] = Json.format[Order]
