@@ -6,18 +6,22 @@ $ ->
   apiUrl =
     sendCode: '/get-details'
 
-  vm = ko.mapping.fromJS
-    subscribeCode: ''
-    detailsCustomer: ''
+  customerData =
     customerName: ''
     customerSurName: ''
     customerEmail: ''
     customerPhone: ''
     customerAddress: ''
     customerTypeCleaning: ''
+    customerStatusOrder: ''
     customerPrice: ''
-    customerLinkCode: ''
     customerOrderDay: ''
+
+  vm = ko.mapping.fromJS
+    subscribeCode: ''
+    detailsCustomer: ''
+    customerLinkCode: ''
+    details: customerData
 
   handleError = (error) ->
 #    vm.isSubmitted(no)
@@ -26,24 +30,23 @@ $ ->
     else
       toastr.error('Something went wrong! Please try again.')
 
-  $derailsLinkCode = $('#details-costumer')
   vm.showDivDetails = (msg) ->
     console.log(msg)
-#    vm.detailsCustomer(msg)
-    vm.customerName(msg.firstName)
-    vm.customerSurName(msg.surname)
-    vm.customerEmail(msg.email)
-    vm.customerPhone(msg.phone)
-    vm.customerAddress(msg.address)
-    vm.customerTypeCleaning(msg.type1)
-    vm.customerPrice(msg.price)
+    vm.details.customerName(msg.firstName)
+    vm.details.customerStatusOrder(msg.statusOrder)
+    vm.details.customerSurName(msg.surname)
+    vm.details.customerEmail(msg.email)
+    vm.details.customerPhone(msg.phone)
+    vm.details.customerAddress(msg.address)
+    vm.details.customerTypeCleaning(msg.type1)
+    vm.details.customerPrice(msg.price)
+    vm.details.customerOrderDay(msg.orderDay)
     vm.customerLinkCode(msg.linkCode)
-    vm.customerOrderDay(msg.orderDay)
-#    $derailsLinkCode.show
 
   vm.subscribeCode.subscribe (code) ->
     vm.customerLinkCode('')
-    vm.detailsCustomer ('')
+    vm.detailsCustomer('')
+
     data =
       linkCode: code
 
@@ -56,7 +59,7 @@ $ ->
     .fail handleError
     .done (response) ->
       if  response is null
-        vm.detailsCustomer ("NOT FOUND")
+        vm.detailsCustomer("NOT FOUND")
       else
         vm.showDivDetails(response)
 

@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-    <div class="container-fluid" id="details-costumer"  data-bind="visible: vm.customerLinkCode().length > 0 && vm.detailsCustomer().length == 0">
+    <div class="container-fluid" id="details-costumer" data-bind="visible: vm.customerLinkCode().length > 0 && vm.detailsCustomer().length == 0">
       <div class="pr" >
         <div class="row">
           <div class="col-sm-10 offset-sm-1 p-2 pt-4">
@@ -36,35 +36,38 @@
           </div>
         </div>
         <div class="row">
-          <div class="progressbar col-sm-10 offset-sm-1 col-12">
+          <div class="status-names col-sm-10 offset-sm-1 col-12">
             <ul class="row pl-0 text-light">
-              <div class="col-3 col-sm-3">
+              <li class="col-3 col-sm-3">
                 <p>Order Placed</p>
-              </div>
-              <div class="col-3 col-sm-3">
+              </li>
+              <li class="col-3 col-sm-3">
                 <p>In Progress</p>
-              </div>
-              <div class="col-3 col-sm-3">
+              </li>
+              <li class="col-3 col-sm-3">
                 <p>Accepted</p>
-              </div>
-              <div class="col-3 col-sm-3">
+              </li>
+              <li class="col-3 col-sm-3">
                 <p>Shipped</p>
-              </div>
-            </ul>
-            <ul class="row pl-0">
-              <li class="active col-3 col-sm-3">
-                <i class="fas fa-clipboard-list"></i>
-              </li>
-              <li class="active col-3 col-sm-3">
-                <i class="fas fa-tint"></i>
-              </li>
-              <li class="ctive col-3 col-sm-3">
-                <i class="fas fa-clipboard-check"></i>
-              </li>
-              <li class="ctive col-3 col-sm-3">
-                <i class="fas fa-shipping-fast"></i>
               </li>
             </ul>
+            <div class="progressbar">
+              <ul class="row pl-0">
+                <li class="col-3 col-sm-3" data-bind="css: {active: vm.details.customerStatusOrder() >= 0}">
+                  <i class="fas fa-clipboard-list" ></i>
+                </li>
+                <li class="col-3 col-sm-3" data-bind="css: {active: vm.details.customerStatusOrder() >= 1}">
+                  <i class="fas fa-tint"></i>
+                </li>
+                <li class="col-3 col-sm-3" data-bind="css: {active: vm.details.customerStatusOrder() >= 2}">
+                  <i class="fas fa-clipboard-check"></i>
+                </li>
+                <li class="col-3 col-sm-3" data-bind="css: {active: vm.details.customerStatusOrder() == 3}">
+                  <i class="fas fa-shipping-fast"></i>
+                </li>
+              </ul>
+            </div>
+
           </div>
         </div>
       </div>
@@ -80,35 +83,35 @@
             <tbody>
               <tr>
                 <td>FirstName</td>
-                <td data-bind="text: vm.customerName()"></td>
+                <td data-bind="text: vm.details.customerName()"></td>
               </tr>
               <tr>
                 <td>SurName</td>
-                <td data-bind="text: vm.customerSurName()"></td>
+                <td data-bind="text: vm.details.customerSurName()"></td>
               </tr>
               <tr>
                 <td>Email</td>
-                <td data-bind="text: vm.customerEmail()"></td>
+                <td data-bind="text: vm.details.customerEmail()"></td>
               </tr>
               <tr>
                 <td>Phone</td>
-                <td data-bind="text: vm.customerPhone()"></td>
+                <td data-bind="text: vm.details.customerPhone()"></td>
               </tr>
               <tr>
                 <td>Address</td>
-                <td data-bind="text: vm.customerAddress()"></td>
+                <td data-bind="text: vm.details.customerAddress()"></td>
               </tr>
               <tr>
                 <td>Type Cleaning</td>
-                <td data-bind="text: vm.customerTypeCleaning()"></td>
+                <td data-bind="text: vm.details.customerTypeCleaning()"></td>
               </tr>
               <tr>
                 <td>Price</td>
-                <td data-bind="text: vm.customerPrice()"></td>
+                <td data-bind="text: vm.details.customerPrice()"></td>
               </tr>
               <tr>
                 <td>Order Date</td>
-                <td data-bind="text: vm.customerOrderDay()"></td>
+                <td data-bind="text: vm.details.customerOrderDay()"></td>
               </tr>
             </tbody>
           </table>
