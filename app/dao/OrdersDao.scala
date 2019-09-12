@@ -59,11 +59,13 @@ trait OrdersDao {
 
   def getOrders: Future[Seq[Order]]
 
-  def getOrderById(id: Int): Future[Option[Order]]
+  def getOrderById(id: Option[Int]): Future[Option[Order]]
+
+  def getLastOrder: Future[Option[Int]]
 
   def getOrderByLinkCode(linkCode: String): Future[Option[Order]]
 
-  def findOrderByPhone(phone: String, type1: String): Future[Option[Order]]
+  def findOrderByPhone(phone: String, type1: String, email: String): Future[Option[Order]]
 }
 
 @Singleton
@@ -93,12 +95,16 @@ class OrdersDaoImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProv
     db.run(orders.result)
   }
 
-  override def getOrderById(id: Int): Future[Option[Order]] = {
+  override def getOrderById(id: Option[Int]): Future[Option[Order]] = {
     db.run(orders.filter(_.id === id).result.headOption)
   }
 
-  override def findOrderByPhone(phone: String, type1: String): Future[Option[Order]] = {
-    db.run(orders.filter(order => order.phone === phone && order.typeName === type1).result.headOption)
+  override def getLastOrder: Future[Option[Int]] = {
+    db.run(orders.map(_.id).max.result)
+  }
+
+  override def findOrderByPhone(phone: String, type1: String, email: String): Future[Option[Order]] = {
+    db.run(orders.filter(order => order.phone === phone && order.typeName === type1 && order.email === email).result.headOption)
   }
 
   override def getOrderByLinkCode(linkCode: String): Future[Option[Order]] = {

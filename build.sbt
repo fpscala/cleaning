@@ -48,6 +48,7 @@ libraryDependencies ++= akkaLibs ++ akkaHttp ++ commonDependencies ++ dbLibs ++ 
   "com.typesafe.scala-logging" % "scala-logging_2.12" % "3.7.2",
   "ch.qos.logback" % "logback-classic" % "1.1.7",
   "ch.qos.logback" % "logback-core" % "1.1.7",
+  "com.miguno.akka" % "akka-mock-scheduler_2.12" % "0.5.5",
   "org.slf4j" % "log4j-over-slf4j" % "1.7.21",
   "org.codehaus.janino" % "janino" % "3.0.7",
   //web jars

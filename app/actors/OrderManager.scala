@@ -7,7 +7,7 @@ import dao.{OrdersDao, PriceListDao}
 import javax.inject.Inject
 import play.api.Environment
 import protocols.OrderProtocol
-import protocols.OrderProtocol.{AddOrder, AddPrice, GetAllOrders, GetDetails, GetPrices, Order, PriceList, UpdateStatusOrder}
+import protocols.OrderProtocol.{AddOrder, AddPrice, GetAllOrders, GetDetails, GetPrices, Order, PriceList}
 
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{ExecutionContext, Future}
@@ -20,12 +20,17 @@ class OrderManager @Inject()(val environment: Environment,
 
   implicit val defaultTimeout = Timeout(60.seconds)
 
+  def updateStatusOrder(id: Option[Int], status: Int): Future[Int] = {
+    for {
+      order <- orderDao.getOrderById(id)
+      updatedOrder = order.get.copy(statusOrder = status)
+      response <- orderDao.update(updatedOrder)
+    } yield response
+  }
+
   def receive = {
     case AddOrder(order) =>
       addOrder(order).pipeTo(sender())
-
-    case UpdateStatusOrder(id, status) =>
-      updateStatusOrder(id, status).pipeTo(sender())
 
     case AddPrice(price) =>
       addPrice(price).pipeTo(sender())
@@ -44,31 +49,26 @@ class OrderManager @Inject()(val environment: Environment,
 
   private def addOrder(orderData: Order) = {
     (for {
-      response <- orderDao.findOrderByPhone(orderData.phone, orderData.type1)
+      response <- orderDao.findOrderByPhone(orderData.phone, orderData.type1, orderData.email)
     } yield response match {
-      case Some (isOrder) =>
-        if(isOrder.email == orderData.email && isOrder.type1 == orderData.type1) {
-          Future.successful(isOrder.linkCode)
-        }
-        else {
-          orderDao.create(orderData).map { order =>
-            order
+      case Some(isOrder) =>
+        Future.successful(isOrder.linkCode)
+      case None =>
+        context.system.scheduler.scheduleOnce(6.seconds) {
+          orderDao.getLastOrder.map { id =>
+            println(s"id: ${id}")
+            updateStatusOrder(id, 1)
+
           }
         }
-      case None =>
+        log.info("is here")
+
         orderDao.create(orderData).map { order =>
           order
         }
     }).flatten
   }
 
-  private def updateStatusOrder(id: Int, status: Int): Future[Int] = {
-    for {
-      order <- orderDao.getOrderById(id)
-      updatedOrder = order.get.copy(statusOrder = status)
-      response <- orderDao.update(updatedOrder)
-    } yield response
-  }
 
   private def getDetails(linkCode: String) = {
     for {

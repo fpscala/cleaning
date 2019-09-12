@@ -46,7 +46,6 @@ $ ->
   vm.subscribeCode.subscribe (code) ->
     vm.customerLinkCode('')
     vm.detailsCustomer('')
-
     data =
       linkCode: code
 
@@ -62,8 +61,5 @@ $ ->
         vm.detailsCustomer("NOT FOUND")
       else
         vm.showDivDetails(response)
-
-
-
 
   ko.applyBindings {vm}
