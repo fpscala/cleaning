@@ -9,6 +9,7 @@ import akka.pattern.ask
 import akka.util.Timeout
 import com.typesafe.scalalogging.LazyLogging
 import javax.inject._
+import org.jsoup.Jsoup
 import play.api.libs.Files.TemporaryFile
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc._
@@ -154,19 +155,27 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
       (orderManager ? AddPrice(PriceList(None, name, count, price, title))).mapTo[Int].map { _ =>
         Redirect(routes.HomeController.addPriceList()).flashing("info" -> "Successfully uploaded.")
       }
-      //            val doc = Jsoup.connect("http://luxlaundry.uz/price/price-list").get
-      //            var content = doc.body().getElementsByClass("tab-content").forEach { element =>
-      //              val title = element.getElementsByClass("title").text()
-      //              val names = element.getElementsByClass("price-list__item").forEach { b =>
-      //                val name = b.getElementsByClass("price-list__name").text()
-      //                val count = b.getElementsByClass("price-list__quantity").text()
-      //                val price = b.getElementsByClass("price-list__price").text()
-      //                (orderManager ? AddPrice(PriceList(None, name, count, price, title))).mapTo[Int].map { id =>
-      //                  println(s"order with id: $id is added")
-      //                }
-      //              }
-      //            }
-      //            Future.successful(Ok(Json.toJson("Barakalla Bo'tam")))
+    }
+  }
+
+  def parserPriceList: Action[JsValue] =  Action.async(parse.json) { implicit request =>
+    val key = (request.body \ "key").as[String]
+    if (key == "please steal price list me!") {
+      val doc = Jsoup.connect("http://luxlaundry.uz/price/price-list").get
+      var content = doc.body().getElementsByClass("tab-content").forEach { element =>
+        val title = element.getElementsByClass("title").text()
+        val names = element.getElementsByClass("price-list__item").forEach { b =>
+          val name = b.getElementsByClass("price-list__name").text()
+          val count = b.getElementsByClass("price-list__quantity").text()
+          val price = b.getElementsByClass("price-list__price").text()
+          (orderManager ? AddPrice(PriceList(None, name, count, price, title))).mapTo[Int].map { id =>
+            println(s"order with id: $id is added")
+          }
+        }
+      }
+      Future.successful(Ok(Json.toJson("Barakalla Bo'tam")))
+    } else {
+      Future.successful(BadRequest(s"Hom tama bo`lma!"))
     }
   }
 

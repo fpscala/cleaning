@@ -18,6 +18,7 @@ GET         /worker-form         @controllers.HomeController.workerForm
 GET         /login               @controllers.HomeController.showLoginPage
 POST        /login               @controllers.HomeController.loginPost
 POST        /add-price           @controllers.HomeController.addPrices
+POST        /parse-price-list    @controllers.HomeController.parserPriceList
 POST        /loginPost           @controllers.HomeController.loginPost
 POST        /add-order           @controllers.HomeController.addOrder
 POST        /get-details         @controllers.HomeController.getDetailsCustomer
