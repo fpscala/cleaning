@@ -1,6 +1,19 @@
 CREATE TABLE "GenderCodes" ("id" SERIAL NOT NULL PRIMARY KEY,"name" VARCHAR NOT NULL, "code" VARCHAR NOT NULL, UNIQUE(code));
 CREATE TABLE "EducationCodes" ("id" SERIAL NOT NULL PRIMARY KEY,"name" VARCHAR NOT NULL, "code" VARCHAR NOT NULL, UNIQUE(code));
 CREATE TABLE "Role" ("id" SERIAL NOT NULL PRIMARY KEY, "role" VARCHAR NOT NULL, UNIQUE(role));
+CREATE TABLE "Counts" (
+  "id" SERIAL NOT NULL PRIMARY KEY,
+  "name" VARCHAR NOT NULL,
+  UNIQUE("name")
+);
+CREATE TABLE "Price_list" (
+  "id" SERIAL NOT NULL PRIMARY KEY,
+  "name" VARCHAR NOT NULL,
+  "count" VARCHAR CONSTRAINT  "Price_listFkCountName" REFERENCES  "Counts" ("name") ON UPDATE CASCADE ON DELETE CASCADE,
+  "price" VARCHAR NOT NULL,
+  "title" VARCHAR NOT NULL,
+  UNIQUE("name")
+);
 
 CREATE TABLE "Workers" (
   "id" SERIAL NOT NULL PRIMARY KEY,
@@ -24,14 +37,6 @@ CREATE TABLE "Workers" (
   "role" INTEGER CONSTRAINT  "roleFkRoleId" REFERENCES  "Role" ON UPDATE CASCADE ON DELETE CASCADE,
   UNIQUE ("passportSeriesAndNumber", "pensionNumber", "itn", "password")
 );
-CREATE TABLE "Price_list" (
-  "id" SERIAL NOT NULL PRIMARY KEY,
-  "name" VARCHAR NOT NULL,
-  "count" VARCHAR CONSTRAINT  "Price_listFkCountName" REFERENCES  "Counts" ("name") ON UPDATE CASCADE ON DELETE CASCADE,
-  "price" VARCHAR NOT NULL,
-  "title" VARCHAR NOT NULL,
-  UNIQUE("name")
-);
 
 CREATE TABLE "Orders" (
   "id" SERIAL NOT NULL PRIMARY KEY,
@@ -47,11 +52,6 @@ CREATE TABLE "Orders" (
   "price" VARCHAR NOT NULL,
   "status_order" INTEGER NOT NULL,
   UNIQUE("linkCode")
-);
-CREATE TABLE "Counts" (
-  "id" SERIAL NOT NULL PRIMARY KEY,
-  "name" VARCHAR NOT NULL,
-  UNIQUE("name")
 );
 
 
