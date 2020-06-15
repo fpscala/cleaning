@@ -48,6 +48,12 @@ CREATE TABLE "Orders" (
   "status_order" INTEGER NOT NULL,
   UNIQUE("linkCode")
 );
+CREATE TABLE "Counts" (
+  "id" SERIAL NOT NULL PRIMARY KEY,
+  "name" VARCHAR NOT NULL,
+  UNIQUE("name")
+);
+
 
 INSERT INTO "GenderCodes" ("name", "code") VALUES ('erkak', 'male');
 INSERT INTO "GenderCodes" ("name", "code") VALUES ('ayol', 'female');
@@ -58,11 +64,6 @@ INSERT INTO "EducationCodes" ("name", "code") VALUES ('oliy', 'high');
 
 INSERT INTO "Role" ("role") VALUES ('Worker');
 INSERT INTO "Role" ("role") VALUES ('Manager');
-CREATE TABLE "Counts" (
-  "id" SERIAL NOT NULL PRIMARY KEY,
-  "name" VARCHAR NOT NULL,
-  UNIQUE("name")
-);
 
 
 INSERT INTO "Counts" ("name") VALUES ('1кг.');
